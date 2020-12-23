@@ -17,8 +17,13 @@ public class AppUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         // Get UserDetails from dao (Search by string s)!!!!
         // sorin sorin
+        // Fetch user from db..
+        String username = "RNS";
+        if(!s.equals(username)){
+            throw new UsernameNotFoundException("paketovlaka");
+        }
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        return new User("sorin","$2y$12$MQk1HuE/eke2lLGFUcDuXeeEnFJcmHBoigCWClyK07HsBdaYWqUDu",authorities);
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return new User("RNS","$2y$12$MQk1HuE/eke2lLGFUcDuXeeEnFJcmHBoigCWClyK07HsBdaYWqUDu",authorities);
     }
 }

@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtils {
 
-    private String SECRET_KEY = "I_<3_RNS_GR33K_FAN_PAGE";
+    private String SECRET_KEY = Base64.getUrlEncoder().encodeToString("I_<3_RNS_GR33K_FAN_PAGE".getBytes());
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
