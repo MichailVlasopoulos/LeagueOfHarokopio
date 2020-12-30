@@ -53,11 +53,18 @@ public class User {
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String email) {
+    public User(int id, String username, String firstName, String lastName, String email, String summoner_name, String summoner_id, UserPassword userPassword, Authorities authorities, SubscriptionRequest subscriptionRequest, List<Request> requests) {
         this.id = id;
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.summoner_name = summoner_name;
+        this.summoner_id = summoner_id;
+        this.userPassword = userPassword;
+        this.authorities = authorities;
+        this.subscriptionRequest = subscriptionRequest;
+        this.requests = requests;
     }
 
     public int getId() {
@@ -66,6 +73,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {
@@ -106,5 +121,37 @@ public class User {
 
     public void setSummoner_id(String summoner_id) {
         this.summoner_id = summoner_id;
+    }
+
+    public UserPassword getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(UserPassword userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public Authorities getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Authorities authorities) {
+        this.authorities = authorities;
+    }
+
+    public SubscriptionRequest getSubscriptionRequest() {
+        return subscriptionRequest;
+    }
+
+    public void setSubscriptionRequest(SubscriptionRequest subscriptionRequest) {
+        this.subscriptionRequest = subscriptionRequest;
+    }
+
+    public List<Request> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(List<Request> requests) {
+        this.requests = requests;
     }
 }

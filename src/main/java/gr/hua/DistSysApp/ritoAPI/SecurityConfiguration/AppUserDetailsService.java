@@ -1,5 +1,7 @@
 package gr.hua.DistSysApp.ritoAPI.SecurityConfiguration;
 
+import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -13,17 +15,23 @@ import java.util.Collection;
 @Service
 public class AppUserDetailsService implements UserDetailsService {
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Get UserDetails from dao (Search by string s)!!!!
         // sorin sorin
         // Fetch user from db..
-        String username = "RNS";
-        if(!s.equals(username)){
+
+        gr.hua.DistSysApp.ritoAPI.Models.Entities.User user = userRepository.findByUsername(username);
+
+        // String username = "RNS";
+        if(username==null){
             throw new UsernameNotFoundException("paketovlaka");
         }
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        return new User("RNS","$2y$12$MQk1HuE/eke2lLGFUcDuXeeEnFJcmHBoigCWClyK07HsBdaYWqUDu",authorities);
+        authorities.add(new SimpleGrantedAuthority(user.getAuthorities().getRole()));
+        return new User(user.getUsername(),user.getUserPassword().getPassword_hash(),authorities);
     }
 }
