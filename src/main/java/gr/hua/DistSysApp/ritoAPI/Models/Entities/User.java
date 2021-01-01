@@ -35,17 +35,21 @@ public class User {
     @PrimaryKeyJoinColumn
     private UserPassword userPassword;
 
+    /*
     @OneToOne(cascade = CascadeType.ALL)
     //@JoinColumn(name = "username",referencedColumnName = "username")
     private Authorities authorities;
+     */
 
+    /*
     @OneToOne(cascade = CascadeType.ALL)
     //@JoinColumn(name = "user_id",referencedColumnName = "user_id")
     private SubscriptionRequest subscriptionRequest;
+     */
 
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    //@JoinColumn(name = "user_id", referencedColumnName = "user_id") //TODO do i need this?
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id") //TODO do i need this?
     private List<Request> requests;
 
 
@@ -53,7 +57,7 @@ public class User {
     public User() {
     }
 
-    public User(int id, String username, String firstName, String lastName, String email, String summoner_name, String summoner_id, UserPassword userPassword, Authorities authorities, SubscriptionRequest subscriptionRequest, List<Request> requests) {
+    public User(int id, String username, String firstName, String lastName, String email, String summoner_name, String summoner_id, UserPassword userPassword, List<Request> requests) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
@@ -62,8 +66,6 @@ public class User {
         this.summoner_name = summoner_name;
         this.summoner_id = summoner_id;
         this.userPassword = userPassword;
-        this.authorities = authorities;
-        this.subscriptionRequest = subscriptionRequest;
         this.requests = requests;
     }
 
@@ -131,27 +133,26 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public Authorities getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Authorities authorities) {
-        this.authorities = authorities;
-    }
-
-    public SubscriptionRequest getSubscriptionRequest() {
-        return subscriptionRequest;
-    }
-
-    public void setSubscriptionRequest(SubscriptionRequest subscriptionRequest) {
-        this.subscriptionRequest = subscriptionRequest;
-    }
-
     public List<Request> getRequests() {
         return requests;
     }
 
     public void setRequests(List<Request> requests) {
         this.requests = requests;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", summoner_name='" + summoner_name + '\'' +
+                ", summoner_id='" + summoner_id + '\'' +
+                ", userPassword=" + userPassword +
+                ", requests=" + requests +
+                '}';
     }
 }

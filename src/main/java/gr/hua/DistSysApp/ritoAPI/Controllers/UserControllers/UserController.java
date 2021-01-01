@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class UserController {
 
@@ -26,8 +28,11 @@ public class UserController {
     }
 
     @GetMapping(path="/users")
-    public Iterable<User> getAlLUsers () {
-        return userService.getAllUsers();
+    public String getAlLUsers () {
+        return userService.getAllUsers().toString();
     }
+
+    @GetMapping(path="/user/requestMatchHistory")
+    public String requestMatchHistory () { return userService.requestShowMatchHistory(); }
 
 }

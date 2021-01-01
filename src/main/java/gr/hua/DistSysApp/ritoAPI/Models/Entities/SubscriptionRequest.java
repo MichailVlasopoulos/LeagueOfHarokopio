@@ -8,8 +8,10 @@ import java.sql.Date;
 @Table(name = "subscription_requests")
 public class SubscriptionRequest {
 
+    /*
     @Column(name = "user_id")
     private int user_id;
+     */
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +30,8 @@ public class SubscriptionRequest {
 
     //TODO check cascade type
     //FK from user
-    @OneToOne(mappedBy = "subscriptionRequest",cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @OneToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @JoinColumn(name = "user_id",referencedColumnName = "user_id")
     private User user;
 
     //PK to SubscriptionRequestsResults
@@ -39,20 +42,11 @@ public class SubscriptionRequest {
     public SubscriptionRequest() {
     }
 
-    public SubscriptionRequest(int user_id, int subscription_request_id, String request_type, Date created_at, String paysafe_pin) {
-        this.user_id = user_id;
+    public SubscriptionRequest(int subscription_request_id, String request_type, Date created_at, String paysafe_pin) {
         this.subscription_request_id = subscription_request_id;
         this.request_type = request_type;
         this.created_at = created_at;
         this.paysafe_pin = paysafe_pin;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
     }
 
     public int getSubscription_request_id() {
@@ -90,7 +84,6 @@ public class SubscriptionRequest {
     @Override
     public String toString() {
         return "SubscriptionRequest{" +
-                "user_id=" + user_id +
                 ", subscription_request_id=" + subscription_request_id +
                 ", request_type='" + request_type + '\'' +
                 ", timestamp='" + created_at + '\'' +

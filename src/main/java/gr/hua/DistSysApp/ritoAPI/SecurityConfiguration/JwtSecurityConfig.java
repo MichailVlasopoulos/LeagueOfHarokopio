@@ -40,6 +40,8 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests().antMatchers("/authenticate").permitAll()
+                .and().authorizeRequests().antMatchers("/user/requestMatchHistory").permitAll()//TODO THIS IS TEST
+                .and().authorizeRequests().antMatchers("/users").permitAll() //TODO THIS IS TEST
                 .and().authorizeRequests().antMatchers("/admin").hasRole("ADMIN") // I DID THIS, PLS TEST ME :)
                 .and().authorizeRequests().antMatchers("/user").hasRole("USER") // I DID THIS, PLS TEST ME :)
                 .anyRequest().authenticated().and()

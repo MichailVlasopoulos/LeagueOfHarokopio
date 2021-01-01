@@ -1,9 +1,12 @@
 package gr.hua.DistSysApp.ritoAPI.SecurityConfiguration;
 
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.Authorities;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +21,7 @@ public class AppUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Get UserDetails from dao (Search by string s)!!!!
@@ -30,8 +34,9 @@ public class AppUserDetailsService implements UserDetailsService {
         if(username==null){
             throw new UsernameNotFoundException("paketovlaka");
         }
+
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getAuthorities().getRole()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         return new User(user.getUsername(),user.getUserPassword().getPassword_hash(),authorities);
     }
 }

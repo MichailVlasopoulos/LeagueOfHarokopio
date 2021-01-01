@@ -25,10 +25,12 @@ public class Request {
     @Column(name = "created_at")
     private Date created_at;
 
+    /*
     //TODO check cascade type
     @ManyToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     //@JoinColumn(name = "user_id")
     private User user;
+     */
 
     @OneToOne(mappedBy = "request",cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -37,13 +39,12 @@ public class Request {
     public Request() {
     }
 
-    public Request(int userid, int request_id, String request_type, String request_body, Date created_at, User user, RequestResults requestResults) {
+    public Request(int userid, int request_id, String request_type, String request_body, Date created_at, RequestResults requestResults) {
         this.userid = userid;
         this.request_id = request_id;
         this.request_type = request_type;
         this.request_body = request_body;
         this.created_at = created_at;
-        this.user = user;
         this.requestResults = requestResults;
     }
 

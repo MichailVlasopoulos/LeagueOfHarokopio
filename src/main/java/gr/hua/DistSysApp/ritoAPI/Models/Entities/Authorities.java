@@ -15,7 +15,8 @@ public class Authorities {
     private String Role;
 
     //FK from user
-    @OneToOne(mappedBy = "authorities",cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @OneToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @JoinColumn(name = "username",referencedColumnName = "username")
     private User user;
 
     public Authorities(String username, String role) {
@@ -49,4 +50,5 @@ public class Authorities {
                 ", Role='" + Role + '\'' +
                 '}';
     }
+
 }

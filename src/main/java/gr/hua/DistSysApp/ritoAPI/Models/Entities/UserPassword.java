@@ -8,6 +8,7 @@ import javax.persistence.*;
 public class UserPassword {
 
 
+
     @Id
     @Column(name = "user_id")
     private int user_id;
@@ -18,7 +19,7 @@ public class UserPassword {
     //FK from user
     @OneToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @MapsId
-    //@JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public UserPassword(int user_id, String password_hash) {
