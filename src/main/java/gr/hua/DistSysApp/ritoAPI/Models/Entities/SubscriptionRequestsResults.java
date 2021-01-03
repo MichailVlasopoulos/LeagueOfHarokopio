@@ -12,14 +12,14 @@ public class SubscriptionRequestsResults {
     @Column(name = "subscription_request_id")
     private int subscription_request_id;
 
-    @Column(name = "request_status")
+    @Column(name = "request_status",nullable = false,length = 16)
     private String request_status;
 
 
     //FK from Subscription_Requests
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @MapsId
-    @JoinColumn(name = "subscription_request_id")
+    @JoinColumn(name = "subscription_request_id",columnDefinition = "INT(10) UNSIGNED")
     private SubscriptionRequest subscriptionRequest;
 
     public SubscriptionRequestsResults() {

@@ -12,15 +12,15 @@ public class RequestResults {
     @Column(name = "request_id")
     private int request_id;
 
-    @Column(name = "results")
+    @Column(name = "results",columnDefinition = "TEXT")
     private String results;
 
-    @Column(name = "request_status")
+    @Column(name = "request_status",nullable = false,length = 16)
     private String request_status;
 
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @MapsId
-    @JoinColumn(name = "request_id")
+    @JoinColumn(name = "request_id",columnDefinition = "INT(10) UNSIGNED")
     private Request request;
 
     public RequestResults(int request_id, String results, String request_status) {

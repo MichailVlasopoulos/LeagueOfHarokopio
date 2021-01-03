@@ -13,13 +13,13 @@ public class UserPassword {
     @Column(name = "user_id")
     private int user_id;
 
-    @Column(name = "password_hash")
+    @Column(name = "password_hash",nullable = false,length = 128)
     private String password_hash;
 
     //FK from user
     @OneToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @MapsId
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",columnDefinition = "INT(10) UNSIGNED")
     private User user;
 
     public UserPassword(int user_id, String password_hash) {

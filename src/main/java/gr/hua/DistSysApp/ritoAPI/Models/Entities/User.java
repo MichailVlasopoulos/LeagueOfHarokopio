@@ -10,36 +10,38 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "user_id",columnDefinition = "INT(10) UNSIGNED")
     private int id;
 
-    @Column(name = "username")
+    @Column(name = "username",nullable = false,unique = true,length = 50)
     private String username;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name",nullable = false,length = 30)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name",nullable = false, length = 30)
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email",nullable = false,unique = true,length = 50)
     private String email;
 
-    @Column(name = "summoner_name")
+    @Column(name = "summoner_name",length = 50)
     private String summoner_name;
 
-    @Column(name = "summoner_id")
+    @Column(name = "summoner_id",length = 128)
     private String summoner_id;
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private UserPassword userPassword;
 
+
     /*
     @OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "username",referencedColumnName = "username")
+    @JoinColumn(name = "username",referencedColumnName = "username")
     private Authorities authorities;
      */
+
 
     /*
     @OneToOne(cascade = CascadeType.ALL)

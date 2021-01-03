@@ -8,18 +8,18 @@ import java.sql.Timestamp;
 @Table(name = "request")
 public class Request {
 
-    @Column(name = "user_id")
+    @Column(name = "user_id",nullable = false,columnDefinition = "INT(10) UNSIGNED")
     private int userid;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "request_id")
+    @Column(name = "request_id",columnDefinition = "INT(10) UNSIGNED")
     private int request_id;
 
-    @Column(name = "request_type")
+    @Column(name = "request_type",nullable = false,length = 64)
     private String request_type;
 
-    @Column(name = "request_body")
+    @Column(name = "request_body",columnDefinition = "TEXT")
     private String request_body;
 
     //TODO check date type
