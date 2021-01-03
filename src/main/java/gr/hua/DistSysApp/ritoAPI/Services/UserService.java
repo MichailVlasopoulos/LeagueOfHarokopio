@@ -20,10 +20,13 @@ public class UserService {
     @Autowired
     private RequestRepository requestRepository;
 
+    /*
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
+    */
 
+    //TODO handle saveAndFlush possible exception {DB could be down etc.}
     public String requestMatchHistory() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -42,13 +45,17 @@ public class UserService {
         return "Request created successfully!";
     }
 
+
+    //TODO handle null request exception
     public String showMatchHistory(int requestId) {
 
-        //requestId = 1; //TODO this should be changed when front-end page is binded
+        /*
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
         Request request = requestRepository.findRequestByRequest_idAndUserid(requestId,user.getId());
+         */
+        Request request = requestRepository.findRequestByRequest_id(requestId);
 
         if(request.getRequest_type().equals("PENDING") || request.getRequest_type().equals("DENIED")) {
             return  "Your request status is: "+ request.getRequest_type();

@@ -2,6 +2,7 @@ package gr.hua.DistSysApp.ritoAPI.Controllers.UserControllers;
 
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
+import gr.hua.DistSysApp.ritoAPI.Services.AdminService;
 import gr.hua.DistSysApp.ritoAPI.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,15 +24,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @GetMapping("/user")
     public String user(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return "Hello, you have: " + authentication.getAuthorities() + " authorities";
-    }
-
-    @GetMapping(path="/users")
-    public String getAlLUsers () {
-        return userService.getAllUsers().toString();
     }
 
     @GetMapping(path="/user/requestMatchHistory")
