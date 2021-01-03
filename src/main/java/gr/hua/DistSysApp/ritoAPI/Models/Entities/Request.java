@@ -2,6 +2,7 @@ package gr.hua.DistSysApp.ritoAPI.Models.Entities;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "request")
@@ -23,7 +24,7 @@ public class Request {
 
     //TODO check date type
     @Column(name = "created_at")
-    private Date created_at;
+    private Timestamp created_at;
 
     /*
     //TODO check cascade type
@@ -39,7 +40,7 @@ public class Request {
     public Request() {
     }
 
-    public Request(int userid, int request_id, String request_type, String request_body, Date created_at, RequestResults requestResults) {
+    public Request(int userid, int request_id, String request_type, String request_body,Timestamp created_at, RequestResults requestResults) {
         this.userid = userid;
         this.request_id = request_id;
         this.request_type = request_type;
@@ -80,11 +81,11 @@ public class Request {
         this.request_body = request_body;
     }
 
-    public Date getCreated_at() {
+    public Timestamp getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
 
