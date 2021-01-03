@@ -24,7 +24,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public String requestShowMatchHistory() {
+    public String requestMatchHistory() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -40,6 +40,21 @@ public class UserService {
         requestRepository.saveAndFlush(request);
 
         return "Request created successfully!";
+    }
+
+    public String showMatchHistory(int requestId) {
+
+        //requestId = 1; //TODO this should be changed when front-end page is binded
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        Request request = requestRepository.findRequestByRequest_idAndUserid(requestId,user.getId());
+
+        if(request.getRequest_type().equals("PENDING") || request.getRequest_type().equals("DENIED")) {
+            return  "Your request status is: "+ request.getRequest_type();
+        } else {
+            return "Your request results are: "+ request.getRequest_body();
+        }
     }
 
 }

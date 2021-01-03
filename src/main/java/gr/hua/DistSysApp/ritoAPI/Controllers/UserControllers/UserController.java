@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
@@ -33,6 +35,10 @@ public class UserController {
     }
 
     @GetMapping(path="/user/requestMatchHistory")
-    public String requestMatchHistory () { return userService.requestShowMatchHistory(); }
+    public String requestMatchHistory () { return userService.requestMatchHistory(); }
+
+    @GetMapping(path="/user/showMatchHistory")
+    @ResponseBody
+    public String getMatchHistory (@RequestParam int requestId) { return userService.showMatchHistory(requestId); }
 
 }
