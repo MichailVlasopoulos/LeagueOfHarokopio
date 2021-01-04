@@ -39,4 +39,7 @@ public class UserController {
     @ResponseBody
     public String getMatchHistory (@RequestParam int requestId) { return userService.showMatchHistory(requestId); }
 
+    @GetMapping(path="/user/requestLeaderboards")
+    public String requestLeaderboards () { return userService.requestLeaderboards(); }
+
 }
