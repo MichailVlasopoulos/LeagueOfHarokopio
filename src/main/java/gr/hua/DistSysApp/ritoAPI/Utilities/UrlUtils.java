@@ -71,4 +71,14 @@ public class UrlUtils {
     public static String getRankedStatsURL (String summonerID , String APIKey){
         return "https://eun1.api.riotgames.com/lol/league/v4/entries/by-summoner/"+summonerID+"?api_key="+APIKey;
     }
+
+    /**
+     * Get league with given ID, including inactive entries
+     * @param leagueID
+     * @param APIKey
+     * @return return all players in your league leaderboards
+     */
+    public static String getLeaderBoardsURL (String leagueID , String APIKey){
+        return "https://eun1.api.riotgames.com/lol/league/v4/"+leagueID+"?api_key="+APIKey;
+    }
 }
