@@ -1,6 +1,7 @@
 package gr.hua.DistSysApp.ritoAPI.Controllers.AdminControllers;
 
 import gr.hua.DistSysApp.ritoAPI.Services.AdminService;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +30,7 @@ public class AdminController {
 
     @GetMapping(path="admin/updateRequest/accept")
     @ResponseBody
-    public String updateRequest_Accept (@RequestParam int requestId) {
+    public String updateRequest_Accept (@RequestParam int requestId) throws JSONException {
         return adminService.acceptRequest(requestId);
     }
 }

@@ -20,8 +20,8 @@ public abstract class Requests {
             urlConnection = (HttpURLConnection) targetUrl.openConnection();
             urlConnection.setRequestMethod("GET");
 
-            urlConnection.setConnectTimeout(30000);
-            urlConnection.setReadTimeout(30000);
+            urlConnection.setConnectTimeout(900000000);
+            urlConnection.setReadTimeout(900000000);
 
             responseCode = urlConnection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) { // Success
