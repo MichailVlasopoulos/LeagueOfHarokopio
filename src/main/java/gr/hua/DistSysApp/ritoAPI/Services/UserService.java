@@ -49,7 +49,7 @@ public class UserService {
         request.setCreated_at(timestamp);
         request.setRequest_type("MatchHistory");
         requestRepository.saveAndFlush(request);
-        
+
         RequestResults requestResults = new RequestResults();
         requestResults.setRequest(request);
         requestResults.setRequest_id(request.getRequest_id());
