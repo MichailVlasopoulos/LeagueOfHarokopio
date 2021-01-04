@@ -11,7 +11,7 @@ document.getElementById("loginButton").addEventListener('click',()=>{
             password:password
         })
         .then(response=>{
-            document.location = '/home';
+            document.location = '/user';
         })
         .catch(error=>{
             resultField.innerHTML = '';
