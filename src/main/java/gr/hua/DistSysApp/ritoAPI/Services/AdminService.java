@@ -6,6 +6,7 @@ import gr.hua.DistSysApp.ritoAPI.Repositories.RequestRepository;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
 import gr.hua.DistSysApp.ritoAPI.Utilities.Requests;
+import gr.hua.DistSysApp.ritoAPI.Utilities.UrlUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,19 +36,32 @@ public class AdminService {
 
         //call RITO api - find summoner's encrypted ID'S
         String API_KEY = "RGAPI-c97a423e-f1f8-49e7-8d4a-20b11faade24";
-        String url = "https://eun1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+summonerName+"?api_key="+API_KEY;
+        String url = UrlUtils.getSummonersURL(summonerName,API_KEY);
 
-        String response = Requests.get(url);
+        String response;
+        try {
+            response = Requests.get(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error Accessing Url";
+        }
         //TODO handle null exception
+        if(response==null) return "Expired API KEY or Wrong Summoner Name";
 
         // JSONParser parser = new JSONParser(response);
         JSONObject jsonObj = new JSONObject(response);
+        String accountId=null;
 
-        //String accountId = jsonObj.getString("accountId");
-        String accountId = JsonUtils.recurseKeys(jsonObj, "accountId");
+        try{
+            accountId = JsonUtils.getAccountId(jsonObj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "Error JSON Parser";
+        }
 
+        if (accountId==null) return "Error";
 
-        String url2 = "https://eun1.api.riotgames.com/lol/match/v4/matchlists/by-account/"+accountId+"?endIndex=10&api_key="+API_KEY;
+        String url2 = UrlUtils.getMatchListURL(accountId,15,API_KEY);
         String response2 = Requests.get(url2);
 
         if(response2 != null) {
