@@ -20,6 +20,9 @@ public class UserService {
     @Autowired
     private RequestRepository requestRepository;
 
+    private Authentication authentication;
+    private String username;
+
     /*
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
@@ -29,8 +32,8 @@ public class UserService {
     //TODO handle saveAndFlush possible exception {DB could be down etc.}
     public String requestMatchHistory() {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
         User user = userRepository.findByUsername(username);
 
         int user_id = user.getId();
@@ -41,6 +44,8 @@ public class UserService {
         request.setCreated_at(timestamp);
         request.setRequest_type("PENDING");
         requestRepository.saveAndFlush(request);
+
+        //TODO CREATE REQUEST RESULTS
 
         return "Request created successfully!";
     }
@@ -63,5 +68,102 @@ public class UserService {
             return "Your request results are: "+ request.getRequest_body();
         }
     }
+
+
+    public String requestChampionStats(){
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        int user_id = user.getId();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        Request request = new Request();
+        request.setUserid(user_id);
+        request.setCreated_at(timestamp);
+        request.setRequest_type("ChampionStats");
+
+        /*
+        saveAndFlush returns the saved entity
+        if it is null then the request was not succesfully saved to the db , so the request failed
+        if it not null then it means it was saved succesfully to the db and the request was successful
+         */
+        if(requestRepository.saveAndFlush(request)!=null) {
+            return "Request created successfully!";
+        }else{
+            return "Request Failed";
+        }
+    }
+
+    public String showChampionStats(int requestId) {
+
+        /*
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        Request request = requestRepository.findRequestByRequest_idAndUserid(requestId,user.getId());
+         */
+        Request request = requestRepository.findRequestByRequest_id(requestId);
+
+        if(request.getRequest_type().equals("PENDING") || request.getRequest_type().equals("DENIED")) {
+            return  "Your request status is: "+ request.getRequest_type();
+        } else {
+            return "Your request results are: "+ request.getRequest_body();
+        }
+    }
+
+    public String requestLeaderboards(){
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        int user_id = user.getId();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        Request request = new Request();
+        request.setUserid(user_id);
+        request.setCreated_at(timestamp);
+        request.setRequest_type("Leaderboards");
+
+        /*
+        saveAndFlush returns the saved entity
+        if it is null then the request was not succesfully saved to the db , so the request failed
+        if it not null then it means it was saved succesfully to the db and the request was successful
+         */
+        //TODO CHECK FOR BETTER METHOD
+        Request success = requestRepository.saveAndFlush(request);
+        if(!success.getRequest_type().isEmpty()) {
+            return "Request created successfully!";
+        }else{
+            return "Request Failed";
+        }
+    }
+
+    public String requestMyProfile(){
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        int user_id = user.getId();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        Request request = new Request();
+        request.setUserid(user_id);
+        request.setCreated_at(timestamp);
+        request.setRequest_type("MyProfile");
+
+        /*
+        saveAndFlush returns the saved entity
+        if it is null then the request was not succesfully saved to the db , so the request failed
+        if it not null then it means it was saved succesfully to the db and the request was successful
+         */
+        if(requestRepository.saveAndFlush(request)!=null) {
+            return "Request created successfully!";
+        }else{
+            return "Request Failed";
+        }
+    }
+
+
 
 }
