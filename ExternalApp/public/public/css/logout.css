@@ -1,0 +1,14 @@
+#logout{
+    background-color: rgba(0, 0, 0, 0.383);
+
+    border-radius: 5%;
+
+    padding: 1%;
+
+    margin-left: 38%;
+    margin-top: 3%;
+
+    color: #9c4186;
+
+    display: inline-block;
+}
