@@ -28,7 +28,8 @@ public class UserController {
     @GetMapping("/user")
     public String user(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return "Hello, you have: " + authentication.getAuthorities() + " authorities";
+        String username = authentication.getName();
+        return "Hello, " + username + " you have: " + authentication.getAuthorities() + " authorities";
     }
 
     @GetMapping(path="/user/requestMatchHistory")
