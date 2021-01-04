@@ -47,7 +47,7 @@ public class AdminService {
         String accountId = JsonUtils.recurseKeys(jsonObj, "accountId");
 
 
-        String url2 = "https://eun1.api.riotgames.com/lol/match/v4/matchlists/by-account/"+accountId+"?api_key="+API_KEY;
+        String url2 = "https://eun1.api.riotgames.com/lol/match/v4/matchlists/by-account/"+accountId+"?endIndex=10&api_key="+API_KEY;
         String response2 = Requests.get(url2);
 
         if(response2 != null) {
