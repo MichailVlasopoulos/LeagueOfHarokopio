@@ -38,6 +38,7 @@ public class AdminService {
         String API_KEY = "RGAPI-74e85ff6-eecf-4a0f-a64d-82dc194465a9";
         String url = UrlUtils.getSummonersURL(summonerName,API_KEY);
 
+
         String response;
         try {
             response = Requests.get(url);
@@ -59,6 +60,7 @@ public class AdminService {
             return "Error JSON Parser";
         }
 
+        //TODO CHECK RESPONCE
         if (accountId==null) return "Error";
 
         String url2 = UrlUtils.getMatchListURL(accountId,15,API_KEY);
