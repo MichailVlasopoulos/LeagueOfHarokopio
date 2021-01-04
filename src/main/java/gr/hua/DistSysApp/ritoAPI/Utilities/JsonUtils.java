@@ -40,4 +40,61 @@ public class JsonUtils {
         // key is not found
         return finalValue;
     }
+
+    public static String getAccountId (JSONObject jObj ) throws JSONException {
+        String accountId = null;
+        try {
+            accountId=recurseKeys(jObj, "accountId");
+        } catch (JSONException e) {
+            accountId=null;
+            e.printStackTrace();
+        }
+        return accountId;
+    }
+
+    public static String getPuuid (JSONObject jObj ) throws JSONException {
+        String puuid = null;
+        try {
+            puuid=recurseKeys(jObj, "puuid");
+        } catch (JSONException e) {
+            puuid=null;
+            e.printStackTrace();
+        }
+        return puuid;
+    }
+
+    //TODO name
+    public static String getName (JSONObject jObj ) throws JSONException {
+        String name = null;
+        try {
+            name=recurseKeys(jObj, "name");
+        } catch (JSONException e) {
+            name=null;
+            e.printStackTrace();
+        }
+        return name;
+    }
+
+    public static int getProfileIconId (JSONObject jObj ) throws JSONException {
+        int profileIconId = -1;
+        try {
+            profileIconId=Integer.parseInt(recurseKeys(jObj, "profileIconId"));
+        } catch (JSONException e) {
+            profileIconId=-1;
+            e.printStackTrace();
+        }
+        return profileIconId;
+    }
+
+    public static int getSummonerLevel (JSONObject jObj ) throws JSONException {
+        int summonerLevel = -1;
+        try {
+            summonerLevel=Integer.parseInt(recurseKeys(jObj, "summonerLevel"));
+        } catch (JSONException e) {
+            summonerLevel=-1;
+            e.printStackTrace();
+        }
+        return summonerLevel;
+    }
+
 }
