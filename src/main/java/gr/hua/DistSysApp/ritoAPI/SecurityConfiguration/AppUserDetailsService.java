@@ -24,19 +24,15 @@ public class AppUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Get UserDetails from dao (Search by string s)!!!!
-        // sorin sorin
-        // Fetch user from db..
 
         gr.hua.DistSysApp.ritoAPI.Models.Entities.User user = userRepository.findByUsername(username);
 
-        // String username = "RNS";
-        if(username==null){
+        if(user==null){
             throw new UsernameNotFoundException("paketovlaka");
         }
-
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // TODO change this with "get role from db"
         return new User(user.getUsername(),user.getUserPassword().getPassword_hash(),authorities);
+
     }
 }
