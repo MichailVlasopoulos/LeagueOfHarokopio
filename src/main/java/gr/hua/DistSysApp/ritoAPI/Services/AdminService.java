@@ -35,7 +35,7 @@ public class AdminService {
         String summonerName = user.getSummoner_name();
 
         //call RITO api - find summoner's encrypted ID'S
-        String API_KEY = "RGAPI-c97a423e-f1f8-49e7-8d4a-20b11faade24";
+        String API_KEY = "RGAPI-74e85ff6-eecf-4a0f-a64d-82dc194465a9";
         String url = UrlUtils.getSummonersURL(summonerName,API_KEY);
 
         String response;
