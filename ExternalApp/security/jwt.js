@@ -9,7 +9,7 @@ module.exports = {
             next();
         }
         catch{
-            res.status(401).send("Unauthorized");
+            res.status(401).redirect('/login');
         }
     },
     signToken:(payload)=>{

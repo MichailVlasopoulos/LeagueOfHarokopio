@@ -13,8 +13,11 @@ app.use('/user',user);
 const logout = require('./routes/logout.js');
 app.use('/logout',logout);
 
+const home = require('./routes/home.js');
+app.use('/home',home);
+
 app.get('/',(_req,res)=>{
-    res.send(':)');
+    res.redirect('/home');
 });
 
 app.listen(5000);

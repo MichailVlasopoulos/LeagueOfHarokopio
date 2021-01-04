@@ -1,0 +1,23 @@
+.gradient{
+    background: linear-gradient(90deg, rgba(2,0,36), rgba(89,9,121));
+    background-size: 200% 200%;
+    animation: gradientAnimation 15s infinite linear;
+    -webkit-animation: gradientAnimation 15s infinite linear;
+    -moz-animation: gradientAnimation 15s infinite linear;
+}
+
+@keyframes gradientAnimation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-webkit-keyframes gradientAnimation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes gradientAnimation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
