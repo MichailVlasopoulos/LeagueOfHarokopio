@@ -63,7 +63,6 @@ public class JsonUtils {
         return puuid;
     }
 
-    //TODO name
     public static String getName (JSONObject jObj ) throws JSONException {
         String name = null;
         try {
