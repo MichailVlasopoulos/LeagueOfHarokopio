@@ -56,12 +56,21 @@ public class RequestResults {
         this.request_status = request_status;
     }
 
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
+    }
+
     @Override
     public String toString() {
         return "RequestResults{" +
                 "request_id=" + request_id +
                 ", results='" + results + '\'' +
                 ", request_status='" + request_status + '\'' +
+                ", request=" + request +
                 '}';
     }
 }

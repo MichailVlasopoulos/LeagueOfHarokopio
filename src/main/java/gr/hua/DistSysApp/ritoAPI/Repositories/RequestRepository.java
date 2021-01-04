@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
@@ -15,6 +16,10 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     @Query(value = "SELECT * FROM Request WHERE request_id=?",nativeQuery = true)
     Request findRequestByRequest_id(int requestId);
+
+    @Query(value = "SELECT * FROM Request WHERE created_at=?",nativeQuery = true)
+    Request findRequestByTimestamp(Timestamp timestamp);
+
 
     @Modifying(clearAutomatically = true)
     @Transactional

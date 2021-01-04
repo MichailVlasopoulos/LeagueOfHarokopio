@@ -1,8 +1,10 @@
 package gr.hua.DistSysApp.ritoAPI.Services;
 
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.Request;
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.RequestResults;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import gr.hua.DistSysApp.ritoAPI.Repositories.RequestRepository;
+import gr.hua.DistSysApp.ritoAPI.Repositories.RequestResultsRepository;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,6 +21,9 @@ public class UserService {
 
     @Autowired
     private RequestRepository requestRepository;
+
+    @Autowired
+    private RequestResultsRepository requestResultsRepository;
 
     private Authentication authentication;
     private String username;
@@ -42,11 +47,15 @@ public class UserService {
         Request request = new Request();
         request.setUserid(user_id);
         request.setCreated_at(timestamp);
-        request.setRequest_type("PENDING");
+        request.setRequest_type("MatchHistory");
         requestRepository.saveAndFlush(request);
+        
+        RequestResults requestResults = new RequestResults();
+        requestResults.setRequest(request);
+        requestResults.setRequest_id(request.getRequest_id());
+        requestResults.setRequest_status("PENDING");
 
-        //TODO CREATE REQUEST RESULTS
-
+        requestResultsRepository.saveAndFlush(requestResults);
         return "Request created successfully!";
     }
 
@@ -61,11 +70,12 @@ public class UserService {
         Request request = requestRepository.findRequestByRequest_idAndUserid(requestId,user.getId());
          */
         Request request = requestRepository.findRequestByRequest_id(requestId);
+        RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(request.getRequest_id());
 
-        if(request.getRequest_type().equals("PENDING") || request.getRequest_type().equals("DENIED")) {
-            return  "Your request status is: "+ request.getRequest_type();
+        if(requestResults.getRequest_status().equals("PENDING") || requestResults.getRequest_status().equals("DENIED")) {
+            return  "Your request status is: "+ requestResults.getRequest_status();
         } else {
-            return "Your request results are: "+ request.getRequest_body();
+            return "Your request results are: "+ requestResults.getRequest_status();
         }
     }
 
