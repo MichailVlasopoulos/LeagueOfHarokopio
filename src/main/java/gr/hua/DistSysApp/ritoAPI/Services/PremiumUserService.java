@@ -32,7 +32,7 @@ public class PremiumUserService {
 
     private Authentication authentication;
     private String username;
-    private final String API_KEY = "RGAPI-74e85ff6-eecf-4a0f-a64d-82dc194465a9";
+    private final String API_KEY = "RGAPI-703d8926-609b-4cf6-a061-dec7dbd15648";
 
     private final static String topPlayersProfilesRequestType = "TopPlayersProfiles";
     private final static String cancelPremiumRequestType = "Cancel Premium";
@@ -104,7 +104,7 @@ public class PremiumUserService {
 
     }
 
-    public String showTopPlayersProfiles (int requestId) {
+    public String showRequestResults (int requestId) {
         RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(requestId);
 
         if(requestResults.getRequest_status().equalsIgnoreCase("Pending") || requestResults.getRequest_status().equalsIgnoreCase("Denied") ) {

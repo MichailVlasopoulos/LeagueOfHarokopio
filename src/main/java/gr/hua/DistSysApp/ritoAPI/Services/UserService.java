@@ -44,10 +44,8 @@ public class UserService {
 
 
     //TODO handle null request exception
-    public String showMatchHistory(int requestId) {
-
-        Request request = requestRepository.findRequestByRequest_id(requestId);
-        RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(request.getRequest_id());
+    public String showRequestResults(int requestId) {
+        RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(requestId);
 
         if(requestResults.getRequest_status().equals("PENDING") || requestResults.getRequest_status().equals("DENIED")) {
             return  "Your request status is: "+ requestResults.getRequest_status();
@@ -118,7 +116,6 @@ public class UserService {
 
         return "Request added successfully";
     }
-
 
 
 }

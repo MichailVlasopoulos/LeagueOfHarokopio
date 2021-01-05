@@ -28,5 +28,5 @@ public class PremiumUserController {
 
     @GetMapping(path="/user/showTopPlayersProfiles")
     @ResponseBody
-    public String showTopPlayersProfiles (@RequestParam int requestId) throws JSONException { return premiumUserService.showTopPlayersProfiles(requestId); }
+    public String showTopPlayersProfiles (@RequestParam int requestId) throws JSONException { return premiumUserService.showRequestResults(requestId); }
 }
