@@ -33,6 +33,15 @@ public class PremiumUserService {
     private String username;
     private final String API_KEY = "RGAPI-74e85ff6-eecf-4a0f-a64d-82dc194465a9";
 
+    private final static String topPlayersProfilesRequestType = "TopPlayersProfiles";
+
+    /**
+     * @Description This method is designed to show live stats of an active League of legends game
+     * @Contains gameId, gameType, gameStartTime, mapId, gameLength, platformId, gameMode, bannedChampions, gameQueueConfigId,
+     * observers, participants
+     * @return JSON containing live match stats of the user
+     * @throws JSONException
+     */
     public String showLiveMatchStats() throws JSONException {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
@@ -46,7 +55,7 @@ public class PremiumUserService {
 
     }
 
-    public String requestTopPlayersProfiles(){
+    public JSONObject requestTopPlayersProfiles() throws JSONException {
         //Get user data through jwt token
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
@@ -55,10 +64,17 @@ public class PremiumUserService {
         int user_id = user.getId();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
+        //Check if there is already a request in this category
+        int existentRequestId = requestRepository.findRequestIDByUseridAndRequestTypeOrdered(user.getId(),topPlayersProfilesRequestType);
+        RequestResults pendingRequestResult = requestResultsRepository.findRequestByRequest_id(existentRequestId);
+        //TODO FIX JSON
+        if (pendingRequestResult.getRequest_status().equalsIgnoreCase("Pending")) return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
+
+        //Create Request
         Request request = new Request();
         request.setUserid(user_id);
         request.setCreated_at(timestamp);
-        request.setRequest_type("TopPlayersProfiles");
+        request.setRequest_type(topPlayersProfilesRequestType);
 
         /*
         saveAndFlush returns the saved entity
@@ -69,20 +85,19 @@ public class PremiumUserService {
             Request request1=requestRepository.saveAndFlush(request);
         } catch (Exception e) {
             e.printStackTrace();
-            return "Request Failed";
+            return JsonUtils.stringToJsonObject("Status", "Failed");
         }
-
-        //TODO CREATE RequestResults
 
 
         RequestResults requestResults = new RequestResults();
-        requestResults.setRequest_id(requestRepository.findRequestIDByUseridAndRequestType(user_id,"TopPlayersProfiles"));
+        requestResults.setRequest_id(requestRepository.findRequestIDByUseridAndRequestType(user_id,topPlayersProfilesRequestType));
         requestResults.setRequest_status("Pending");
         try {
-            return "Request created successfully!"+requestRepository.saveAndFlush(request).toString(); //TODO remove toString after debugging
+            requestRepository.saveAndFlush(request);
+            return JsonUtils.stringToJsonObject("Status", "Successful");
         } catch (Exception e) {
             e.printStackTrace();
-            return "Request Failed";
+            return JsonUtils.stringToJsonObject("Status", "Failed");
         }
 
     }

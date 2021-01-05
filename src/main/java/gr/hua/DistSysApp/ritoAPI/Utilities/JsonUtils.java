@@ -1,5 +1,6 @@
 package gr.hua.DistSysApp.ritoAPI.Utilities;
 
+import com.fasterxml.jackson.core.JsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,6 +9,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class JsonUtils {
+
+    public static JSONObject stringToJsonObject(String type , String body) throws JSONException {
+        JSONObject obj = new JSONObject("{\""+type+"\": \""+body+"\"}");
+        return obj;
+    }
 
     public static String recurseKeys(JSONObject jObj, String findKey) throws JSONException {
         String finalValue = "";

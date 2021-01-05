@@ -23,6 +23,11 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query(value = "SELECT requestId FROM Request WHERE user_id=?1 AND request_type=?2",nativeQuery = true)
     int findRequestIDByUseridAndRequestType(int UserId, String RequestType);
 
+    @Query(value = "SELECT requestId FROM Request WHERE user_id=?1 AND request_type=?2 ORDER BY created_at DESC LIMIT 1",nativeQuery = true)
+    int findRequestIDByUseridAndRequestTypeOrdered(int UserId, String RequestType);
+
+    @Query(value = "SELECT * FROM Request WHERE user_id=?1 AND request_type=?2",nativeQuery = true)
+    Request findRequestByUseridAndRequestType(int UserId, String RequestType);
 
     @Modifying(clearAutomatically = true)
     @Transactional
