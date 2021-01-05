@@ -41,6 +41,17 @@ public class JsonUtils {
         return finalValue;
     }
 
+    public static String getSummonerId (JSONObject jsonObject) throws JSONException{
+        String summonerId = null;
+        try {
+            summonerId=recurseKeys(jsonObject, "id");
+        } catch (JSONException e) {
+            summonerId=null;
+            e.printStackTrace();
+        }
+        return summonerId;
+    }
+
     public static String getAccountId (JSONObject jObj ) throws JSONException {
         String accountId = null;
         try {
