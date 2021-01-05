@@ -7,16 +7,14 @@ import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import gr.hua.DistSysApp.ritoAPI.Repositories.RequestRepository;
 import gr.hua.DistSysApp.ritoAPI.Repositories.RequestResultsRepository;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
-import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
-import gr.hua.DistSysApp.ritoAPI.Utilities.Requests;
-import gr.hua.DistSysApp.ritoAPI.Utilities.ResultUtils;
-import gr.hua.DistSysApp.ritoAPI.Utilities.UrlUtils;
+import gr.hua.DistSysApp.ritoAPI.Utilities.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 
@@ -59,6 +57,7 @@ public class PremiumUserService {
 
     }
 
+    @Transactional
     public JSONObject requestTopPlayersProfiles() throws JSONException {
         //Get user data through jwt token
         authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -69,10 +68,9 @@ public class PremiumUserService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         //Check if there is already a request in this category
-        int existentRequestId = requestRepository.findRequestIDByUseridAndRequestTypeOrdered(user.getId(),topPlayersProfilesRequestType);
-        RequestResults pendingRequestResult = requestResultsRepository.findRequestByRequest_id(existentRequestId);
         //TODO FIX JSON
-        if (pendingRequestResult.getRequest_status().equalsIgnoreCase("Pending")) return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
+        if (Utils.isExistingPendingRequest(user_id,topPlayersProfilesRequestType,requestRepository,requestResultsRepository))
+            return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
         //Create Request
         Request request = new Request();
