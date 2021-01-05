@@ -2,6 +2,7 @@ package gr.hua.DistSysApp.ritoAPI.Services;
 
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.Request;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.RequestResults;
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.SubscriptionRequest;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import gr.hua.DistSysApp.ritoAPI.Repositories.RequestRepository;
 import gr.hua.DistSysApp.ritoAPI.Repositories.RequestResultsRepository;
@@ -36,6 +37,7 @@ public class PremiumUserService {
     private final String API_KEY = "RGAPI-74e85ff6-eecf-4a0f-a64d-82dc194465a9";
 
     private final static String topPlayersProfilesRequestType = "TopPlayersProfiles";
+    private final static String cancelPremiumRequestType = "Cancel Premium";
 
     /**
      * @Description This method is designed to show live stats of an active League of legends game
@@ -114,5 +116,24 @@ public class PremiumUserService {
         }
     }
 
+
+    //TODO Cancel Premium
+
+    public JSONObject requestPremiumCancel(){
+        //Get user data through jwt token
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        int user_id = user.getId();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
+        subscriptionRequest.setCreated_at(timestamp);
+        subscriptionRequest.setRequest_type(cancelPremiumRequestType);
+        subscriptionRequest.setPaysafe_pin("-1"); //TODO discuss paysafe pin column nullable -> true
+        //TODO NO FIELD USER ID in subscription request
+        return null;
+    }
 
 }
