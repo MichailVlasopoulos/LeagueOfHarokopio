@@ -40,6 +40,13 @@ public class UserController {
     public String getMatchHistory (@RequestParam int requestId) { return userService.showMatchHistory(requestId); }
 
     @GetMapping(path="/user/requestLeaderboards")
-    public String requestLeaderboards () { return userService.requestLeaderboards(); }
+    public String requestLeaderboards () {return userService.requestLeaderboards(); }
+
+    @GetMapping(path="/user/requestMyProfile")
+    public String requestMyProfile () { return userService.requestMyProfile(); }
+
+    @GetMapping(path="/user/requestChampionStatistics")
+    public String requestChampionStats () { return userService.requestChampionStats(); }
+
 
 }
