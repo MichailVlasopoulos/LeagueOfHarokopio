@@ -20,6 +20,9 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query(value = "SELECT * FROM Request WHERE created_at=?",nativeQuery = true)
     Request findRequestByTimestamp(Timestamp timestamp);
 
+    @Query(value = "SELECT requestId FROM Request WHERE user_id=?1 AND request_type=?2",nativeQuery = true)
+    int findRequestIDByUseridAndRequestType(int UserId, String RequestType);
+
 
     @Modifying(clearAutomatically = true)
     @Transactional
