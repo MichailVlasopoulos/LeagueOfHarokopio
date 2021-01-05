@@ -2,14 +2,34 @@ package gr.hua.DistSysApp.ritoAPI.Utilities;
 
 public class UrlUtils {
 
+    //TODO add filters into MatchListURL
+    /**
+     *
+     * @param accountId
+     * @param Head
+     * @param APIKey
+     * @return Get matchlist for games played on given account ID and platform ID and filtered using given filter parameters, if any.
+     */
     public static String getMatchListURL(String accountId , Integer Head, String APIKey){
         return "https://eun1.api.riotgames.com/lol/match/v4/matchlists/by-account/"+accountId+"?endIndex="+Head+"&api_key="+APIKey;
     }
 
+    /**
+     *
+     * @param summonerName
+     * @param APIKey
+     * @return Get a summoner by summoner name.
+     */
     public static String getSummonersURL(String summonerName ,  String APIKey){
         return "https://eun1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+summonerName+"?api_key="+APIKey;
     }
 
+    /**
+     *
+     * @param summonerID
+     * @param APIKey
+     * @return Get current game information for the given summoner ID.
+     */
     public static String getActiveGameURL(String summonerID, String APIKey){
         return "https://eun1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/"+summonerID+"?api_key="+APIKey;
     }
