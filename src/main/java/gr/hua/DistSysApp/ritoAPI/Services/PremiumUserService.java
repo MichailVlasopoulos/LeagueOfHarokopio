@@ -129,7 +129,7 @@ public class PremiumUserService {
 
         RequestResults requestResults = new RequestResults();
         requestResults.setRequest(request);
-        requestResults.setRequest_id(requestRepository.findRequestIDByUseridAndRequestTypeOrdered(userId,request_type)); //TODO CHECK IF THIS WORKS
+        requestResults.setRequest_id(request.getRequest_id()); //TODO CHECK IF THIS WORKS
         requestResults.setRequest_status("PENDING");
         requestResultsRepository.saveAndFlush(requestResults);
 
@@ -148,7 +148,7 @@ public class PremiumUserService {
 
         SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
         subscriptionRequestsResults.setRequest_status("Pending");
-        subscriptionRequestsResults.setSubscription_request_id(subscriptionRequestRepository.findSubscriptionRequestIDByUseridAndRequestType(user.getId(), request_type));
+        subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
         subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
 
         return JsonUtils.stringToJsonObject("Status", "Successful");

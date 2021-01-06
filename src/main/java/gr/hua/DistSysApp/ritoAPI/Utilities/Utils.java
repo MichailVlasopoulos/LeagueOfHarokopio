@@ -1,5 +1,6 @@
 package gr.hua.DistSysApp.ritoAPI.Utilities;
 
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.Request;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.RequestResults;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.SubscriptionRequest;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.SubscriptionRequestsResults;
@@ -14,7 +15,12 @@ public class Utils {
 
     public static boolean isExistingPendingRequest(int userId , String requestType, RequestRepository requestRepository, RequestResultsRepository requestResultsRepository){
 
-        int existentRequestId = requestRepository.findRequestIDByUseridAndRequestTypeOrdered(userId,requestType);
+
+        Request testRequest = requestRepository.findRequestByUseridAndRequestTypeOrdered(userId, requestType);
+        if ( testRequest == null) {
+            return false;
+        }
+        int existentRequestId = testRequest.getRequest_id();
         RequestResults pendingRequestResult = requestResultsRepository.findRequestByRequest_id(existentRequestId);
         if (pendingRequestResult.getRequest_status().equalsIgnoreCase("Pending")){
             return true;

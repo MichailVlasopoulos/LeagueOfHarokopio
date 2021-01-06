@@ -35,20 +35,20 @@ public class UserController {
     }
 
     @GetMapping(path="/user/requestMatchHistory")
-    public JSONObject requestMatchHistory () throws JSONException { return userService.requestMatchHistory(); }
+    public String requestMatchHistory () throws JSONException { return userService.requestMatchHistory().toString(); }
 
     @GetMapping(path="/user/showMatchHistory")
     @ResponseBody
     public String getMatchHistory (@RequestParam int requestId) { return userService.showRequestResults(requestId); }
 
     @GetMapping(path="/user/requestLeaderboards")
-    public JSONObject requestLeaderboards () throws JSONException {return userService.requestLeaderboards(); }
+    public String requestLeaderboards () throws JSONException {return userService.requestLeaderboards().toString(); }
 
     @GetMapping(path="/user/requestMyProfile")
-    public JSONObject requestMyProfile () throws JSONException { return userService.requestMyProfile(); }
+    public String requestMyProfile () throws JSONException { return userService.requestMyProfile().toString(); }
 
     @GetMapping(path="/user/requestChampionStatistics")
-    public JSONObject requestChampionStats () throws JSONException { return userService.requestChampionStats(); }
+    public String requestChampionStats () throws JSONException { return userService.requestChampionStats().toString(); }
 
 
 }
