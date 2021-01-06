@@ -30,6 +30,13 @@ public class PremiumUserController {
     @ResponseBody
     public JSONObject showTopPlayersProfiles (@RequestParam int requestId) throws JSONException { return premiumUserService.showRequestResults(requestId); }
 
+    @GetMapping(path="/premiumUser/requestGeneralChampionStats")
+    public JSONObject requestGeneralChampionStats () throws JSONException { return premiumUserService.requestGeneralChampionStats(); }
+
+    @GetMapping(path="/premiumUser/showGeneralChampionStats")
+    @ResponseBody
+    public JSONObject showGeneralChampionStats (@RequestParam int requestId) throws JSONException { return premiumUserService.showRequestResults(requestId); }
+
     @GetMapping(path="/premiumUser/PremiumCancel")
     public JSONObject requestPremiumCancel () throws JSONException { return premiumUserService.requestPremiumCancel();}
 }

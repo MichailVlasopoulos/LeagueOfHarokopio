@@ -53,6 +53,7 @@ public class JsonUtils {
             summonerId=recurseKeys(jsonObject, "id");
         } catch (JSONException e) {
             summonerId=null;
+            System.err.println("Error parsing Json");
             e.printStackTrace();
         }
         return summonerId;

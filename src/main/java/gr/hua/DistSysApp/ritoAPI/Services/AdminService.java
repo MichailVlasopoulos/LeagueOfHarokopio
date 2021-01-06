@@ -37,7 +37,7 @@ public class AdminService {
         return userRepository.findAll();
     }
 
-    public String acceptRequest(int requestId) throws JSONException {
+    public JSONObject acceptRequest(int requestId) throws JSONException {
 
         //get the request
         Request request = requestRepository.findRequestByRequest_id(requestId);
@@ -50,22 +50,14 @@ public class AdminService {
         String API_KEY = "RGAPI-74e85ff6-eecf-4a0f-a64d-82dc194465a9";
         String url = UrlUtils.getSummonersURL(summonerName,API_KEY);
 
-        String response= ResultUtils.getSummonerUrlResponse(url);
-        if (response.equalsIgnoreCase("Error")) return "Error";
+        JSONObject response = ResultUtils.getSummonerUrlResponse(url);
+        if (response.getString("Status").equalsIgnoreCase("Failed"))
+            return JsonUtils.stringToJsonObject("Status", "Failed");
 
-        // JSONParser parser = new JSONParser(response);
-        JSONObject jsonObj = new JSONObject(response);
-        String accountId=null;
-        String summonerId = JsonUtils.getSummonerId(jsonObj);
+        String accountId=JsonUtils.getAccountId(response);;
+        String summonerId = JsonUtils.getSummonerId(response);
 
-        try{
-            accountId = JsonUtils.getAccountId(jsonObj);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "Error JSON Parser";
-        }
-
-        if (accountId==null) return "Error";
+        if (accountId==null) return JsonUtils.stringToJsonObject("Status", "Failed"); //TODO CHECK IF THIS IS NEEDED
 
         //call RITO api - get specific response
 
@@ -95,25 +87,27 @@ public class AdminService {
                 response2 = calculateStats(UrlUtils.getMatchListURL(summonerId,20,API_KEY));
                 break;
             default:
-                return "Error";
+                return JsonUtils.stringToJsonObject("Status", "Failed");
         }
 
 
         if (!request.getRequest_type().equalsIgnoreCase(generalChampionStatsType))
         response2 = Requests.get(url2);
 
+
         if(response2 != null) {
             requestRepository.updateRequest_Accept("ACCEPTED",response2,requestId);
-            return "Results: "+response2;
+            JSONObject jsonResults = new JSONObject(response2);
+            return jsonResults; //TODO WHEN CHECKED CHANGE TO "STATUS" "Successful"
         }else {
-            return "Error";
+            return JsonUtils.stringToJsonObject("Status", "Failed");
         }
 
     }
 
-    public String denyRequest(int requestId) {
-        requestRepository.updateRequest_Deny("ACCEPTED",requestId);
-        return "Denied";
+    public JSONObject denyRequest(int requestId) throws JSONException {
+        requestRepository.updateRequest_Deny("Denied",requestId);
+        return JsonUtils.stringToJsonObject("Status", "Successful");
     }
 
     /**
