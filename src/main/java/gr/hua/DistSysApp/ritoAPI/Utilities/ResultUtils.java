@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ResultUtils {
-    public static String getActiveGameResults(String summonerName, String APIKey) throws JSONException {
+    public static JSONObject getActiveGameResults(String summonerName, String APIKey) throws JSONException {
 
         String url = UrlUtils.getSummonersURL(summonerName,APIKey);
 
@@ -13,10 +13,14 @@ public class ResultUtils {
             response = Requests.get(url);
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error Accessing Url";
+            System.err.println("Error Accessing Url");
+            return JsonUtils.stringToJsonObject("Status", "Failed");
         }
         //TODO handle null exception
-        if(response==null) return "Expired API KEY or Wrong Summoner Name";
+        if(response==null){
+            System.err.println("Expired API KEY or Wrong Summoner Name");
+            return JsonUtils.stringToJsonObject("Status", "Failed");
+        }
 
         // JSONParser parser = new JSONParser(response);
         JSONObject jsonObj = new JSONObject(response);
@@ -26,22 +30,24 @@ public class ResultUtils {
             summonerId = JsonUtils.getSummonerId(jsonObj);
         } catch (JSONException e) {
             e.printStackTrace();
-            return "Error JSON Parser";
+            System.err.println("Error JSON Parser");
+            return JsonUtils.stringToJsonObject("Status", "Failed");
         }
 
-        if (summonerId==null) return "Error";
+        if (summonerId==null) return JsonUtils.stringToJsonObject("Status", "Failed");
 
         String url2 = UrlUtils.getActiveGameURL(summonerId,APIKey);
         String activeGameResults = Requests.get(url2);
 
         if(activeGameResults != null) {
-            return activeGameResults;
+            JSONObject jsonResults = new JSONObject(response);
+            return jsonResults;
         }else {
-            return "Error";
+            return JsonUtils.stringToJsonObject("Status", "Failed");
         }
     }
 
-    public static String getSummonerUrlResponse(String url){
+    public static JSONObject getSummonerUrlResponse(String url) throws JSONException {
 
         String response;
         try {
@@ -49,17 +55,19 @@ public class ResultUtils {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error Accessing Url");
-            return "Failed";
+            return JsonUtils.stringToJsonObject("Status", "Failed");
         }
         if(response==null){
             System.err.println("Expired API KEY or Wrong Summoner Name");
-            return "Failed";
+            return JsonUtils.stringToJsonObject("Status", "Failed");
         }
 
-        return response;
+        JSONObject jsonResults = new JSONObject(response);
+        return jsonResults;
     }
 
     public static String getSummonersLeagueID(String url) throws JSONException {
+
         String response;
         try {
             response = Requests.get(url);

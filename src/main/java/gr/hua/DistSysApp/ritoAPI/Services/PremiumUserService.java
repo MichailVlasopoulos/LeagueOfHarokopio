@@ -46,7 +46,7 @@ public class PremiumUserService {
      * @return JSON containing live match stats of the user
      * @throws JSONException
      */
-    public String showLiveMatchStats() throws JSONException {
+    public JSONObject showLiveMatchStats() throws JSONException {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
         User user = userRepository.findByUsername(username);

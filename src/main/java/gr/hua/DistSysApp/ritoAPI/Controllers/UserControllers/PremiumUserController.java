@@ -21,7 +21,7 @@ public class PremiumUserController {
     private PremiumUserService premiumUserService;
 
     @GetMapping(path="/premiumUser/showLiveMatchStats")
-    public String showLiveMatchStats () throws JSONException { return premiumUserService.showLiveMatchStats(); }
+    public JSONObject showLiveMatchStats () throws JSONException { return premiumUserService.showLiveMatchStats(); }
 
     @GetMapping(path="/premiumUser/requestTopPlayersProfiles")
     public JSONObject requestTopPlayersProfiles () throws JSONException { return premiumUserService.requestTopPlayersProfiles(); }
@@ -29,4 +29,7 @@ public class PremiumUserController {
     @GetMapping(path="/premiumUser/showTopPlayersProfiles")
     @ResponseBody
     public JSONObject showTopPlayersProfiles (@RequestParam int requestId) throws JSONException { return premiumUserService.showRequestResults(requestId); }
+
+    @GetMapping(path="/premiumUser/PremiumCancel")
+    public JSONObject requestPremiumCancel () throws JSONException { return premiumUserService.requestPremiumCancel();}
 }
