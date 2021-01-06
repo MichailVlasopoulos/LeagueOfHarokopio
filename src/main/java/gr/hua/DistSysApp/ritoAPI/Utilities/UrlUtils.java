@@ -32,7 +32,7 @@ public class UrlUtils {
      * @return Get current game information for the given summoner ID.
      */
     public static String getActiveGameURL(String summonerID, String APIKey){
-        return "https://eun1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/"+summonerID+"?api_key="+APIKey;
+        return "https://eun1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/"+summonerID.replace(" ","%20")+"?api_key="+APIKey;
     }
 
     /**
@@ -42,7 +42,7 @@ public class UrlUtils {
      * @return total champion mastery score for given summoner ID
      */
     public static String getTotalMasteryPointsURL (String summonerID, String APIKey){
-        return "https://eun1.api.riotgames.com/lol/champion-mastery/v4/scores/by-summoner/"+summonerID+"?api_key="+APIKey;
+        return "https://eun1.api.riotgames.com/lol/champion-mastery/v4/scores/by-summoner/"+summonerID.replace(" ","%20")+"?api_key="+APIKey;
     }
 
     /**
@@ -52,7 +52,7 @@ public class UrlUtils {
      * @return champions mastery points for all champions , sorted DESC , for given summoner id
      */
     public static String getAllChampionMasteryEntries (String summonerID, String APIKey){
-        return "https://eun1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/"+summonerID+"?api_key="+APIKey;
+        return "https://eun1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/"+summonerID.replace(" ","%20")+"?api_key="+APIKey;
     }
 
     /**
@@ -90,7 +90,7 @@ public class UrlUtils {
      * @return Ranked Solo and Ranked Flex stats for a given summonerID
      */
     public static String getRankedStatsURL (String summonerID , String APIKey){
-        return "https://eun1.api.riotgames.com/lol/league/v4/entries/by-summoner/"+summonerID+"?api_key="+APIKey;
+        return "https://eun1.api.riotgames.com/lol/league/v4/entries/by-summoner/"+summonerID.replace(" ","%20")+"?api_key="+APIKey;
     }
 
     /**

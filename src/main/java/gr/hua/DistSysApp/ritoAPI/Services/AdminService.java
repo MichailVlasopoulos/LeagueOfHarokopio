@@ -6,11 +6,15 @@ import gr.hua.DistSysApp.ritoAPI.Repositories.RequestRepository;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
 import gr.hua.DistSysApp.ritoAPI.Utilities.Requests;
+import gr.hua.DistSysApp.ritoAPI.Utilities.ResultUtils;
 import gr.hua.DistSysApp.ritoAPI.Utilities.UrlUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 @Service
 public class AdminService {
@@ -25,6 +29,9 @@ public class AdminService {
     private final static String MyProfileRequestType = "My Profile";
     private final static String ChampionStatisticsRequestType = "Champion Statistics";
     private final static String LeaderboardsRequestType = "Leaderboards";
+    private final static String topPlayersProfilesRequestType = "Top Players Profiles";
+    private final static String cancelPremiumRequestType = "Cancel Premium";
+    private final static String generalChampionStatsType = "General Champion Stats";
 
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
@@ -43,15 +50,8 @@ public class AdminService {
         String API_KEY = "RGAPI-74e85ff6-eecf-4a0f-a64d-82dc194465a9";
         String url = UrlUtils.getSummonersURL(summonerName,API_KEY);
 
-
-        String response;
-        try {
-            response = Requests.get(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Error Accessing Url";
-        }
-        if(response==null) return "Expired API KEY or Wrong Summoner Name";
+        String response= ResultUtils.getSummonerUrlResponse(url);
+        if (response.equalsIgnoreCase("Error")) return "Error";
 
         // JSONParser parser = new JSONParser(response);
         JSONObject jsonObj = new JSONObject(response);
@@ -84,11 +84,22 @@ public class AdminService {
                 url2 = UrlUtils.getAllChampionMasteryEntries(summonerId,API_KEY);
                 break;
             case LeaderboardsRequestType:
-                url2 = UrlUtils.getLeaderBoardsURL(summonerId,API_KEY);
+                String leagueId = null;
+                url2 = UrlUtils.getLeaderBoardsURL(ResultUtils.getSummonersLeagueID(UrlUtils.getRankedStatsURL(summonerId,API_KEY)),API_KEY);
                 break;
                 //TODO CHANGE LEAGUE ID AND CHECK IF UNRANKED
+            case topPlayersProfilesRequestType:
+                url2=UrlUtils.getAllChallengerPlayersURL(API_KEY);
+                break;
+            case generalChampionStatsType:
+                response2 = calculateStats(UrlUtils.getMatchListURL(summonerId,20,API_KEY));
+                break;
+            default:
+                return "Error";
         }
 
+
+        if (!request.getRequest_type().equalsIgnoreCase(generalChampionStatsType))
         response2 = Requests.get(url2);
 
         if(response2 != null) {
@@ -105,4 +116,25 @@ public class AdminService {
         return "Denied";
     }
 
+    /**
+     *
+     * @param data
+     * @return a map contain stats of how many times the player played a champ in the past x games.
+     * @throws JSONException
+     */
+    public String calculateStats (String data) throws JSONException {
+        JSONObject jsonObject = new JSONObject(data.trim());
+        Iterator<String> keys = jsonObject.keys();
+        HashMap<Integer, Integer> championsMap = new HashMap<Integer, Integer>();
+
+        while (keys.hasNext()) {
+            String key = keys.next();
+            if (jsonObject.get(key) instanceof JSONObject) {
+                championsMap.put(jsonObject.getInt("champion"), championsMap.get(jsonObject.getInt("champion")) + 1);
+            }
+        }
+
+        return championsMap.toString();
+
+    }
 }

@@ -40,4 +40,43 @@ public class ResultUtils {
             return "Error";
         }
     }
+
+    public static String getSummonerUrlResponse(String url){
+
+        String response;
+        try {
+            response = Requests.get(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error Accessing Url");
+            return "Failed";
+        }
+        if(response==null){
+            System.err.println("Expired API KEY or Wrong Summoner Name");
+            return "Failed";
+        }
+
+        return response;
+    }
+
+    public static String getSummonersLeagueID(String url) throws JSONException {
+        String response;
+        try {
+            response = Requests.get(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error Accessing Url");
+            return "Failed";
+        }
+        if(response==null){
+            System.err.println("Expired API KEY or Wrong Summoner Name");
+            return "Failed";
+        }
+
+        JSONObject jsonObj = new JSONObject(response);
+
+        //TODO CHECK FOR SOLOQ OR FLEX WITH ITERATOR
+
+        return jsonObj.getString("leagueId");
+    }
 }

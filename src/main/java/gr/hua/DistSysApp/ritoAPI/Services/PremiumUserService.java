@@ -1,12 +1,7 @@
 package gr.hua.DistSysApp.ritoAPI.Services;
 
-import gr.hua.DistSysApp.ritoAPI.Models.Entities.Request;
-import gr.hua.DistSysApp.ritoAPI.Models.Entities.RequestResults;
-import gr.hua.DistSysApp.ritoAPI.Models.Entities.SubscriptionRequest;
-import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
-import gr.hua.DistSysApp.ritoAPI.Repositories.RequestRepository;
-import gr.hua.DistSysApp.ritoAPI.Repositories.RequestResultsRepository;
-import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.*;
+import gr.hua.DistSysApp.ritoAPI.Repositories.*;
 import gr.hua.DistSysApp.ritoAPI.Utilities.*;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,12 +25,19 @@ public class PremiumUserService {
     @Autowired
     private RequestResultsRepository requestResultsRepository;
 
+    @Autowired
+    private SubscriptionRequestRepository subscriptionRequestRepository;
+
+    @Autowired
+    private SubscriptionRequestResultsRepository subscriptionRequestResultsRepository;
+
     private Authentication authentication;
     private String username;
     private final String API_KEY = "RGAPI-703d8926-609b-4cf6-a061-dec7dbd15648";
 
-    private final static String topPlayersProfilesRequestType = "TopPlayersProfiles";
+    private final static String topPlayersProfilesRequestType = "Top Players Profiles";
     private final static String cancelPremiumRequestType = "Cancel Premium";
+    private final static String generalChampionStatsType = "General Champion Stats";
 
     /**
      * @Description This method is designed to show live stats of an active League of legends game
@@ -65,73 +67,91 @@ public class PremiumUserService {
         User user = userRepository.findByUsername(username);
 
         int user_id = user.getId();
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         //Check if there is already a request in this category
         //TODO FIX JSON
         if (Utils.isExistingPendingRequest(user_id,topPlayersProfilesRequestType,requestRepository,requestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
-        //Create Request
-        Request request = new Request();
-        request.setUserid(user_id);
-        request.setCreated_at(timestamp);
-        request.setRequest_type(topPlayersProfilesRequestType);
+        return CreateRequest(user_id,topPlayersProfilesRequestType);
 
-        /*
-        saveAndFlush returns the saved entity
-        if it is null then the request was not succesfully saved to the db , so the request failed
-        if it not null then it means it was saved succesfully to the db and the request was successful
-         */
-        try {
-            Request request1=requestRepository.saveAndFlush(request);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return JsonUtils.stringToJsonObject("Status", "Failed");
-        }
-
-
-        RequestResults requestResults = new RequestResults();
-        requestResults.setRequest_id(requestRepository.findRequestIDByUseridAndRequestType(user_id,topPlayersProfilesRequestType));
-        requestResults.setRequest_status("Pending");
-        try {
-            requestRepository.saveAndFlush(request);
-            return JsonUtils.stringToJsonObject("Status", "Successful");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return JsonUtils.stringToJsonObject("Status", "Failed");
-        }
 
     }
 
-    public String showRequestResults (int requestId) {
-        RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(requestId);
-
-        if(requestResults.getRequest_status().equalsIgnoreCase("Pending") || requestResults.getRequest_status().equalsIgnoreCase("Denied") ) {
-            return  "Your request status is: "+ requestResults.getRequest_status();
-        } else {
-            return "Your request results are: "+ requestResults.getResults();
-        }
-    }
-
-
-    //TODO Cancel Premium
-
-    public JSONObject requestPremiumCancel(){
+    public JSONObject requestGeneralChampionStats() throws JSONException {
         //Get user data through jwt token
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
         User user = userRepository.findByUsername(username);
 
         int user_id = user.getId();
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
-        subscriptionRequest.setCreated_at(timestamp);
-        subscriptionRequest.setRequest_type(cancelPremiumRequestType);
-        subscriptionRequest.setPaysafe_pin("-1"); //TODO discuss paysafe pin column nullable -> true
-        //TODO NO FIELD USER ID in subscription request
-        return null;
+        //Check if there is already a request in this category
+        //TODO FIX JSON
+        if (Utils.isExistingPendingRequest(user_id,generalChampionStatsType,requestRepository,requestResultsRepository))
+            return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
+
+        return CreateRequest(user_id,generalChampionStatsType);
     }
 
+    public JSONObject showRequestResults (int requestId) throws JSONException {
+        RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(requestId);
+
+        if(requestResults.getRequest_status().equalsIgnoreCase("Pending") || requestResults.getRequest_status().equalsIgnoreCase("Denied") ) {
+            return JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status());
+        } else {
+            return JsonUtils.stringToJsonObject("Results", requestResults.getResults());
+        }
+    }
+
+
+    public JSONObject requestPremiumCancel() throws JSONException {
+        //Get user data through jwt token
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        //Check if there is a pending cancel premium request
+        if(Utils.isExistingSubscriptionPendingRequest(user.getId(),cancelPremiumRequestType,subscriptionRequestRepository,subscriptionRequestResultsRepository))
+            return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
+
+        return CreateSubscriptionRequest(user,cancelPremiumRequestType);
+    }
+
+    @Transactional
+    public JSONObject CreateRequest(int userId, String request_type) throws JSONException {
+
+        Request request = new Request();
+        request.setUserid(userId);
+        request.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        request.setRequest_type(request_type);
+        requestRepository.saveAndFlush(request);
+
+        RequestResults requestResults = new RequestResults();
+        requestResults.setRequest(request);
+        requestResults.setRequest_id(requestRepository.findRequestIDByUseridAndRequestTypeOrdered(userId,request_type)); //TODO CHECK IF THIS WORKS
+        requestResults.setRequest_status("PENDING");
+        requestResultsRepository.saveAndFlush(requestResults);
+
+        return JsonUtils.stringToJsonObject("Status", "Successful");
+    }
+
+    @Transactional
+    public JSONObject CreateSubscriptionRequest(User user, String request_type) throws JSONException {
+
+        SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
+        subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        subscriptionRequest.setRequest_type(request_type);
+        subscriptionRequest.setPaysafe_pin("-1");
+        subscriptionRequest.setUser(user);
+        subscriptionRequestRepository.saveAndFlush(subscriptionRequest);
+
+        SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
+        subscriptionRequestsResults.setRequest_status("Pending");
+        subscriptionRequestsResults.setSubscription_request_id(subscriptionRequestRepository.findSubscriptionRequestIDByUseridAndRequestType(user.getId(), request_type));
+        subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
+
+        return JsonUtils.stringToJsonObject("Status", "Successful");
+
+    }
 }

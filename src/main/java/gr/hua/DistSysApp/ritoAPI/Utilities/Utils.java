@@ -1,8 +1,12 @@
 package gr.hua.DistSysApp.ritoAPI.Utilities;
 
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.RequestResults;
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.SubscriptionRequest;
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.SubscriptionRequestsResults;
 import gr.hua.DistSysApp.ritoAPI.Repositories.RequestRepository;
 import gr.hua.DistSysApp.ritoAPI.Repositories.RequestResultsRepository;
+import gr.hua.DistSysApp.ritoAPI.Repositories.SubscriptionRequestRepository;
+import gr.hua.DistSysApp.ritoAPI.Repositories.SubscriptionRequestResultsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Utils {
@@ -12,6 +16,15 @@ public class Utils {
 
         int existentRequestId = requestRepository.findRequestIDByUseridAndRequestTypeOrdered(userId,requestType);
         RequestResults pendingRequestResult = requestResultsRepository.findRequestByRequest_id(existentRequestId);
+        if (pendingRequestResult.getRequest_status().equalsIgnoreCase("Pending")){
+            return true;
+        }else return false;
+    }
+
+    public static boolean isExistingSubscriptionPendingRequest(int userId , String requestType, SubscriptionRequestRepository subscriptionRequestRepository, SubscriptionRequestResultsRepository subscriptionRequestResultsRepository){
+
+        int existentRequestId = subscriptionRequestRepository.findSubscriptionRequestIDByUseridAndRequestTypeOrdered(userId,requestType);
+        SubscriptionRequestsResults pendingRequestResult = subscriptionRequestResultsRepository.findSubscriptionRequestResultsByRequest_id(existentRequestId);
         if (pendingRequestResult.getRequest_status().equalsIgnoreCase("Pending")){
             return true;
         }else return false;

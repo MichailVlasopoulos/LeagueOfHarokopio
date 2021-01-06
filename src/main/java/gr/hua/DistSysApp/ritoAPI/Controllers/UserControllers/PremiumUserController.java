@@ -20,13 +20,13 @@ public class PremiumUserController {
     @Autowired
     private PremiumUserService premiumUserService;
 
-    @GetMapping(path="/user/showLiveMatchStats")
+    @GetMapping(path="/premiumUser/showLiveMatchStats")
     public String showLiveMatchStats () throws JSONException { return premiumUserService.showLiveMatchStats(); }
 
-    @GetMapping(path="/user/requestTopPlayersProfiles")
+    @GetMapping(path="/premiumUser/requestTopPlayersProfiles")
     public JSONObject requestTopPlayersProfiles () throws JSONException { return premiumUserService.requestTopPlayersProfiles(); }
 
-    @GetMapping(path="/user/showTopPlayersProfiles")
+    @GetMapping(path="/premiumUser/showTopPlayersProfiles")
     @ResponseBody
-    public String showTopPlayersProfiles (@RequestParam int requestId) throws JSONException { return premiumUserService.showRequestResults(requestId); }
+    public JSONObject showTopPlayersProfiles (@RequestParam int requestId) throws JSONException { return premiumUserService.showRequestResults(requestId); }
 }
