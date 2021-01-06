@@ -23,7 +23,7 @@ router.use(cookieParser());
 router.route('/')
     .get(jwtSecurity.authenticateToken,(req,res)=>{
         if(hasRole(res.locals.payload.role,"ROLE_USER")){
-            res.render('index',{});
+            res.render('resolved',{});
         }
         else{
             res.redirect('/login');
