@@ -33,4 +33,9 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @Transactional
     @Query(value = "UPDATE Request SET request_type=?1,request_body=?2 WHERE request_id=?3",nativeQuery = true)
     Integer updateRequest_Accept(String request_type, String request_body,int requestId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value = "UPDATE Request SET request_type=?1 WHERE request_id=?2",nativeQuery = true)
+    Integer updateRequest_Deny(String request_type,int request_id);
 }

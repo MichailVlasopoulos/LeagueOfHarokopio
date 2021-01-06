@@ -33,4 +33,10 @@ public class AdminController {
     public String updateRequest_Accept (@RequestParam int requestId) throws JSONException {
         return adminService.acceptRequest(requestId);
     }
+
+    @GetMapping(path="admin/updateRequest/deny")
+    @ResponseBody
+    public String updateRequest_Deny (@RequestParam int requestId) throws JSONException {
+        return adminService.denyRequest(requestId);
+    }
 }

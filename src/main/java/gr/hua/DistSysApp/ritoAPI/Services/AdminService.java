@@ -100,4 +100,9 @@ public class AdminService {
 
     }
 
+    public String denyRequest(int requestId) {
+        requestRepository.updateRequest_Deny("ACCEPTED",requestId);
+        return "Denied";
+    }
+
 }
