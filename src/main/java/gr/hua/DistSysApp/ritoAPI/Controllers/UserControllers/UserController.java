@@ -42,13 +42,13 @@ public class UserController {
     public String getMatchHistory (@RequestParam int requestId) { return userService.showRequestResults(requestId); }
 
     @GetMapping(path="/user/requestLeaderboards")
-    public JSONObject requestLeaderboards () {return userService.requestLeaderboards(); }
+    public JSONObject requestLeaderboards () throws JSONException {return userService.requestLeaderboards(); }
 
     @GetMapping(path="/user/requestMyProfile")
-    public JSONObject requestMyProfile () { return userService.requestMyProfile(); }
+    public JSONObject requestMyProfile () throws JSONException { return userService.requestMyProfile(); }
 
     @GetMapping(path="/user/requestChampionStatistics")
-    public JSONObject requestChampionStats () { return userService.requestChampionStats(); }
+    public JSONObject requestChampionStats () throws JSONException { return userService.requestChampionStats(); }
 
 
 }
