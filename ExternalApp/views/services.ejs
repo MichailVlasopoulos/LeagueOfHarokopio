@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>League Of Harokopio</title>
+    <title>Services - League Of Harokopio</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../public/css/bootstrap.min.css" rel="stylesheet">
@@ -22,14 +22,14 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">My Profile</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Services <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Resolved Requests</a>
@@ -59,40 +59,25 @@
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <div class="container">
-          <h3 class="display-3">League Of Harokopio</h3>
-          <p><h4>League Of Legends Stats for Cool <del>Kids</del> Men. </h4></p>
-          <p><h5>Improve your game today!</h5></p>
-        </div>
+        <table class="table">
+          <tbody>
+            <br>
+            <br>
+            <tr>
+              <td style="width: 20%;">Get details about your latest matches:</td>
+              <td><button class="btn btn-secondary">Request My Match History</button></td>
+              <td id="matchHistoryCallInfo"></td>
+            </tr>
+            <tr>
+              <td>Get details about current game leaderboards:</td>
+              <td><button class="btn btn-secondary">Request leaderboards statistics</button></td>
+              <td id="detailsCallInfo"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="container">
-        <!-- Example row of columns -->
-        <div class="row">
-          <div class="col-md-4">
-            <h2>Get your League of Legends Statistics.</h2>
-            <p>Our high-end systems in partnership with Rito Games cooperate to bring you the most accurate match statistics you can have.</p>
-          </div>
-          <div class="col-md-4">
-            <h2>Fast Services!</h2>
-            <p>League Of Harokopio admins will approve your requests on the fly! (probably not).</p>
-          </div>
-          <div class="col-md-4">
-            <h2>Premium Benefits!</h2>
-            <p>Become a premium user and access incredible synchronous services (for the low price of your credit card information!).</p>
-            <p><a class="btn btn-secondary" href="#" role="button">Go Premium!</a></p>
-          </div>
-          <div class="col-md-4">
-            <h2>Get Started.</h2>
-            <p>Get started with League Of Harokopio and increase your winrate TODAY!</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View Services</a></p>
-          </div>
-        </div>
-
-        <hr>
-
-      </div> <!-- /container -->
-
+      
     </main>
 
     <footer class="container">
@@ -103,6 +88,6 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-   
+    <script src="../public/js/services.js"></script>
   </body>
 </html>
