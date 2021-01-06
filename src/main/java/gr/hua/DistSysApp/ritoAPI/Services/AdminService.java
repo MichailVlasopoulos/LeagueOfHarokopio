@@ -21,6 +21,11 @@ public class AdminService {
     @Autowired
     private RequestRepository requestRepository;
 
+    private final static String MatchHistoryRequestType = "Match History";
+    private final static String MyProfileRequestType = "My Profile";
+    private final static String ChampionStatisticsRequestType = "Champion Statistics";
+    private final static String LeaderboardsRequestType = "Leaderboards";
+
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -46,12 +51,12 @@ public class AdminService {
             e.printStackTrace();
             return "Error Accessing Url";
         }
-        //TODO handle null exception
         if(response==null) return "Expired API KEY or Wrong Summoner Name";
 
         // JSONParser parser = new JSONParser(response);
         JSONObject jsonObj = new JSONObject(response);
         String accountId=null;
+        String summonerId = JsonUtils.getSummonerId(jsonObj);
 
         try{
             accountId = JsonUtils.getAccountId(jsonObj);
@@ -60,11 +65,31 @@ public class AdminService {
             return "Error JSON Parser";
         }
 
-        //TODO CHECK RESPONCE
         if (accountId==null) return "Error";
 
-        String url2 = UrlUtils.getMatchListURL(accountId,15,API_KEY);
-        String response2 = Requests.get(url2);
+        //call RITO api - get specific response
+
+        String url2 = null;
+        String response2 = null;
+
+        //TODO Check URL parameters for rito api call
+        switch(request.getRequest_type()) {
+            case MatchHistoryRequestType:
+                url2 = UrlUtils.getMatchListURL(accountId, 15, API_KEY);
+                break;
+            case MyProfileRequestType:
+                url2 = UrlUtils.getSummonersURL(summonerName,API_KEY);
+                break;
+            case ChampionStatisticsRequestType:
+                url2 = UrlUtils.getAllChampionMasteryEntries(summonerId,API_KEY);
+                break;
+            case LeaderboardsRequestType:
+                url2 = UrlUtils.getLeaderBoardsURL(summonerId,API_KEY);
+                break;
+                //TODO CHANGE LEAGUE ID AND CHECK IF UNRANKED
+        }
+
+        response2 = Requests.get(url2);
 
         if(response2 != null) {
             requestRepository.updateRequest_Accept("ACCEPTED",response2,requestId);

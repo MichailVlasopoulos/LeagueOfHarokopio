@@ -70,8 +70,8 @@ public class SubscriptionRequest {
         return created_at;
     }
 
-    public void setCreated_at(Timestamp timestamp) {
-        this.created_at = timestamp;
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
     }
 
     public String getPaysafe_pin() {
@@ -82,13 +82,31 @@ public class SubscriptionRequest {
         this.paysafe_pin = paysafe_pin;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public SubscriptionRequestsResults getSubscriptionRequestsResults() {
+        return subscriptionRequestsResults;
+    }
+
+    public void setSubscriptionRequestsResults(SubscriptionRequestsResults subscriptionRequestsResults) {
+        this.subscriptionRequestsResults = subscriptionRequestsResults;
+    }
+
     @Override
     public String toString() {
         return "SubscriptionRequest{" +
-                ", subscription_request_id=" + subscription_request_id +
+                "subscription_request_id=" + subscription_request_id +
                 ", request_type='" + request_type + '\'' +
-                ", timestamp='" + created_at + '\'' +
+                ", created_at=" + created_at +
                 ", paysafe_pin='" + paysafe_pin + '\'' +
+                ", user=" + user +
+                ", subscriptionRequestsResults=" + subscriptionRequestsResults +
                 '}';
     }
 }

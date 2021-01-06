@@ -100,6 +100,6 @@ public class UrlUtils {
      * @return return all players in your league leaderboards
      */
     public static String getLeaderBoardsURL (String leagueID , String APIKey){
-        return "https://eun1.api.riotgames.com/lol/league/v4/"+leagueID+"?api_key="+APIKey;
+        return "https://eun1.api.riotgames.com/lol/league/v4/leagues"+leagueID+"?api_key="+APIKey;
     }
 }
