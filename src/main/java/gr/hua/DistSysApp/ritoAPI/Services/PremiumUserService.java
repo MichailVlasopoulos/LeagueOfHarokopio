@@ -46,7 +46,7 @@ public class PremiumUserService {
      * @return JSON containing live match stats of the user
      * @throws JSONException
      */
-    public JSONObject showLiveMatchStats() throws JSONException {
+    public JSONObject showLiveMatchStats() throws PremiumUserServiceException, JSONException {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
         User user = userRepository.findByUsername(username);
@@ -60,7 +60,7 @@ public class PremiumUserService {
     }
 
     @Transactional
-    public JSONObject requestTopPlayersProfiles() throws JSONException {
+    public JSONObject requestTopPlayersProfiles() throws PremiumUserServiceException,JSONException {
         //Get user data through jwt token
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
@@ -78,7 +78,7 @@ public class PremiumUserService {
 
     }
 
-    public JSONObject requestGeneralChampionStats() throws JSONException {
+    public JSONObject requestGeneralChampionStats() throws PremiumUserServiceException,JSONException {
         //Get user data through jwt token
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
@@ -94,7 +94,7 @@ public class PremiumUserService {
         return CreateRequest(user_id,generalChampionStatsType);
     }
 
-    public JSONObject showRequestResults (int requestId) throws JSONException {
+    public JSONObject showRequestResults (int requestId) throws PremiumUserServiceException,JSONException {
         RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(requestId);
 
         if(requestResults.getRequest_status().equalsIgnoreCase("Pending") || requestResults.getRequest_status().equalsIgnoreCase("Denied") ) {
@@ -105,7 +105,7 @@ public class PremiumUserService {
     }
 
 
-    public JSONObject requestPremiumCancel() throws JSONException {
+    public JSONObject requestPremiumCancel() throws PremiumUserServiceException,JSONException {
         //Get user data through jwt token
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
@@ -119,7 +119,7 @@ public class PremiumUserService {
     }
 
     @Transactional
-    public JSONObject CreateRequest(int userId, String request_type) throws JSONException {
+    public JSONObject CreateRequest(int userId, String request_type) throws PremiumUserServiceException,JSONException {
 
         Request request = new Request();
         request.setUserid(userId);
@@ -137,7 +137,7 @@ public class PremiumUserService {
     }
 
     @Transactional
-    public JSONObject CreateSubscriptionRequest(User user, String request_type) throws JSONException {
+    public JSONObject CreateSubscriptionRequest(User user, String request_type) throws PremiumUserServiceException,JSONException {
 
         SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
         subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));

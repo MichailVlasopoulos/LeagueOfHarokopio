@@ -2,6 +2,8 @@ package gr.hua.DistSysApp.ritoAPI.Controllers.UserControllers;
 
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserService;
+import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserServiceException;
+import gr.hua.DistSysApp.ritoAPI.exceptionHandling.ResourceNotFoundException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +23,30 @@ public class PremiumUserController {
     private PremiumUserService premiumUserService;
 
     @GetMapping(path="/premiumUser/showLiveMatchStats")
-    public JSONObject showLiveMatchStats () throws JSONException { return premiumUserService.showLiveMatchStats(); }
+    public JSONObject showLiveMatchStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try {
+            JSONObject responce = premiumUserService.showLiveMatchStats();
+            if (responce==null) throw new ResourceNotFoundException("Employee not found");
+            return  responce;
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
 
     @GetMapping(path="/premiumUser/requestTopPlayersProfiles")
-    public JSONObject requestTopPlayersProfiles () throws JSONException { return premiumUserService.requestTopPlayersProfiles(); }
+    public JSONObject requestTopPlayersProfiles () throws JSONException, PremiumUserServiceException, ResourceNotFoundException { return premiumUserService.requestTopPlayersProfiles(); }
 
     @GetMapping(path="/premiumUser/showTopPlayersProfiles")
     @ResponseBody
-    public JSONObject showTopPlayersProfiles (@RequestParam int requestId) throws JSONException { return premiumUserService.showRequestResults(requestId); }
+    public JSONObject showTopPlayersProfiles (@RequestParam int requestId) throws JSONException, PremiumUserServiceException, ResourceNotFoundException { return premiumUserService.showRequestResults(requestId); }
 
     @GetMapping(path="/premiumUser/requestGeneralChampionStats")
-    public JSONObject requestGeneralChampionStats () throws JSONException { return premiumUserService.requestGeneralChampionStats(); }
+    public JSONObject requestGeneralChampionStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException { return premiumUserService.requestGeneralChampionStats(); }
 
     @GetMapping(path="/premiumUser/showGeneralChampionStats")
     @ResponseBody
-    public JSONObject showGeneralChampionStats (@RequestParam int requestId) throws JSONException { return premiumUserService.showRequestResults(requestId); }
+    public JSONObject showGeneralChampionStats (@RequestParam int requestId) throws JSONException, PremiumUserServiceException, ResourceNotFoundException { return premiumUserService.showRequestResults(requestId); }
 
     @GetMapping(path="/premiumUser/PremiumCancel")
-    public JSONObject requestPremiumCancel () throws JSONException { return premiumUserService.requestPremiumCancel();}
+    public JSONObject requestPremiumCancel () throws JSONException, PremiumUserServiceException, ResourceNotFoundException { return premiumUserService.requestPremiumCancel();}
 }
