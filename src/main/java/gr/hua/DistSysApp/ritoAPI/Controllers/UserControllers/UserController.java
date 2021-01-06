@@ -4,6 +4,8 @@ import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import gr.hua.DistSysApp.ritoAPI.Services.AdminService;
 import gr.hua.DistSysApp.ritoAPI.Services.UserService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,20 +35,20 @@ public class UserController {
     }
 
     @GetMapping(path="/user/requestMatchHistory")
-    public String requestMatchHistory () { return userService.requestMatchHistory(); }
+    public JSONObject requestMatchHistory () throws JSONException { return userService.requestMatchHistory(); }
 
     @GetMapping(path="/user/showMatchHistory")
     @ResponseBody
     public String getMatchHistory (@RequestParam int requestId) { return userService.showRequestResults(requestId); }
 
     @GetMapping(path="/user/requestLeaderboards")
-    public String requestLeaderboards () {return userService.requestLeaderboards(); }
+    public JSONObject requestLeaderboards () {return userService.requestLeaderboards(); }
 
     @GetMapping(path="/user/requestMyProfile")
-    public String requestMyProfile () { return userService.requestMyProfile(); }
+    public JSONObject requestMyProfile () { return userService.requestMyProfile(); }
 
     @GetMapping(path="/user/requestChampionStatistics")
-    public String requestChampionStats () { return userService.requestChampionStats(); }
+    public JSONObject requestChampionStats () { return userService.requestChampionStats(); }
 
 
 }

@@ -6,6 +6,10 @@ import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import gr.hua.DistSysApp.ritoAPI.Repositories.RequestRepository;
 import gr.hua.DistSysApp.ritoAPI.Repositories.RequestResultsRepository;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
+import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
+import gr.hua.DistSysApp.ritoAPI.Utilities.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,21 +33,75 @@ public class UserService {
     private Authentication authentication;
     private String username;
 
+    private final static String MatchHistoryRequestType = "Match History";
+    private final static String MyProfileRequestType = "My Profile";
+    private final static String ChampionStatisticsRequestType = "Champion Statistics";
+    private final static String LeaderboardsRequestType = "Leaderboards";
 
-    //TODO handle saveAndFlush possible exception {DB could be down etc.}
-    public String requestMatchHistory() {
+
+    public JSONObject requestMatchHistory() throws JSONException {
 
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
         User user = userRepository.findByUsername(username);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        return CreateRequest(user.getId(),"Match History",timestamp);
+        //Check if there is already a request in this category
+        //TODO FIX JSON
+        if (Utils.isExistingPendingRequest(user.getId(),MatchHistoryRequestType,requestRepository,requestResultsRepository))
+            return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
+
+        return CreateRequest(user.getId(),MatchHistoryRequestType,timestamp);
 
     }
 
+    public JSONObject requestChampionStats() throws JSONException {
 
-    //TODO handle null request exception
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        //Check if there is already a request in this category
+        //TODO FIX JSON
+        if (Utils.isExistingPendingRequest(user.getId(),MatchHistoryRequestType,requestRepository,requestResultsRepository))
+            return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
+
+        return CreateRequest(user.getId(),ChampionStatisticsRequestType,timestamp);
+
+    }
+
+    public JSONObject requestLeaderboards() throws JSONException {
+
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        //Check if there is already a request in this category
+        //TODO FIX JSON
+        if (Utils.isExistingPendingRequest(user.getId(),MatchHistoryRequestType,requestRepository,requestResultsRepository))
+            return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
+
+        return CreateRequest(user.getId(),LeaderboardsRequestType,timestamp);
+
+    }
+
+    public JSONObject requestMyProfile() throws JSONException {
+
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        //Check if there is already a request in this category
+        //TODO FIX JSON
+        if (Utils.isExistingPendingRequest(user.getId(),MatchHistoryRequestType,requestRepository,requestResultsRepository))
+            return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
+
+        return CreateRequest(user.getId(),MyProfileRequestType,timestamp);
+    }
+
     public String showRequestResults(int requestId) {
         RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(requestId);
 
@@ -54,53 +112,8 @@ public class UserService {
         }
     }
 
-
-    public String requestChampionStats(){
-
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        username = authentication.getName();
-        User user = userRepository.findByUsername(username);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-
-        return CreateRequest(user.getId(),"Champion Statistics",timestamp);
-
-    }
-
-    public String showChampionStats(int requestId) {
-
-        Request request = requestRepository.findRequestByRequest_id(requestId);
-
-        if(request.getRequest_type().equals("PENDING") || request.getRequest_type().equals("DENIED")) {
-            return  "Your request status is: "+ request.getRequest_type();
-        } else {
-            return "Your request results are: "+ request.getRequest_body();
-        }
-    }
-
-    public String requestLeaderboards(){
-
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        username = authentication.getName();
-        User user = userRepository.findByUsername(username);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        return CreateRequest(user.getId(),"Leaderboards",timestamp);
-
-    }
-
-    public String requestMyProfile(){
-
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        username = authentication.getName();
-        User user = userRepository.findByUsername(username);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        return CreateRequest(user.getId(),"My profile",timestamp);
-    }
-
     @Transactional
-    public String CreateRequest(int userId, String request_type,Timestamp timestamp) {
+    public JSONObject CreateRequest(int userId, String request_type,Timestamp timestamp) throws JSONException {
 
         Request request = new Request();
         request.setUserid(userId);
@@ -114,7 +127,7 @@ public class UserService {
         requestResults.setRequest_status("PENDING");
         requestResultsRepository.saveAndFlush(requestResults);
 
-        return "Request added successfully";
+        return JsonUtils.stringToJsonObject("Status", "Successful");
     }
 
 
