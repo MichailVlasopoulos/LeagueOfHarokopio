@@ -26,7 +26,7 @@ public class PremiumUserController {
     public JSONObject showLiveMatchStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try {
             JSONObject responce = premiumUserService.showLiveMatchStats();
-            if (responce==null) throw new ResourceNotFoundException("Employee not found");
+            if (responce==null) throw new ResourceNotFoundException("Data not found");
             return  responce;
         }catch (PremiumUserServiceException e){
             throw new PremiumUserServiceException("Internal Server Exception while getting exception");
