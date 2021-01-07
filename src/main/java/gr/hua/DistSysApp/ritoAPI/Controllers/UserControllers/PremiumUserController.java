@@ -25,28 +25,69 @@ public class PremiumUserController {
     @GetMapping(path="/premiumUser/showLiveMatchStats")
     public String showLiveMatchStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try {
-            JSONObject responce = premiumUserService.showLiveMatchStats();
-            if (responce==null) throw new ResourceNotFoundException("Data not found");
-            return  responce.toString();
+            JSONObject response = premiumUserService.showLiveMatchStats();
+            if (response==null) throw new ResourceNotFoundException("User is not in an active game");
+            return  response.toString();
         }catch (PremiumUserServiceException e){
             throw new PremiumUserServiceException("Internal Server Exception while getting exception");
         }
     }
 
     @GetMapping(path="/premiumUser/requestTopPlayersProfiles")
-    public String requestTopPlayersProfiles () throws JSONException, PremiumUserServiceException, ResourceNotFoundException { return premiumUserService.requestTopPlayersProfiles().toString(); }
+    public String requestTopPlayersProfiles () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = premiumUserService.requestTopPlayersProfiles();
+            if (response==null) throw new ResourceNotFoundException("Error while making the request");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
 
     @GetMapping(path="/premiumUser/showTopPlayersProfiles")
     @ResponseBody
-    public String showTopPlayersProfiles (@RequestParam int requestId) throws JSONException, PremiumUserServiceException, ResourceNotFoundException { return premiumUserService.showRequestResults(requestId).toString(); }
+    public String showTopPlayersProfiles (@RequestParam int requestId) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = premiumUserService.showRequestResults(requestId);
+            if (response==null) throw new ResourceNotFoundException("Top Players Profiles could not be found");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
 
     @GetMapping(path="/premiumUser/requestGeneralChampionStats")
-    public String requestGeneralChampionStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException { return premiumUserService.requestGeneralChampionStats().toString(); }
+    public String requestGeneralChampionStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = premiumUserService.requestGeneralChampionStats();
+            if (response==null) throw new ResourceNotFoundException("Error while making the request");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
 
     @GetMapping(path="/premiumUser/showGeneralChampionStats")
     @ResponseBody
-    public String showGeneralChampionStats (@RequestParam int requestId) throws JSONException, PremiumUserServiceException, ResourceNotFoundException { return premiumUserService.showRequestResults(requestId).toString(); }
+    public String showGeneralChampionStats (@RequestParam int requestId) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = premiumUserService.showRequestResults(requestId);
+            if (response==null) throw new ResourceNotFoundException("Could not load General Champion Stats");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
 
     @GetMapping(path="/premiumUser/PremiumCancel")
-    public String requestPremiumCancel () throws JSONException, PremiumUserServiceException, ResourceNotFoundException { return premiumUserService.requestPremiumCancel().toString();}
+    public String requestPremiumCancel () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = premiumUserService.requestPremiumCancel();
+            if (response==null) throw new ResourceNotFoundException("Cancellation request could not be register to the system. Please try again later ");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+
+    }
 }
