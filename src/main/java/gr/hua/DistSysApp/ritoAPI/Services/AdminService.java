@@ -1,8 +1,10 @@
 package gr.hua.DistSysApp.ritoAPI.Services;
 
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.Request;
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.RequestResults;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import gr.hua.DistSysApp.ritoAPI.Repositories.RequestRepository;
+import gr.hua.DistSysApp.ritoAPI.Repositories.RequestResultsRepository;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
 import gr.hua.DistSysApp.ritoAPI.Utilities.Requests;
@@ -25,6 +27,9 @@ public class AdminService {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Autowired
+    private RequestResultsRepository requestResultsRepository;
+
     private final static String MatchHistoryRequestType = "Match History";
     private final static String MyProfileRequestType = "My Profile";
     private final static String ChampionStatisticsRequestType = "Champion Statistics";
@@ -41,17 +46,18 @@ public class AdminService {
 
         //get the request
         Request request = requestRepository.findRequestByRequest_id(requestId);
+        RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
 
         //get the user
         User user = userRepository.findById(request.getUserid());
         String summonerName = user.getSummoner_name();
 
         //call RITO api - find summoner's encrypted ID'S
-        String API_KEY = "RGAPI-74e85ff6-eecf-4a0f-a64d-82dc194465a9";
+        String API_KEY = "RGAPI-127d784a-e23e-4757-8a5e-bb4c3a71240a";
         String url = UrlUtils.getSummonersURL(summonerName,API_KEY);
 
         JSONObject response = ResultUtils.getSummonerUrlResponse(url);
-        if (response.getString("Status").equalsIgnoreCase("Failed"))
+        if (response==null)
             return JsonUtils.stringToJsonObject("Status", "Failed");
 
         String accountId=JsonUtils.getAccountId(response);;
@@ -77,7 +83,8 @@ public class AdminService {
                 break;
             case LeaderboardsRequestType:
                 String leagueId = null;
-                url2 = UrlUtils.getLeaderBoardsURL(ResultUtils.getSummonersLeagueID(UrlUtils.getRankedStatsURL(summonerId,API_KEY)),API_KEY);
+                leagueId = ResultUtils.getSummonersLeagueID(UrlUtils.getRankedStatsURL(summonerId,API_KEY));
+                url2 = UrlUtils.getLeaderBoardsURL(leagueId,API_KEY);
                 break;
                 //TODO CHANGE LEAGUE ID AND CHECK IF UNRANKED
             case topPlayersProfilesRequestType:
@@ -96,9 +103,11 @@ public class AdminService {
 
 
         if(response2 != null) {
-            requestRepository.updateRequest_Accept("ACCEPTED",response2,requestId);
-            JSONObject jsonResults = new JSONObject(response2);
-            return jsonResults; //TODO WHEN CHECKED CHANGE TO "STATUS" "Successful"
+            //requestRepository.updateRequest_Accept("ACCEPTED",response2,requestId);
+            requestResultsRepository.updateRequest_Accept("ACCEPTED",response2,requestId);
+            // JSONObject jsonResults = new JSONObject(response2);
+            // return jsonResults; //TODO WHEN CHECKED CHANGE TO "STATUS" "Successful"
+            return JsonUtils.stringToJsonObject("Status","Successful");
         }else {
             return JsonUtils.stringToJsonObject("Status", "Failed");
         }

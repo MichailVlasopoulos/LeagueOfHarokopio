@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface RequestResultsRepository extends JpaRepository<RequestResults,Integer> {
 
     @Query(value = "SELECT * FROM Requests_Results WHERE request_id=?",nativeQuery = true)
-    RequestResults findRequestByRequest_id(int request_id);
+    RequestResults findRequestResultsByRequest_id(int request_id);
 
     @Modifying(clearAutomatically = true)
     @Transactional

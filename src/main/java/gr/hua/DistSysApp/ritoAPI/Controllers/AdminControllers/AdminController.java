@@ -31,13 +31,13 @@ public class AdminController {
 
     @GetMapping(path="admin/updateRequest/accept")
     @ResponseBody
-    public JSONObject updateRequest_Accept (@RequestParam int requestId) throws JSONException {
-        return adminService.acceptRequest(requestId);
+    public String updateRequest_Accept (@RequestParam int requestId) throws JSONException {
+        return adminService.acceptRequest(requestId).toString();
     }
 
     @GetMapping(path="admin/updateRequest/deny")
     @ResponseBody
-    public JSONObject updateRequest_Deny (@RequestParam int requestId) throws JSONException {
-        return adminService.denyRequest(requestId);
+    public String updateRequest_Deny (@RequestParam int requestId) throws JSONException {
+        return adminService.denyRequest(requestId).toString();
     }
 }

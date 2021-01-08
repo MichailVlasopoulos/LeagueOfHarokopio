@@ -64,7 +64,7 @@ public class UserService {
 
         //Check if there is already a request in this category
         //TODO FIX JSON
-        if (Utils.isExistingPendingRequest(user.getId(),MatchHistoryRequestType,requestRepository,requestResultsRepository))
+        if (Utils.isExistingPendingRequest(user.getId(),ChampionStatisticsRequestType,requestRepository,requestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
         return CreateRequest(user.getId(),ChampionStatisticsRequestType,timestamp);
@@ -80,7 +80,7 @@ public class UserService {
 
         //Check if there is already a request in this category
         //TODO FIX JSON
-        if (Utils.isExistingPendingRequest(user.getId(),MatchHistoryRequestType,requestRepository,requestResultsRepository))
+        if (Utils.isExistingPendingRequest(user.getId(),LeaderboardsRequestType,requestRepository,requestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
         return CreateRequest(user.getId(),LeaderboardsRequestType,timestamp);
@@ -96,14 +96,14 @@ public class UserService {
 
         //Check if there is already a request in this category
         //TODO FIX JSON
-        if (Utils.isExistingPendingRequest(user.getId(),MatchHistoryRequestType,requestRepository,requestResultsRepository))
+        if (Utils.isExistingPendingRequest(user.getId(),MyProfileRequestType,requestRepository,requestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
         return CreateRequest(user.getId(),MyProfileRequestType,timestamp);
     }
 
     public JSONObject showRequestResults(int requestId) throws PremiumUserServiceException, JSONException {
-        RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(requestId);
+        RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
 
         if(requestResults.getRequest_status().equals("PENDING") || requestResults.getRequest_status().equals("DENIED")) {
             return  JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status());

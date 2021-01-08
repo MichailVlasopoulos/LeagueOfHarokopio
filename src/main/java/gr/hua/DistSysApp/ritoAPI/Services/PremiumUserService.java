@@ -33,7 +33,7 @@ public class PremiumUserService {
 
     private Authentication authentication;
     private String username;
-    private final String API_KEY = "RGAPI-703d8926-609b-4cf6-a061-dec7dbd15648";
+    private final String API_KEY = "RGAPI-127d784a-e23e-4757-8a5e-bb4c3a71240a";
 
     private final static String topPlayersProfilesRequestType = "Top Players Profiles";
     private final static String cancelPremiumRequestType = "Cancel Premium";
@@ -95,7 +95,7 @@ public class PremiumUserService {
     }
 
     public JSONObject showRequestResults (int requestId) throws PremiumUserServiceException,JSONException {
-        RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(requestId);
+        RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
 
         if(requestResults.getRequest_status().equalsIgnoreCase("Pending") || requestResults.getRequest_status().equalsIgnoreCase("Denied") ) {
             return JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status());

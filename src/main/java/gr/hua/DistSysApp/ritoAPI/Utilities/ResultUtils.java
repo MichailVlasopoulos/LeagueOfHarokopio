@@ -40,7 +40,7 @@ public class ResultUtils {
         String activeGameResults = Requests.get(url2);
 
         if(activeGameResults != null) {
-            JSONObject jsonResults = new JSONObject(response);
+            JSONObject jsonResults = new JSONObject(activeGameResults);
             return jsonResults;
         }else {
             return JsonUtils.stringToJsonObject("Status", "Failed");
@@ -85,6 +85,7 @@ public class ResultUtils {
 
         //TODO CHECK FOR SOLOQ OR FLEX WITH ITERATOR
 
-        return jsonObj.getString("leagueId");
+        return response;
+        //return jsonObj.getString("leagueId");
     }
 }
