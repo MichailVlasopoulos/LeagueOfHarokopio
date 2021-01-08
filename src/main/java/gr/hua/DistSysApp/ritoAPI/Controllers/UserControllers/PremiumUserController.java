@@ -3,6 +3,7 @@ package gr.hua.DistSysApp.ritoAPI.Controllers.UserControllers;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserService;
 import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserServiceException;
+import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
 import gr.hua.DistSysApp.ritoAPI.exceptionHandling.ResourceNotFoundException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class PremiumUserController {
@@ -23,11 +27,13 @@ public class PremiumUserController {
     private PremiumUserService premiumUserService;
 
     @GetMapping(path="/premiumUser/showLiveMatchStats")
-    public String showLiveMatchStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+    public Map<String, Object> showLiveMatchStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        //TODO CHECK IF THIS WORKS
+        HashMap<String, String> map = new HashMap<>();
         try {
             JSONObject response = premiumUserService.showLiveMatchStats();
             if (response==null) throw new ResourceNotFoundException("User is not in an active game");
-            return  response.toString();
+            return JsonUtils.jsonToMap(response);
         }catch (PremiumUserServiceException e){
             throw new PremiumUserServiceException("Internal Server Exception while getting exception");
         }
