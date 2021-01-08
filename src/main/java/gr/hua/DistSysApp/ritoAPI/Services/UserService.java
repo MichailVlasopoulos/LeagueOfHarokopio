@@ -39,7 +39,7 @@ public class UserService {
     private final static String LeaderboardsRequestType = "Leaderboards";
 
 
-    public JSONObject requestMatchHistory() throws JSONException {
+    public JSONObject requestMatchHistory() throws PremiumUserServiceException, JSONException {
 
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
@@ -55,7 +55,7 @@ public class UserService {
 
     }
 
-    public JSONObject requestChampionStats() throws JSONException {
+    public JSONObject requestChampionStats() throws PremiumUserServiceException, JSONException {
 
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
@@ -71,7 +71,7 @@ public class UserService {
 
     }
 
-    public JSONObject requestLeaderboards() throws JSONException {
+    public JSONObject requestLeaderboards() throws PremiumUserServiceException, JSONException {
 
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
@@ -87,7 +87,7 @@ public class UserService {
 
     }
 
-    public JSONObject requestMyProfile() throws JSONException {
+    public JSONObject requestMyProfile() throws PremiumUserServiceException, JSONException {
 
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
@@ -102,18 +102,18 @@ public class UserService {
         return CreateRequest(user.getId(),MyProfileRequestType,timestamp);
     }
 
-    public String showRequestResults(int requestId) {
+    public JSONObject showRequestResults(int requestId) throws PremiumUserServiceException, JSONException {
         RequestResults requestResults = requestResultsRepository.findRequestByRequest_id(requestId);
 
         if(requestResults.getRequest_status().equals("PENDING") || requestResults.getRequest_status().equals("DENIED")) {
-            return  "Your request status is: "+ requestResults.getRequest_status();
+            return  JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status());
         } else {
-            return "Your request results are: "+ requestResults.getRequest_status();
+            return JsonUtils.stringToJsonObject("Results", requestResults.getResults());
         }
     }
 
     @Transactional
-    public JSONObject CreateRequest(int userId, String request_type,Timestamp timestamp) throws JSONException {
+    public JSONObject CreateRequest(int userId, String request_type,Timestamp timestamp) throws PremiumUserServiceException, JSONException {
 
         Request request = new Request();
         request.setUserid(userId);

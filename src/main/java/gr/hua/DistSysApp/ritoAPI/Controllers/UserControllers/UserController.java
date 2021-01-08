@@ -3,7 +3,9 @@ package gr.hua.DistSysApp.ritoAPI.Controllers.UserControllers;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import gr.hua.DistSysApp.ritoAPI.Services.AdminService;
+import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserServiceException;
 import gr.hua.DistSysApp.ritoAPI.Services.UserService;
+import gr.hua.DistSysApp.ritoAPI.exceptionHandling.ResourceNotFoundException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +37,60 @@ public class UserController {
     }
 
     @GetMapping(path="/user/requestMatchHistory")
-    public String requestMatchHistory () throws JSONException { return userService.requestMatchHistory().toString(); }
+    public String requestMatchHistory () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = userService.requestMatchHistory();
+            if (response==null) throw new ResourceNotFoundException("Error while making the request");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
 
     @GetMapping(path="/user/showMatchHistory")
     @ResponseBody
-    public String getMatchHistory (@RequestParam int requestId) { return userService.showRequestResults(requestId); }
+    public String getMatchHistory (@RequestParam int requestId) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = userService.showRequestResults(requestId);
+            if (response==null) throw new ResourceNotFoundException("Match History Data not found");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
 
     @GetMapping(path="/user/requestLeaderboards")
-    public String requestLeaderboards () throws JSONException {return userService.requestLeaderboards().toString(); }
+    public String requestLeaderboards () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = userService.requestLeaderboards();
+            if (response==null) throw new ResourceNotFoundException("Error while making the request");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
 
     @GetMapping(path="/user/requestMyProfile")
-    public String requestMyProfile () throws JSONException { return userService.requestMyProfile().toString(); }
+    public String requestMyProfile () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = userService.requestMyProfile();
+            if (response==null) throw new ResourceNotFoundException("Error while making the request");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
 
     @GetMapping(path="/user/requestChampionStatistics")
-    public String requestChampionStats () throws JSONException { return userService.requestChampionStats().toString(); }
+    public String requestChampionStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = userService.requestChampionStats();
+            if (response==null) throw new ResourceNotFoundException("Error while making the request");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
 
 
 }
