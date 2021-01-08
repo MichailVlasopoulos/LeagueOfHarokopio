@@ -26,7 +26,7 @@ public class PremiumUserController {
     public String showLiveMatchStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try {
             JSONObject responce = premiumUserService.showLiveMatchStats();
-            if (responce==null) throw new ResourceNotFoundException("Data not found");
+            if (responce==null) throw new ResourceNotFoundException("Player is not in a Live Game");
             return  responce.toString();
         }catch (PremiumUserServiceException e){
             throw new PremiumUserServiceException("Internal Server Exception while getting exception");
