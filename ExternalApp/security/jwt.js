@@ -5,7 +5,8 @@ module.exports = {
     authenticateToken:(req,res,next)=>{
         try{
             let token = req.cookies.LOHTOKEN;
-            res.locals.payload = jwt.verify(token,TOKEN_SECRET);
+            // res.locals.payload = jwt.verify(token,TOKEN_SECRET);
+            res.locals.payload = {role:"ROLE_USER"}; // Fake roles for debugging.
             next();
         }
         catch{
