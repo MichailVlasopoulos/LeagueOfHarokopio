@@ -31,6 +31,9 @@ app.use('/admin',admin);
 const profile = require('./routes/profile.js');
 app.use('/profile',profile);
 
+const gopremium = require('./routes/gopremium.js');
+app.use('/gopremium',gopremium);
+
 app.get('/',(_req,res)=>{
     res.render('index');
 });
