@@ -99,6 +99,9 @@ public class AdminService {
         }
 
 
+        if (!request.getRequest_type().equalsIgnoreCase(generalChampionStatsType))
+        response2 = Requests.get(url2);
+
         if(response2 != null) {
             //requestRepository.updateRequest_Accept("ACCEPTED",response2,requestId);
             requestResultsRepository.updateRequest_Accept("ACCEPTED",response2,requestId);
