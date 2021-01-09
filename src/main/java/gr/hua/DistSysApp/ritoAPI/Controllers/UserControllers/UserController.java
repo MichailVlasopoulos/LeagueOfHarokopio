@@ -28,6 +28,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    private final static String MatchHistoryRequestType = "Match History";
+    private final static String MyProfileRequestType = "My Profile";
+    private final static String ChampionStatisticsRequestType = "Champion Statistics";
+    private final static String LeaderboardsRequestType = "Leaderboards";
+
 
     @GetMapping("/user")
     public String user(){
@@ -49,9 +54,9 @@ public class UserController {
 
     @GetMapping(path="/user/showMatchHistory")
     @ResponseBody
-    public String getMatchHistory (@RequestParam int requestId) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+    public String getMatchHistory () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = userService.showRequestResults(requestId);
+            JSONObject response = userService.showRequestResults(MatchHistoryRequestType);
             if (response==null) throw new ResourceNotFoundException("Match History Data not found");
             return response.toString();
         }catch (PremiumUserServiceException e){

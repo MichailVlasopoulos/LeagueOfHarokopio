@@ -26,6 +26,10 @@ public class PremiumUserController {
     @Autowired
     private PremiumUserService premiumUserService;
 
+    private final static String topPlayersProfilesRequestType = "Top Players Profiles";
+    private final static String cancelPremiumRequestType = "Cancel Premium";
+    private final static String generalChampionStatsType = "General Champion Stats";
+
     @GetMapping(path="/premiumUser/showLiveMatchStats")
     public Map<String, Object> showLiveMatchStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try {
@@ -50,9 +54,9 @@ public class PremiumUserController {
 
     @GetMapping(path="/premiumUser/showTopPlayersProfiles")
     @ResponseBody
-    public String showTopPlayersProfiles (@RequestParam int requestId) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+    public String showTopPlayersProfiles () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = premiumUserService.showRequestResults(requestId);
+            JSONObject response = premiumUserService.showRequestResults(topPlayersProfilesRequestType);
             if (response==null) throw new ResourceNotFoundException("Top Players Profiles could not be found");
             return response.toString();
         }catch (PremiumUserServiceException e){
@@ -73,9 +77,9 @@ public class PremiumUserController {
 
     @GetMapping(path="/premiumUser/showGeneralChampionStats")
     @ResponseBody
-    public String showGeneralChampionStats (@RequestParam int requestId) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+    public String showGeneralChampionStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = premiumUserService.showRequestResults(requestId);
+            JSONObject response = premiumUserService.showRequestResults(generalChampionStatsType);
             if (response==null) throw new ResourceNotFoundException("Could not load General Champion Stats");
             return response.toString();
         }catch (PremiumUserServiceException e){
