@@ -1,6 +1,7 @@
 package gr.hua.DistSysApp.ritoAPI.Repositories;
 
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.Request;
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +11,10 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
+
+    //TODO DELETE AFTER USE
+    @Query(value = "SELECT * FROM User WHERE username=? ",nativeQuery = true)
+    User findUser(String username);
 
     @Query(value = "SELECT * FROM Request WHERE request_id=? AND user_id=?",nativeQuery = true)
     Request findRequestByRequest_idAndUserid(int requestId, int userId);

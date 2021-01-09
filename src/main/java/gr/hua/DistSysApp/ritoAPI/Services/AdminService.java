@@ -61,7 +61,7 @@ public class AdminService {
         if (response==null)
             return JsonUtils.stringToJsonObject("Status", "Failed");
 
-        String accountId=JsonUtils.getAccountId(response);;
+        String accountId=JsonUtils.getAccountId(response);
         String summonerId = JsonUtils.getSummonerId(response);
 
         if (accountId==null) return JsonUtils.stringToJsonObject("Status", "Failed"); //TODO CHECK IF THIS IS NEEDED
@@ -92,15 +92,11 @@ public class AdminService {
                 url2=UrlUtils.getAllChallengerPlayersURL(API_KEY);
                 break;
             case generalChampionStatsType:
-                response2 = calculateStats(UrlUtils.getMatchListURL(summonerId,20,API_KEY));
+                response2 = calculateTopPlayersChampionWLRation();
                 break;
             default:
                 return JsonUtils.stringToJsonObject("Status", "Failed");
         }
-
-
-        if (!request.getRequest_type().equalsIgnoreCase(generalChampionStatsType))
-        response2 = Requests.get(url2);
 
 
         if(response2 != null) {
