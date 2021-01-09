@@ -57,4 +57,16 @@ public class AdminController {
             throw new AdminServiceException("Internal Server Exception while getting exception");
         }
     }
+
+    @GetMapping(path="admin/getAllRequests")
+    public String getAllRequests () throws JSONException, AdminServiceException, ResourceNotFoundException {
+        //All requests : requestId, username , timestamp , request_type,  summoner_name gia to aist8etik to 8anou
+        try{
+            JSONObject response = (JSONObject) adminService.getAllRequests();
+            if (response==null) throw new ResourceNotFoundException("Error while Denying the request");
+            return response.toString();
+        }catch (AdminServiceException e){
+            throw new AdminServiceException("Internal Server Exception while getting exception");
+        }
+    }
 }

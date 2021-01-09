@@ -144,6 +144,17 @@ public class AdminService {
 
     }
 
+    public Map<String, Object> getAllRequests() throws JSONException,AdminServiceException{
+        List<Request> allRequests = requestRepository.getAllRequests();
+        if(allRequests!=null) {
+            JSONObject allRequestsJson = new JSONObject(allRequests.toString());
+            return JsonUtils.jsonToMap(allRequestsJson);
+        }else{
+            JSONObject response = JsonUtils.stringToJsonObject("Status", "There are 0 requests");
+            return JsonUtils.jsonToMap(response);
+        }
+    }
+
     public String calculateTopPlayersChampionWLRation() throws JSONException {
         //Bring top 10 players profiles
         //Bring last 20 games for all 10 players
