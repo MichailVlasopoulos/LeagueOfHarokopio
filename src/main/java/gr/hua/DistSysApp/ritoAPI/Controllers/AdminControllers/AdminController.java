@@ -61,10 +61,10 @@ public class AdminController {
     }
 
     @GetMapping(path="admin/getAllRequests")
-    public Map<String,Object> getAllRequests () throws JSONException, AdminServiceException, ResourceNotFoundException {
+    public String getAllRequests () throws JSONException, AdminServiceException, ResourceNotFoundException {
         //All requests : requestId, username , timestamp , request_type,  summoner_name gia to aist8etik to 8anou
         try{
-            Map<String,Object> response = adminService.getAllRequests();
+            String response = adminService.getAllRequests();
             if (response==null) throw new ResourceNotFoundException("Error while Denying the request");
             return response;
         }catch (AdminServiceException e){
