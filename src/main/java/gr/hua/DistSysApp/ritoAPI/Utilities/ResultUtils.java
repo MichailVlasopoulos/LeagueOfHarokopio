@@ -81,9 +81,12 @@ public class ResultUtils {
             return "Failed";
         }
 
-        JSONObject jsonObj = new JSONObject(response);
+        //JSONObject jsonObj = new JSONObject(response);
 
         //TODO CHECK FOR SOLOQ OR FLEX WITH ITERATOR
+
+        if (response.equals("[]"))
+            response = "UNRANKED";
 
         return response;
         //return jsonObj.getString("leagueId");

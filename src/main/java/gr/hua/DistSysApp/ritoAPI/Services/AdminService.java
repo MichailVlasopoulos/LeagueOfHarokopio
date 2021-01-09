@@ -37,7 +37,7 @@ public class AdminService {
     private final static String cancelPremiumRequestType = "Cancel Premium";
     private final static String generalChampionStatsType = "General Champion Stats";
 
-    private final static String API_KEY = "RGAPI-127d784a-e23e-4757-8a5e-bb4c3a71240a";
+    private final static String API_KEY = "RGAPI-150dc81e-bdf7-4fb4-b55f-11a729f3caf5";
 
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
@@ -70,6 +70,7 @@ public class AdminService {
 
         String url2 = null;
         String response2 = null;
+        String leagueId = null;
 
         //TODO Check URL parameters for rito api call
         switch(request.getRequest_type()) {
@@ -83,9 +84,13 @@ public class AdminService {
                 url2 = UrlUtils.getAllChampionMasteryEntries(summonerId,API_KEY);
                 break;
             case LeaderboardsRequestType:
-                String leagueId = null;
-                leagueId = ResultUtils.getSummonersLeagueID(UrlUtils.getRankedStatsURL(summonerId,API_KEY));
-                url2 = UrlUtils.getLeaderBoardsURL(leagueId,API_KEY);
+                String tempResponse = UrlUtils.getRankedStatsURL(summonerId,API_KEY);
+                leagueId = ResultUtils.getSummonersLeagueID(tempResponse);
+                if ( !leagueId.equals("UNRANKED") ) {
+                    url2 = UrlUtils.getLeaderBoardsURL(leagueId, API_KEY);
+                } else {
+                    response2="UNRANKED";
+                }
                 break;
                 //TODO CHANGE LEAGUE ID AND CHECK IF UNRANKED
             case topPlayersProfilesRequestType:
@@ -99,14 +104,14 @@ public class AdminService {
         }
 
 
-        if (!request.getRequest_type().equalsIgnoreCase(generalChampionStatsType))
+        if (!request.getRequest_type().equalsIgnoreCase(generalChampionStatsType) && !leagueId.equals("UNRANKED"))
         response2 = Requests.get(url2);
 
+
+
         if(response2 != null) {
-            //requestRepository.updateRequest_Accept("ACCEPTED",response2,requestId);
             requestResultsRepository.updateRequest_Accept("ACCEPTED",response2,requestId);
-            // JSONObject jsonResults = new JSONObject(response2);
-            // return jsonResults; //TODO WHEN CHECKED CHANGE TO "STATUS" "Successful"
+             //TODO WHEN CHECKED CHANGE TO "STATUS" "Successful"
             return JsonUtils.stringToJsonObject("Status","Successful");
         }else {
             return JsonUtils.stringToJsonObject("Status", "Failed");
