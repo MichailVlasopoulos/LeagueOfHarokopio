@@ -12,9 +12,6 @@ import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
-    //TODO DELETE AFTER USE
-    @Query(value = "SELECT * FROM User WHERE username=? ",nativeQuery = true)
-    User findUser(String username);
 
     @Query(value = "SELECT * FROM Request WHERE request_id=? AND user_id=?",nativeQuery = true)
     Request findRequestByRequest_idAndUserid(int requestId, int userId);
