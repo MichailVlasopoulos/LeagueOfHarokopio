@@ -3,6 +3,7 @@ package gr.hua.DistSysApp.ritoAPI.Controllers.UserControllers;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import gr.hua.DistSysApp.ritoAPI.Services.AdminService;
+import gr.hua.DistSysApp.ritoAPI.Services.AdminServiceException;
 import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserServiceException;
 import gr.hua.DistSysApp.ritoAPI.Services.UserService;
 import gr.hua.DistSysApp.ritoAPI.exceptionHandling.ResourceNotFoundException;
@@ -11,10 +12,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -41,6 +39,18 @@ public class UserController {
         return "Hello, " + username + " you have: " + authentication.getAuthorities() + " authorities";
     }
 
+    @PostMapping(path="user/Register")
+    @ResponseBody
+    public String Register (@RequestParam String username,@RequestParam String password,@RequestParam String firstName,@RequestParam String lastName,@RequestParam String email,@RequestParam String summonerName) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = userService.Register(username,password,firstName,lastName,email,summonerName);
+            if (response==null) throw new ResourceNotFoundException("Error while making the request");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
+
     @GetMapping(path="/user/requestMatchHistory")
     public String requestMatchHistory () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
@@ -53,7 +63,6 @@ public class UserController {
     }
 
     @GetMapping(path="/user/showMatchHistory")
-    @ResponseBody
     public String getMatchHistory () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
             JSONObject response = userService.showRequestResults(MatchHistoryRequestType);
@@ -76,7 +85,6 @@ public class UserController {
     }
 
     @GetMapping(path="/user/showLeaderboards")
-    @ResponseBody
     public String getLeaderboards () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
             JSONObject response = userService.showRequestResults(LeaderboardsRequestType);
@@ -99,7 +107,6 @@ public class UserController {
     }
 
     @GetMapping(path="/user/showMyProfile")
-    @ResponseBody
     public String getMyProfile () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
             JSONObject response = userService.showRequestResults(MyProfileRequestType);
@@ -122,7 +129,6 @@ public class UserController {
     }
 
     @GetMapping(path="/user/showChampionStats")
-    @ResponseBody
     public String getChampionStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
             JSONObject response = userService.showRequestResults(ChampionStatisticsRequestType);

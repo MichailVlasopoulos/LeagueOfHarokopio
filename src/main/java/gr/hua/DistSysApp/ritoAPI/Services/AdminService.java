@@ -72,7 +72,6 @@ public class AdminService {
         String response2 = null;
         String leagueId = null;
 
-        //TODO Check URL parameters for rito api call
         switch(request.getRequest_type()) {
             case MatchHistoryRequestType:
                 url2 = UrlUtils.getMatchListURL(accountId, 15, API_KEY);
@@ -92,7 +91,6 @@ public class AdminService {
                     response2="UNRANKED";
                 }
                 break;
-                //TODO CHANGE LEAGUE ID AND CHECK IF UNRANKED
             case topPlayersProfilesRequestType:
                 url2=UrlUtils.getAllChallengerPlayersURL(API_KEY);
                 break;
@@ -160,7 +158,7 @@ public class AdminService {
             //System.out.println(stringArrayPlayers[j] + "}");
         }
 
-        //For Player at position 0 its a unique case and doesnt match the algorith in the loop
+        //For Player at position 0 its a unique case and doesnt match the algorithm in the loop
         String[] stringArrayPlayersDataAtZero = (stringArrayPlayers[0]+"}").split(",");
         //System.out.println(stringArrayPlayersDataAtZero[5]);
         String[] summonerNameArrayAtZero = stringArrayPlayersDataAtZero[5].split(":");
