@@ -25,3 +25,14 @@ h1{
     display: inline-block;
 
 }
+
+h4{
+    color: #9c4186;
+    margin-left: 44.1%;
+
+    background-color: rgba(0, 0, 0, 0.383);
+    border-radius: 5%;
+    padding: 0.7%;
+    display: inline-block;
+
+}
