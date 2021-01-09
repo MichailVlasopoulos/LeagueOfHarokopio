@@ -15,8 +15,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 @Service
 public class AdminService {
@@ -38,6 +37,8 @@ public class AdminService {
     private final static String cancelPremiumRequestType = "Cancel Premium";
     private final static String generalChampionStatsType = "General Champion Stats";
 
+    private final static String API_KEY = "RGAPI-127d784a-e23e-4757-8a5e-bb4c3a71240a";
+
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -53,7 +54,7 @@ public class AdminService {
         String summonerName = user.getSummoner_name();
 
         //call RITO api - find summoner's encrypted ID'S
-        String API_KEY = "RGAPI-127d784a-e23e-4757-8a5e-bb4c3a71240a";
+        //String API_KEY = "RGAPI-127d784a-e23e-4757-8a5e-bb4c3a71240a";
         String url = UrlUtils.getSummonersURL(summonerName,API_KEY);
 
         JSONObject response = ResultUtils.getSummonerUrlResponse(url);
@@ -139,5 +140,47 @@ public class AdminService {
 
         return championsMap.toString();
 
+    }
+
+    public String calculateTopPlayersChampionWLRation() throws JSONException {
+        //Bring top 10 players profiles
+        //Bring last 20 games for all 10 players
+        //analyze all 200 games
+
+        String topPlayersUrl = UrlUtils.getAllChallengerPlayersURL(API_KEY);
+        List<String> topPlayersSummonerNameList = new ArrayList<String>();
+        String topPlayers = Requests.get(topPlayersUrl);
+        //System.out.println(topPlayers);
+        String[] stringArrayPlayers =  topPlayers.split("}");
+        for(int j=0; j<stringArrayPlayers.length; j++) {
+            //System.out.println(stringArrayPlayers[j] + "}");
+        }
+
+        //For Player at position 0 its a unique case and doesnt match the algorith in the loop
+        String[] stringArrayPlayersDataAtZero = (stringArrayPlayers[0]+"}").split(",");
+        //System.out.println(stringArrayPlayersDataAtZero[5]);
+        String[] summonerNameArrayAtZero = stringArrayPlayersDataAtZero[5].split(":");
+        String summonerNameAtZero = summonerNameArrayAtZero[1];
+        topPlayersSummonerNameList.add(summonerNameAtZero.replace("\"", ""));
+        //System.out.println(summonerNameAtZero);
+
+
+        for (int i=1; i<stringArrayPlayers.length; i++){
+            String[] stringArrayPlayersData = (stringArrayPlayers[i]+"}").split(",");
+            if(stringArrayPlayersData.length <=3 ){
+                continue;
+            }else {
+                //System.out.println(stringArrayPlayersData[6]);
+                String[] summonerNameArray = stringArrayPlayersData[6].split(":");
+                String summonerName = summonerNameArray[1];
+                topPlayersSummonerNameList.add(summonerName.replace("\"", ""));
+                //System.out.println(summonerName.replace("\"", ""));
+            }
+        }
+
+        System.out.println(topPlayersSummonerNameList);
+
+
+        return topPlayersSummonerNameList.toString();
     }
 }
