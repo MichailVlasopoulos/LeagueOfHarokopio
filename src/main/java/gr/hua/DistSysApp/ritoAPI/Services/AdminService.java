@@ -42,7 +42,7 @@ public class AdminService {
         return userRepository.findAll();
     }
 
-    public JSONObject acceptRequest(int requestId) throws JSONException {
+    public JSONObject acceptRequest(int requestId) throws JSONException,AdminServiceException {
 
         //get the request
         Request request = requestRepository.findRequestByRequest_id(requestId);
@@ -114,7 +114,7 @@ public class AdminService {
 
     }
 
-    public JSONObject denyRequest(int requestId) throws JSONException {
+    public JSONObject denyRequest(int requestId) throws JSONException,AdminServiceException {
         requestRepository.updateRequest_Deny("Denied",requestId);
         return JsonUtils.stringToJsonObject("Status", "Successful");
     }

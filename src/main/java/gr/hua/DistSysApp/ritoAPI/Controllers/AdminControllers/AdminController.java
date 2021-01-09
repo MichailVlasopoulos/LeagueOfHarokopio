@@ -1,6 +1,10 @@
 package gr.hua.DistSysApp.ritoAPI.Controllers.AdminControllers;
 
 import gr.hua.DistSysApp.ritoAPI.Services.AdminService;
+import gr.hua.DistSysApp.ritoAPI.Services.AdminServiceException;
+import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserServiceException;
+import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
+import gr.hua.DistSysApp.ritoAPI.exceptionHandling.ResourceNotFoundException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +35,26 @@ public class AdminController {
 
     @GetMapping(path="admin/updateRequest/accept")
     @ResponseBody
-    public String updateRequest_Accept (@RequestParam int requestId) throws JSONException {
-        return adminService.acceptRequest(requestId).toString();
+    public String updateRequest_Accept (@RequestParam int requestId) throws JSONException, AdminServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = adminService.acceptRequest(requestId);
+            if (response==null) throw new ResourceNotFoundException("Error while Accepting the request");
+            return response.toString();
+        }catch (AdminServiceException e){
+            throw new AdminServiceException("Internal Server Exception while getting exception");
+        }
+
     }
 
     @GetMapping(path="admin/updateRequest/deny")
     @ResponseBody
-    public String updateRequest_Deny (@RequestParam int requestId) throws JSONException {
-        return adminService.denyRequest(requestId).toString();
+    public String updateRequest_Deny (@RequestParam int requestId) throws JSONException, AdminServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = adminService.denyRequest(requestId);
+            if (response==null) throw new ResourceNotFoundException("Error while Denying the request");
+            return response.toString();
+        }catch (AdminServiceException e){
+            throw new AdminServiceException("Internal Server Exception while getting exception");
+        }
     }
 }

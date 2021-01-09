@@ -28,8 +28,6 @@ public class PremiumUserController {
 
     @GetMapping(path="/premiumUser/showLiveMatchStats")
     public Map<String, Object> showLiveMatchStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
-        //TODO CHECK IF THIS WORKS
-        HashMap<String, String> map = new HashMap<>();
         try {
             JSONObject response = premiumUserService.showLiveMatchStats();
             if (response==null) throw new ResourceNotFoundException("User is not in an active game");
