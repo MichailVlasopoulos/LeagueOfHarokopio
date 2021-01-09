@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 public class AdminController {
 
@@ -59,12 +61,12 @@ public class AdminController {
     }
 
     @GetMapping(path="admin/getAllRequests")
-    public String getAllRequests () throws JSONException, AdminServiceException, ResourceNotFoundException {
+    public Map<String,Object> getAllRequests () throws JSONException, AdminServiceException, ResourceNotFoundException {
         //All requests : requestId, username , timestamp , request_type,  summoner_name gia to aist8etik to 8anou
         try{
-            JSONObject response = (JSONObject) adminService.getAllRequests();
+            Map<String,Object> response = adminService.getAllRequests();
             if (response==null) throw new ResourceNotFoundException("Error while Denying the request");
-            return response.toString();
+            return response;
         }catch (AdminServiceException e){
             throw new AdminServiceException("Internal Server Exception while getting exception");
         }
