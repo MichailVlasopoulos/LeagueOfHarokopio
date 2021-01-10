@@ -22,9 +22,10 @@ public class UserPassword {
     @JoinColumn(name = "user_id",columnDefinition = "INT(10) UNSIGNED")
     private User user;
 
-    public UserPassword(int user_id, String password_hash) {
+    public UserPassword(int user_id, String password_hash, User user) {
         this.user_id = user_id;
         this.password_hash = password_hash;
+        this.user = user;
     }
 
     public UserPassword() {
@@ -46,11 +47,11 @@ public class UserPassword {
         this.password_hash = password_hash;
     }
 
-    @Override
-    public String toString() {
-        return "UserPassword{" +
-                "user_id=" + user_id +
-                ", password_hash='" + password_hash + '\'' +
-                '}';
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

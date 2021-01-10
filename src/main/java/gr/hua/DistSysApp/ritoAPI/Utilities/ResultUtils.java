@@ -58,12 +58,11 @@ public class ResultUtils {
             return JsonUtils.stringToJsonObject("Status", "Failed");
         }
         if(response==null){
-            System.err.println("Expired API KEY or Wrong Summoner Name");
-            return JsonUtils.stringToJsonObject("Status", "Failed");
+            System.err.println("Expired API KEY or wrong summoner name");
+            return null;
         }
 
-        JSONObject jsonResults = new JSONObject(response);
-        return jsonResults;
+        return new JSONObject(response);
     }
 
     public static String getSummonersLeagueID(String url) throws JSONException {

@@ -147,6 +147,14 @@ public class User implements Serializable {
         this.requests = requests;
     }
 
+    public Authorities getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Authorities authorities) {
+        this.authorities = authorities;
+    }
+
     @Override
     public String toString() {
         return "User{" +

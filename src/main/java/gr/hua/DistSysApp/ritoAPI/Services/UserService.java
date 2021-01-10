@@ -144,20 +144,24 @@ public class UserService {
         return JsonUtils.stringToJsonObject("Status", "Successful");
     }
 
+    @Transactional
     public JSONObject Register(String username,String password, String firstName,String lastName, String email, String summonerName) throws PremiumUserServiceException, JSONException {
 
         try {
             User tempUser = userRepository.findByUsername(username);
-            if (tempUser != null) {
-                return JsonUtils.stringToJsonObject("Status", "Failed: User already exists!");
+            if (tempUser != null ) {
+                return JsonUtils.stringToJsonObject("Status", "Failed: Username already exists!");
             }
+            tempUser = userRepository.findByEmail(email);
+            if (tempUser != null) {
+                return JsonUtils.stringToJsonObject("Status", "Failed: Email already exists!");
+            }
+
             String url = UrlUtils.getSummonersURL(summonerName, API_KEY);
-
             JSONObject response = ResultUtils.getSummonerUrlResponse(url);
-            String summonerId = JsonUtils.getSummonerId(response);
-
-            if (summonerId == null)
+            if (response == null)
                 return JsonUtils.stringToJsonObject("Status", "Failed: Summoner not found");
+            String summonerId = JsonUtils.getSummonerId(response);
 
             User user = new User();
             user.setUsername(username);
@@ -168,21 +172,25 @@ public class UserService {
             user.setSummoner_id(summonerId);
             userRepository.saveAndFlush(user);
 
-            int userId = userRepository.findByUsername(username).getId();
             String passwordHash = passwordEncoder.encode(password);
-            UserPassword userPassword = new UserPassword(userId, passwordHash);
+            UserPassword userPassword = new UserPassword();
+            userPassword.setUser(user);
+            userPassword.setUser_id(user.getId());
+            userPassword.setPassword_hash(passwordHash);
             userPasswordRepository.saveAndFlush(userPassword);
 
-            Authorities authorities = new Authorities(userId, "ROLE_USER");
+
+            Authorities authorities = new Authorities();
+            authorities.setUser(user);
+            authorities.setUser_id(user.getId());
+            authorities.setRole("ROLE_USER");
             authoritiesRepository.saveAndFlush(authorities);
 
             return JsonUtils.stringToJsonObject("Status", "Successful");
         } catch (Exception e) {
+            e.printStackTrace();
             return JsonUtils.stringToJsonObject("Status", "exception");
-
 
         }
     }
-
-
-}
+    }
