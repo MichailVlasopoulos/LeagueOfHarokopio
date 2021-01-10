@@ -41,7 +41,7 @@ public class UserController {
         return "Hello, " + username + " you have: " + authentication.getAuthorities() + " authorities";
     }
 
-    @PostMapping(path="user/Register")
+    @PostMapping(path="user/register")
     public String Register (@RequestBody RegisterRequest registerRequest) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
             JSONObject response = userService.Register(registerRequest.getUsername(), registerRequest.getPassword(),registerRequest.getFirstName(), registerRequest.getLastName(), registerRequest.getEmail(),registerRequest.getSummonerName());
