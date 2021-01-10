@@ -124,18 +124,6 @@ public class PremiumUserService {
         return CreateSubscriptionRequest(user,cancelPremiumRequestType,null);
     }
 
-    public JSONObject requestGoPremium(String paysafePin) throws PremiumUserServiceException,JSONException {
-        //Get user data through jwt token
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        username = authentication.getName();
-        User user = userRepository.findByUsername(username);
-
-        //Check if there is a pending cancel premium request
-        if(Utils.isExistingSubscriptionPendingRequest(user.getId(),goPremiumRequestType,subscriptionRequestRepository,subscriptionRequestResultsRepository))
-            return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
-
-        return CreateSubscriptionRequest(user,cancelPremiumRequestType,paysafePin);
-    }
 
     @Transactional
     public JSONObject CreateRequest(int userId, String request_type) throws PremiumUserServiceException,JSONException {

@@ -1,6 +1,7 @@
 package gr.hua.DistSysApp.ritoAPI.Controllers.UserControllers;
 
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
+import gr.hua.DistSysApp.ritoAPI.Models.GoPremiumRequest;
 import gr.hua.DistSysApp.ritoAPI.Models.RegisterRequest;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import gr.hua.DistSysApp.ritoAPI.Services.AdminService;
@@ -44,6 +45,17 @@ public class UserController {
     public String Register (@RequestBody RegisterRequest registerRequest) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
             JSONObject response = userService.Register(registerRequest.getUsername(), registerRequest.getPassword(),registerRequest.getFirstName(), registerRequest.getLastName(), registerRequest.getEmail(),registerRequest.getSummonerName());
+            if (response==null) throw new ResourceNotFoundException("Error while making the request");
+            return response.toString();
+        }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
+
+    @PostMapping(path="user/goPremium")
+    public String goPremium (@RequestBody GoPremiumRequest goPremiumRequest) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = userService.requestGoPremium(goPremiumRequest.getPaysafe());
             if (response==null) throw new ResourceNotFoundException("Error while making the request");
             return response.toString();
         }catch (PremiumUserServiceException e){

@@ -38,6 +38,12 @@ public class UserService {
     @Autowired
     private AuthoritiesRepository authoritiesRepository;
 
+    @Autowired
+    private SubscriptionRequestRepository subscriptionRequestRepository;
+
+    @Autowired
+    private SubscriptionRequestResultsRepository subscriptionRequestResultsRepository;
+
     private Authentication authentication;
     private String username;
     private final static String API_KEY = "RGAPI-150dc81e-bdf7-4fb4-b55f-11a729f3caf5";
@@ -46,6 +52,8 @@ public class UserService {
     private final static String MyProfileRequestType = "My Profile";
     private final static String ChampionStatisticsRequestType = "Champion Statistics";
     private final static String LeaderboardsRequestType = "Leaderboards";
+    private final static String goPremiumRequestType = "Go Premium";
+    private final static String cancelPremiumRequestType = "Cancel Premium";
 
 
     public JSONObject requestMatchHistory() throws PremiumUserServiceException, JSONException {
@@ -126,6 +134,19 @@ public class UserService {
         }
     }
 
+    public JSONObject requestGoPremium(String paysafePin) throws PremiumUserServiceException,JSONException {
+        //Get user data through jwt token
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        //Check if there is a pending cancel premium request
+        if(Utils.isExistingSubscriptionPendingRequest(user.getId(),goPremiumRequestType,subscriptionRequestRepository,subscriptionRequestResultsRepository))
+            return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
+
+        return CreateSubscriptionRequest(user,goPremiumRequestType,paysafePin);
+    }
+
     @Transactional
     public JSONObject CreateRequest(int userId, String request_type,Timestamp timestamp) throws PremiumUserServiceException, JSONException {
 
@@ -142,6 +163,43 @@ public class UserService {
         requestResultsRepository.saveAndFlush(requestResults);
 
         return JsonUtils.stringToJsonObject("Status", "Successful");
+    }
+
+    @Transactional
+    public JSONObject CreateSubscriptionRequest(User user, String request_type,String paysafePin) throws PremiumUserServiceException,JSONException {
+
+        if(request_type.equalsIgnoreCase(cancelPremiumRequestType)) {
+            SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
+            subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));
+            subscriptionRequest.setRequest_type(request_type);
+            subscriptionRequest.setPaysafe_pin("-1");
+            subscriptionRequest.setUser(user);
+            subscriptionRequestRepository.saveAndFlush(subscriptionRequest);
+
+            SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
+            subscriptionRequestsResults.setSubscriptionRequest(subscriptionRequest);
+            subscriptionRequestsResults.setRequest_status("Pending");
+            subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
+            subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
+
+
+        }else{
+            SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
+            subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));
+            subscriptionRequest.setRequest_type(request_type);
+            subscriptionRequest.setPaysafe_pin(paysafePin);
+            subscriptionRequest.setUser(user);
+            subscriptionRequestRepository.saveAndFlush(subscriptionRequest);
+
+            SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
+            subscriptionRequestsResults.setSubscriptionRequest(subscriptionRequest);
+            subscriptionRequestsResults.setRequest_status("Pending");
+            subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
+            subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
+        }
+
+        return JsonUtils.stringToJsonObject("Status", "Successful");
+
     }
 
     @Transactional

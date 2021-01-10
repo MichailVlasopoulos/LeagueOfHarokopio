@@ -25,9 +25,18 @@ public class SubscriptionRequestsResults {
     public SubscriptionRequestsResults() {
     }
 
-    public SubscriptionRequestsResults(int subscription_request_id, String request_status) {
+    public SubscriptionRequestsResults(int subscription_request_id, String request_status, SubscriptionRequest subscriptionRequest) {
         this.subscription_request_id = subscription_request_id;
         this.request_status = request_status;
+        this.subscriptionRequest = subscriptionRequest;
+    }
+
+    public SubscriptionRequest getSubscriptionRequest() {
+        return subscriptionRequest;
+    }
+
+    public void setSubscriptionRequest(SubscriptionRequest subscriptionRequest) {
+        this.subscriptionRequest = subscriptionRequest;
     }
 
     public int getSubscription_request_id() {
