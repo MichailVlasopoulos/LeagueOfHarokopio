@@ -28,7 +28,7 @@ public class Utils {
 
     public static boolean isExistingSubscriptionPendingRequest(int userId , String requestType, SubscriptionRequestRepository subscriptionRequestRepository, SubscriptionRequestResultsRepository subscriptionRequestResultsRepository){
 
-        SubscriptionRequest subscriptionRequest =  subscriptionRequestRepository.findSubscriptionRequestByUseridAndRequestType(userId,requestType);
+        SubscriptionRequest subscriptionRequest =  subscriptionRequestRepository.findSubscriptionRequestByUseridAndRequestTypeOrdered(userId,requestType);
         if ( subscriptionRequest == null) {
             return false;
         }

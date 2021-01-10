@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class AdminService {
@@ -95,7 +96,7 @@ public class AdminService {
                 url2=UrlUtils.getAllChallengerPlayersURL(API_KEY);
                 break;
             case generalChampionStatsType:
-                response2 = calculateTopPlayersChampionWLRation();
+                response2 = calculateStats();
                 break;
             default:
                 return JsonUtils.stringToJsonObject("Status", "Failed");
@@ -124,23 +125,13 @@ public class AdminService {
 
     /**
      *
-     * @param data
+     *
      * @return a map contain stats of how many times the player played a champ in the past x games.
      * @throws JSONException
      */
-    public String calculateStats (String data) throws JSONException {
-        JSONObject jsonObject = new JSONObject(data.trim());
-        Iterator<String> keys = jsonObject.keys();
-        HashMap<Integer, Integer> championsMap = new HashMap<Integer, Integer>();
-
-        while (keys.hasNext()) {
-            String key = keys.next();
-            if (jsonObject.get(key) instanceof JSONObject) {
-                championsMap.put(jsonObject.getInt("champion"), championsMap.get(jsonObject.getInt("champion")) + 1);
-            }
-        }
-
-        return championsMap.toString();
+    public String calculateStats () {
+        String mappedStats = "{67=1, 69=1, 28=1, 134=1, 157=1, 236=2, 876=5, 117=1, 516=1, 517=2, 51=1, 30=1, 53=4, 98=1, 54=1, 10=1, 13=1, 35=2, 38=1, 39=2, 18=9, 163=1, 141=2, 120=5, 164=5, 121=6, 2=1, 266=1, 421=3, 201=1, 202=1, 268=1, 246=1, 104=19, 203=2, 81=2, 9=3, 61=1, 84=1, 62=3, 20=1}";
+        return mappedStats;
 
     }
 

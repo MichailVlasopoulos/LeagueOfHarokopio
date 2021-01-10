@@ -144,7 +144,7 @@ public class UserService {
         if(Utils.isExistingSubscriptionPendingRequest(user.getId(),goPremiumRequestType,subscriptionRequestRepository,subscriptionRequestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
-        return GoPremiumRequest(user,goPremiumRequestType,paysafePin);
+        return CreateSubscriptionRequest(user,goPremiumRequestType,paysafePin);
     }
 
     @Transactional
@@ -166,20 +166,22 @@ public class UserService {
     }
 
     @Transactional
-    public JSONObject GoPremiumRequest(User user, String request_type,String paysafePin) throws PremiumUserServiceException,JSONException {
+    public JSONObject CreateSubscriptionRequest(User user, String request_type,String paysafePin) throws PremiumUserServiceException,JSONException {
 
-        SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
-        subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));
-        subscriptionRequest.setRequest_type(request_type);
-        subscriptionRequest.setPaysafe_pin(paysafePin);
-        subscriptionRequest.setUser(user);
-        subscriptionRequestRepository.saveAndFlush(subscriptionRequest);
 
-        SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
-        subscriptionRequestsResults.setSubscriptionRequest(subscriptionRequest);
-        subscriptionRequestsResults.setRequest_status("Pending");
-        subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
-        subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
+            SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
+            subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));
+            subscriptionRequest.setRequest_type(request_type);
+            subscriptionRequest.setPaysafe_pin(paysafePin);
+            subscriptionRequest.setUser(user);
+            subscriptionRequestRepository.saveAndFlush(subscriptionRequest);
+
+            SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
+            subscriptionRequestsResults.setSubscriptionRequest(subscriptionRequest);
+            subscriptionRequestsResults.setRequest_status("Pending");
+            subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
+            subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
+
 
         return JsonUtils.stringToJsonObject("Status", "Successful");
 

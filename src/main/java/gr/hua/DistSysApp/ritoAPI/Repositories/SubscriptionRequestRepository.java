@@ -25,4 +25,7 @@ public interface SubscriptionRequestRepository extends JpaRepository<Subscriptio
 
     @Query(value = "SELECT * FROM Subscription_Requests WHERE user_id=?1 AND request_type=?2",nativeQuery = true)
     SubscriptionRequest findSubscriptionRequestByUseridAndRequestType(int UserId, String RequestType);
+
+    @Query(value = "SELECT * FROM Subscription_Requests WHERE user_id=?1 AND request_type=?2 ORDER BY created_at DESC LIMIT 1",nativeQuery = true)
+    SubscriptionRequest findSubscriptionRequestByUseridAndRequestTypeOrdered(int UserId, String RequestType);
 }

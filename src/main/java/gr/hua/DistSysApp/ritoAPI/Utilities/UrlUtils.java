@@ -21,6 +21,7 @@ public class UrlUtils {
      * @return Get a summoner by summoner name.
      */
     public static String getSummonersURL(String summonerName ,  String APIKey){
+        if(summonerName==null) return null;
         return "https://eun1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+summonerName.replace(" ","%20")+"?api_key="+APIKey;
     }
 
