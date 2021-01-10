@@ -38,7 +38,7 @@ public class AdminService {
     private final static String cancelPremiumRequestType = "Cancel Premium";
     private final static String generalChampionStatsType = "General Champion Stats";
 
-    private final static String API_KEY = "RGAPI-150dc81e-bdf7-4fb4-b55f-11a729f3caf5";
+    private final static String API_KEY = "RGAPI-92e160b8-3fb6-4fd1-b809-2383c1013437";
 
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
@@ -88,6 +88,7 @@ public class AdminService {
                 leagueId = ResultUtils.getSummonersLeagueID(tempResponse);
                 if ( !leagueId.equals("UNRANKED") ) {
                     url2 = UrlUtils.getLeaderBoardsURL(leagueId, API_KEY);
+                    response2 = Requests.get(url2);
                 } else {
                     response2="UNRANKED";
                 }
@@ -103,7 +104,7 @@ public class AdminService {
         }
 
 
-        if (!request.getRequest_type().equalsIgnoreCase(generalChampionStatsType) && !leagueId.equals("UNRANKED"))
+        if (!request.getRequest_type().equalsIgnoreCase(generalChampionStatsType) && !request.getRequest_type().equalsIgnoreCase(LeaderboardsRequestType))
         response2 = Requests.get(url2);
 
 

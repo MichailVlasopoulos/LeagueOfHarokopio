@@ -46,7 +46,7 @@ public class UserService {
 
     private Authentication authentication;
     private String username;
-    private final static String API_KEY = "RGAPI-150dc81e-bdf7-4fb4-b55f-11a729f3caf5";
+    private final static String API_KEY = "RGAPI-92e160b8-3fb6-4fd1-b809-2383c1013437";
 
     private final static String MatchHistoryRequestType = "Match History";
     private final static String MyProfileRequestType = "My Profile";
@@ -119,7 +119,7 @@ public class UserService {
         return CreateRequest(user.getId(),MyProfileRequestType,timestamp);
     }
 
-    public JSONObject showRequestResults(String requestType) throws PremiumUserServiceException, JSONException {
+    public String showRequestResults(String requestType) throws PremiumUserServiceException, JSONException {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
         User user = userRepository.findByUsername(username);
@@ -128,9 +128,11 @@ public class UserService {
         RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
 
         if(requestResults.getRequest_status().equals("PENDING") || requestResults.getRequest_status().equals("DENIED")) {
-            return  JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status());
+            //return  JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status());
+            return requestResults.getRequest_status();
         } else {
-            return JsonUtils.stringToJsonObject("Results", requestResults.getResults());
+            //return JsonUtils.stringToJsonObject("Results", requestResults.getResults());
+            return requestResults.getResults();
         }
     }
 
