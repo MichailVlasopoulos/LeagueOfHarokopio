@@ -17,11 +17,11 @@ public class AdminPremiumUserController {
     @Autowired
     private PremiumUserAdminService adminPremiumUserService;
 
-    @GetMapping(path="admin/acceptSubscriptionRequest")
+    @GetMapping(path="admin/updateSubscriptionRequest")
     @ResponseBody
-    public String acceptSubscriptionRequest (@RequestParam int requestId) throws JSONException, AdminServiceException, ResourceNotFoundException {
+    public String updateSubscriptionRequest (@RequestParam int requestId) throws JSONException, AdminServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = adminPremiumUserService.acceptSubscriptionRequest(requestId);
+            JSONObject response = adminPremiumUserService.updateSubscriptionRequest(requestId);
             if (response==null) throw new ResourceNotFoundException("Error while Accepting the request");
             return response.toString();
         }catch (AdminServiceException e){

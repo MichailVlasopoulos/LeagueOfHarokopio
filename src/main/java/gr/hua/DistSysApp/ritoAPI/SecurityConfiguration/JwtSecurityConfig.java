@@ -43,6 +43,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/user/requestMatchHistory").permitAll()//TODO THIS IS TEST
                 .and().authorizeRequests().antMatchers("/user/Register").permitAll() // TODO THIS IS TEST
                 .and().authorizeRequests().antMatchers("/users").permitAll() //TODO THIS IS TEST
+                .and().authorizeRequests().antMatchers("/admin/updateSubscriptionRequest").permitAll()
                 .and().authorizeRequests().antMatchers("/admin").hasRole("ADMIN") // I DID THIS, PLS TEST ME :)
                 .and().authorizeRequests().antMatchers("/user").hasRole("USER") // I DID THIS, PLS TEST ME :)
                 .anyRequest().authenticated().and()

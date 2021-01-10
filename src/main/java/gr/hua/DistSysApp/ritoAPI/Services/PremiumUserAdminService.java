@@ -20,20 +20,25 @@ public class PremiumUserAdminService {
     @Autowired
     private SubscriptionRequestRepository subscriptionRequestRepository;
 
-    @Autowired
-    private SubscriptionRequestResultsRepository subscriptionRequestResultsRepository;
+    private final static String goPremiumRequestType = "Go Premium";
 
-    public JSONObject acceptSubscriptionRequest(int requestId) throws JSONException,AdminServiceException {
+    public JSONObject updateSubscriptionRequest(int requestId) throws JSONException,AdminServiceException {
 
         //get the request
         SubscriptionRequest subscriptionRequest = subscriptionRequestRepository.findSubscriptionRequestByRequest_id(requestId);
-        SubscriptionRequestsResults subscriptionRequestsResults = subscriptionRequestResultsRepository.findSubscriptionRequestResultsByRequest_id(requestId);
+
+        //get the user
+        User user = subscriptionRequest.getUser();
 
         subscriptionRequestRepository.acceptSubscriptionRequest("ACCEPTED",subscriptionRequest.getSubscription_request_id());
-        authoritiesRepository.goPremium(user_id);
 
+        if(subscriptionRequest.getRequest_type().equals(goPremiumRequestType)) {
+            authoritiesRepository.goPremium(user.getId());
+        } else {
+            authoritiesRepository.cancelPremium(user.getId());
+        }
 
         return JsonUtils.stringToJsonObject("Status","Successful");
-
     }
+
 }
