@@ -168,22 +168,7 @@ public class UserService {
     @Transactional
     public JSONObject CreateSubscriptionRequest(User user, String request_type,String paysafePin) throws PremiumUserServiceException,JSONException {
 
-        if(request_type.equalsIgnoreCase(cancelPremiumRequestType)) {
-            SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
-            subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));
-            subscriptionRequest.setRequest_type(request_type);
-            subscriptionRequest.setPaysafe_pin("-1");
-            subscriptionRequest.setUser(user);
-            subscriptionRequestRepository.saveAndFlush(subscriptionRequest);
 
-            SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
-            subscriptionRequestsResults.setSubscriptionRequest(subscriptionRequest);
-            subscriptionRequestsResults.setRequest_status("Pending");
-            subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
-            subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
-
-
-        }else{
             SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
             subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));
             subscriptionRequest.setRequest_type(request_type);
@@ -196,7 +181,7 @@ public class UserService {
             subscriptionRequestsResults.setRequest_status("Pending");
             subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
             subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
-        }
+
 
         return JsonUtils.stringToJsonObject("Status", "Successful");
 
