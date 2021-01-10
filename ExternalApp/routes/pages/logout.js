@@ -6,7 +6,7 @@ router.use(cookieParser());
 
 router.route('/')
     .get((req,res)=>{
-        res.sendFile('/html/logout.html',{root:'public'});
+        res.render('logout');
     })
     .post((req,res)=>{
         res.cookie('LOHTOKEN',"");

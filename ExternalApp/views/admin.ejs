@@ -44,22 +44,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Sorin</td>
-                <td>Markov</td>
-                <td>YourTFTYasu</td>
-                <td>GetMatchHistory</td>
-                <td><button>Accept</button><button>Deny</button></td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>RNS</td>
-                <td>Bruh Moment</td>
-                <td>midorf33d</td>
-                <td>GetLeaderBoards</td>
-                <td><button>Accept</button><button>Deny</button></td>
-              </tr>
+              <% for(let i=0; i < requests.length; i++) { %>
+                <tr>
+                  <td><%= requests[i]%></td>
+                </tr>
+             <% } %>
             </tbody>
           </table>
       </div>      

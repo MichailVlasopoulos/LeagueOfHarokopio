@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
+    @Query(value = "SELECT * FROM Request ",nativeQuery = true)
+    List<Request> getAllRequests();
 
     @Query(value = "SELECT * FROM Request WHERE request_id=? AND user_id=?",nativeQuery = true)
     Request findRequestByRequest_idAndUserid(int requestId, int userId);

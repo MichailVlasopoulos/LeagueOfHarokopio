@@ -1,5 +1,5 @@
 const express = require('express');
-const jwtSecurity = require('../security/jwt.js'); 
+const jwtSecurity = require('../../security/jwt.js'); 
 const bodyParser = require('body-parser');
 const { default: Axios } = require('axios');
 
@@ -19,7 +19,7 @@ router.use((error,_req,res,next)=>{
 
 router.route('/')
     .get((_req,res)=>{
-        res.sendFile('/html/login.html',{root:'public'});
+        res.render('login');
     })
     .post((req,res)=>{
        let username = req.body.username;

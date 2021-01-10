@@ -4,35 +4,24 @@ const app = express();
 app.set('view engine','ejs');
 app.use(express.static('public'));
 
-const login = require('./routes/login.js');
-app.use('/login',login);
+app.use('/login',require('./routes/pages/login.js'));
+app.use('/logout',require('./routes/pages/logout.js'));
+app.use('/services',require('./routes/pages/services.js'));
+app.use('/resolved',require('./routes/pages/resolved.js'));
+app.use('/pending',require('./routes/pages/pending.js'));
+app.use('/premium',require('./routes/pages/premium.js'));
+app.use('/admin',require('./routes/pages/admin.js'));
+app.use('/profile',require('./routes/pages/profile.js'));
+app.use('/gopremium',require('./routes/pages/gopremium.js'));
 
-const user = require('./routes/user.js');
-app.use('/user',user);
+app.use('/register',require('./routes/pages/register.js'));
 
-const logout = require('./routes/logout.js');
-app.use('/logout',logout);
+app.use('/api/getMatchHistory',require('./routes/api/getMatchHistory.js'));
+app.use('/api/getLeaderboards',require('./routes/api/getLeaderboards.js'));
+app.use('/api/getChampions',require('./routes/api/getChampions.js'));
 
-const services = require('./routes/services.js');
-app.use('/services',services);
-
-const resolved = require('./routes/resolved.js');
-app.use('/resolved',resolved);
-
-const pending = require('./routes/pending.js');
-app.use('/pending',pending);
-
-const premium = require('./routes/premium.js');
-app.use('/premium',premium);
-
-const admin = require('./routes/admin.js');
-app.use('/admin',admin);
-
-const profile = require('./routes/profile.js');
-app.use('/profile',profile);
-
-const gopremium = require('./routes/gopremium.js');
-app.use('/gopremium',gopremium);
+app.use('/api/getPendings',require('./routes/api/getPendings.js'));
+app.use('/api/getResolved',require('./routes/api/getResolved.js'));
 
 app.get('/',(_req,res)=>{
     res.render('index');
