@@ -121,7 +121,7 @@ public class PremiumUserService {
         if(Utils.isExistingSubscriptionPendingRequest(user.getId(),cancelPremiumRequestType,subscriptionRequestRepository,subscriptionRequestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
-        return CreateSubscriptionRequest(user,cancelPremiumRequestType,null);
+        return CancelPremiumRequest(user,cancelPremiumRequestType,null);
     }
 
 
@@ -144,35 +144,19 @@ public class PremiumUserService {
     }
 
     @Transactional
-    public JSONObject CreateSubscriptionRequest(User user, String request_type,String paysafePin) throws PremiumUserServiceException,JSONException {
+    public JSONObject CancelPremiumRequest(User user, String request_type,String paysafePin) throws PremiumUserServiceException,JSONException {
 
-        if(request_type.equalsIgnoreCase(cancelPremiumRequestType)) {
-            SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
-            subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));
-            subscriptionRequest.setRequest_type(request_type);
-            subscriptionRequest.setPaysafe_pin("-1");
-            subscriptionRequest.setUser(user);
-            subscriptionRequestRepository.saveAndFlush(subscriptionRequest);
+        SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
+        subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        subscriptionRequest.setRequest_type(request_type);
+        subscriptionRequest.setPaysafe_pin("-1");
+        subscriptionRequest.setUser(user);
+        subscriptionRequestRepository.saveAndFlush(subscriptionRequest);
 
-            SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
-            subscriptionRequestsResults.setRequest_status("Pending");
-            subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
-            subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
-
-
-        }else{
-            SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
-            subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));
-            subscriptionRequest.setRequest_type(request_type);
-            subscriptionRequest.setPaysafe_pin(paysafePin);
-            subscriptionRequest.setUser(user);
-            subscriptionRequestRepository.saveAndFlush(subscriptionRequest);
-
-            SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
-            subscriptionRequestsResults.setRequest_status("Pending");
-            subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
-            subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
-        }
+        SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
+        subscriptionRequestsResults.setRequest_status("Pending");
+        subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
+        subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
 
         return JsonUtils.stringToJsonObject("Status", "Successful");
 
