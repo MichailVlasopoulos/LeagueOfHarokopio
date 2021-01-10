@@ -1,11 +1,7 @@
 package gr.hua.DistSysApp.ritoAPI.Services;
 
-import gr.hua.DistSysApp.ritoAPI.Models.Entities.Request;
-import gr.hua.DistSysApp.ritoAPI.Models.Entities.RequestResults;
-import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
-import gr.hua.DistSysApp.ritoAPI.Repositories.RequestRepository;
-import gr.hua.DistSysApp.ritoAPI.Repositories.RequestResultsRepository;
-import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.*;
+import gr.hua.DistSysApp.ritoAPI.Repositories.*;
 import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
 import gr.hua.DistSysApp.ritoAPI.Utilities.ResultUtils;
 import gr.hua.DistSysApp.ritoAPI.Utilities.UrlUtils;
@@ -35,6 +31,12 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserPasswordRepository userPasswordRepository;
+
+    @Autowired
+    private AuthoritiesRepository authoritiesRepository;
 
     private Authentication authentication;
     private String username;
@@ -142,16 +144,22 @@ public class UserService {
         return JsonUtils.stringToJsonObject("Status", "Successful");
     }
 
-    @Transactional
     public JSONObject Register(String username,String password, String firstName,String lastName, String email, String summonerName) throws PremiumUserServiceException, JSONException {
 
-        User user = userRepository.findByUsername(username);
-        if ( user != null ) {
-            String url = UrlUtils.getSummonersURL(summonerName,API_KEY);
+        try {
+            User tempUser = userRepository.findByUsername(username);
+            if (tempUser != null) {
+                return JsonUtils.stringToJsonObject("Status", "Failed: User already exists!");
+            }
+            String url = UrlUtils.getSummonersURL(summonerName, API_KEY);
+
             JSONObject response = ResultUtils.getSummonerUrlResponse(url);
             String summonerId = JsonUtils.getSummonerId(response);
-            if (summonerId==null)
+
+            if (summonerId == null)
                 return JsonUtils.stringToJsonObject("Status", "Failed: Summoner not found");
+
+            User user = new User();
             user.setUsername(username);
             user.setFirstName(firstName);
             user.setLastName(lastName);
@@ -162,13 +170,17 @@ public class UserService {
 
             int userId = userRepository.findByUsername(username).getId();
             String passwordHash = passwordEncoder.encode(password);
+            UserPassword userPassword = new UserPassword(userId, passwordHash);
+            userPasswordRepository.saveAndFlush(userPassword);
 
-
+            Authorities authorities = new Authorities(userId, "ROLE_USER");
+            authoritiesRepository.saveAndFlush(authorities);
 
             return JsonUtils.stringToJsonObject("Status", "Successful");
-        }
-        else {
-            return JsonUtils.stringToJsonObject("Status", "Failed: User already exists!");
+        } catch (Exception e) {
+            return JsonUtils.stringToJsonObject("Status", "exception");
+
+
         }
     }
 

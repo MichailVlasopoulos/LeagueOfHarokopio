@@ -21,7 +21,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findById(int id);
 
-
+    @Query(value = "SELECT * FROM user WHERE user_id=?",nativeQuery = true)
+    Boolean userExists(String username);
 
     //TODO DELETE AFTER USE
     @Query(value = "SELECT * FROM User WHERE username=? ",nativeQuery = true)

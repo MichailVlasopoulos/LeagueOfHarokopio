@@ -1,12 +1,13 @@
 package gr.hua.DistSysApp.ritoAPI.Models.Entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +36,9 @@ public class User {
     @PrimaryKeyJoinColumn
     private UserPassword userPassword;
 
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Authorities authorities;
 
     /*
     @OneToOne(cascade = CascadeType.ALL)

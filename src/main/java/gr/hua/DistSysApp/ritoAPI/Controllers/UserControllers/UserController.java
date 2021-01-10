@@ -1,6 +1,7 @@
 package gr.hua.DistSysApp.ritoAPI.Controllers.UserControllers;
 
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
+import gr.hua.DistSysApp.ritoAPI.Models.RegisterRequest;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
 import gr.hua.DistSysApp.ritoAPI.Services.AdminService;
 import gr.hua.DistSysApp.ritoAPI.Services.AdminServiceException;
@@ -40,10 +41,9 @@ public class UserController {
     }
 
     @PostMapping(path="user/Register")
-    @ResponseBody
-    public String Register (@RequestParam String username,@RequestParam String password,@RequestParam String firstName,@RequestParam String lastName,@RequestParam String email,@RequestParam String summonerName) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+    public String Register (@RequestBody RegisterRequest registerRequest) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = userService.Register(username,password,firstName,lastName,email,summonerName);
+            JSONObject response = userService.Register(registerRequest.getUsername(), registerRequest.getPassword(),registerRequest.getFirstName(), registerRequest.getLastName(), registerRequest.getEmail(),registerRequest.getSummonerName());
             if (response==null) throw new ResourceNotFoundException("Error while making the request");
             return response.toString();
         }catch (PremiumUserServiceException e){
