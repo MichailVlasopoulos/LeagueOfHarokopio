@@ -38,7 +38,7 @@ public class AdminService {
     private final static String cancelPremiumRequestType = "Cancel Premium";
     private final static String generalChampionStatsType = "General Champion Stats";
 
-    private final static String API_KEY = "RGAPI-92e160b8-3fb6-4fd1-b809-2383c1013437";
+    private final static String API_KEY = "RGAPI-41d34ab7-9d27-4e75-abfc-6e551104cf8c";
 
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();

@@ -154,7 +154,8 @@ public class PremiumUserService {
             subscriptionRequestRepository.saveAndFlush(subscriptionRequest);
 
             SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
-            subscriptionRequestsResults.setRequest_status("Pending");
+            subscriptionRequestsResults.setSubscriptionRequest(subscriptionRequest);
+            subscriptionRequestsResults.setRequest_status("PENDING");
             subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
             subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
 

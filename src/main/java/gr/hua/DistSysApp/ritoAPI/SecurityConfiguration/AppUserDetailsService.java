@@ -26,12 +26,13 @@ public class AppUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         gr.hua.DistSysApp.ritoAPI.Models.Entities.User user = userRepository.findByUsername(username);
+        String role = user.getAuthorities().getRole();
 
         if(user==null){
             throw new UsernameNotFoundException("paketovlaka");
         }
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // TODO change this with "get role from db"
+        authorities.add(new SimpleGrantedAuthority(role)); // TODO change this with "get role from db"
         return new User(user.getUsername(),user.getUserPassword().getPassword_hash(),authorities);
 
     }

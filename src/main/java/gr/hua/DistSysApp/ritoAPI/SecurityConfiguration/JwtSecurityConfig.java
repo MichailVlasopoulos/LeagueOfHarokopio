@@ -39,13 +39,15 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/authenticate").permitAll()
-                .and().authorizeRequests().antMatchers("/users").permitAll() //TODO THIS IS TEST
-                .and().authorizeRequests().antMatchers("/user/register").permitAll()
-                .and().authorizeRequests().antMatchers("/admin").hasRole("ADMIN") // I DID THIS, PLS TEST ME :)
-                .and().authorizeRequests().antMatchers("/user").hasRole("USER") // I DID THIS, PLS TEST ME :)
-                .and().authorizeRequests().antMatchers("/mainAdmin").hasRole("MAIN_ADMIN")
-                .and().authorizeRequests().antMatchers("/premiumAdmin").hasRole("PREMIUM_ADMIN")
+                .authorizeRequests()
+                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/users").permitAll() //TODO THIS IS TEST
+                .antMatchers("/user/register").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN") // I DID THIS, PLS TEST ME :)
+                .antMatchers("/user/**").hasRole("USER") // I DID THIS, PLS TEST ME :)
+                .antMatchers("/premiumUser/**").hasRole("PREMIUM_USER")
+                .antMatchers("/mainAdmin/**").hasRole("MAIN_ADMIN")
+                .antMatchers("/premiumAdmin/**").hasRole("PREMIUM_ADMIN")
                 .anyRequest().authenticated().and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

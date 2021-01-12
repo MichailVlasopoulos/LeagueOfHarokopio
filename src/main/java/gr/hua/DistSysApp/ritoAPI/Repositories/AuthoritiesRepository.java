@@ -19,11 +19,11 @@ public interface AuthoritiesRepository extends JpaRepository<Authorities,Integer
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query(value = "UPDATE Authorities SET role=ROLE_PREMIUM_USER WHERE user_id=?", nativeQuery = true)
+    @Query(value = "UPDATE Authorities SET role='ROLE_PREMIUM_USER' WHERE user_id=?", nativeQuery = true)
     void goPremium(int user_id);
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query(value = "UPDATE Authorities SET role=ROLE_USER WHERE user_id=?", nativeQuery = true)
+    @Query(value = "UPDATE Authorities SET role='ROLE_USER' WHERE user_id=?", nativeQuery = true)
     void cancelPremium(int user_id);
 }
