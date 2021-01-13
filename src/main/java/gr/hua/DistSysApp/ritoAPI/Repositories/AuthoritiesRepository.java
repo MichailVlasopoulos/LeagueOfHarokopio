@@ -14,8 +14,11 @@ public interface AuthoritiesRepository extends JpaRepository<Authorities,Integer
     @Query(value = "SELECT * FROM Authorities WHERE role=ROLE_USER OR role=ROLE_PREMIUM_USER ",nativeQuery = true)
     List<Authorities> getAllUsers();
 
-    @Query(value = "SELECT * FROM Authorities WHERE role=ROLE_USER_ADMIN OR role=ROLE_PREMIUM_ADMIN OR role=ROLE_MAIN_ADMIN ",nativeQuery = true)
+    @Query(value = "SELECT * FROM Authorities WHERE role=ROLE_ADMIN OR role=ROLE_PREMIUM_ADMIN OR role=ROLE_MAIN_ADMIN ",nativeQuery = true)
     List<Authorities> getAllAdmins();
+
+    @Query(value = "SELECT * FROM authorities WHERE role='ROLE_ADMIN' OR role='ROLE_PREMIUM_ADMIN' OR role='ROLE_MAIN_ADMIN' ",nativeQuery = true)
+    List<Authorities> getAdmins();
 
     @Modifying(clearAutomatically = true)
     @Transactional
