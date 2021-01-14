@@ -37,14 +37,14 @@ public class MainAdminService {
     private final static String ROLE_ADMIN = "ROLE_ADMIN";
     private final static String ROLE_PREMIUM_ADMIN = "ROLE_PREMIUM_ADMIN";
 
-    public String manageAllUsers(){
+    public String getAllUsers(){
         List<Authorities> allUsers = authoritiesRepository.getAllUsers();
 
         //TODO CONVERT TO JSON IF NEEDED
         return allUsers.toString();
     }
 
-    public String manageAllAdmins(){
+    public String getAllAdmins(){
         List<Authorities> allAdmins = authoritiesRepository.getAllAdmins();
 
         //TODO CONVERT TO JSON IF NEEDED
@@ -52,7 +52,7 @@ public class MainAdminService {
     }
 
     @Transactional
-    public JSONObject RegisterAdmin(String username, String password, String firstName, String lastName, String email, String summonerName, String role) throws PremiumUserServiceException, JSONException {
+    public JSONObject registerAdmin(String username, String password, String firstName, String lastName, String email, String summonerName, String role) throws PremiumUserServiceException, JSONException {
 
         try {
             User tempUser = userRepository.findByUsername(username);
@@ -112,7 +112,7 @@ public class MainAdminService {
     }
 
     @Transactional
-    public JSONObject DeleteAdmin(int user_id) throws PremiumUserServiceException, JSONException {
+    public JSONObject deleteAdmin(int user_id) throws PremiumUserServiceException, JSONException {
 
         try {
             //TODO check null exception

@@ -8,6 +8,7 @@ public class RegisterRequest {
     private String lastName;
     private String email;
     private String summonerName;
+    private String role;
 
     public RegisterRequest() {
     }
@@ -59,4 +60,8 @@ public class RegisterRequest {
     public void setSummonerName(String summonerName) {
         this.summonerName = summonerName;
     }
+
+    public String getRole() { return role; }
+
+    public void setRole(String role) { this.role = role; }
 }
