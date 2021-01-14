@@ -38,7 +38,7 @@ public class AdminService {
     private final static String cancelPremiumRequestType = "Cancel Premium";
     private final static String generalChampionStatsType = "General Champion Stats";
 
-    private final static String API_KEY = "RGAPI-41d34ab7-9d27-4e75-abfc-6e551104cf8c";
+    private final static String API_KEY = "RGAPI-a2c173c1-16e9-46a5-ba1b-d27da9054550";
 
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
@@ -46,16 +46,19 @@ public class AdminService {
 
     public JSONObject acceptRequest(int requestId) throws JSONException,AdminServiceException {
 
+
         //get the request
         Request request = requestRepository.findRequestByRequest_id(requestId);
         RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
+
+        if (requestResults.getRequest_status().equals("ACCEPTED"))
+            return JsonUtils.stringToJsonObject("Status", "Failed: This request has been accepted");
 
         //get the user
         User user = userRepository.findById(request.getUserid());
         String summonerName = user.getSummoner_name();
 
         //call RITO api - find summoner's encrypted ID'S
-        //String API_KEY = "RGAPI-127d784a-e23e-4757-8a5e-bb4c3a71240a";
         String url = UrlUtils.getSummonersURL(summonerName,API_KEY);
 
         JSONObject response = ResultUtils.getSummonerUrlResponse(url);
@@ -111,7 +114,6 @@ public class AdminService {
 
         if(response2 != null) {
             requestResultsRepository.updateRequest_Accept("ACCEPTED",response2,requestId);
-             //TODO WHEN CHECKED CHANGE TO "STATUS" "Successful"
             return JsonUtils.stringToJsonObject("Status","Successful");
         }else {
             return JsonUtils.stringToJsonObject("Status", "Failed");
@@ -120,7 +122,13 @@ public class AdminService {
     }
 
     public JSONObject denyRequest(int requestId) throws JSONException,AdminServiceException {
-        requestRepository.updateRequest_Deny("Denied",requestId);
+
+        RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
+
+        if (requestResults.getRequest_status().equals("DENIED"))
+            return JsonUtils.stringToJsonObject("Status", "Failed: This request has been denied");
+
+        requestRepository.updateRequest_Deny("DENIED",requestId);
         return JsonUtils.stringToJsonObject("Status", "Successful");
     }
 
