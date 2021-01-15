@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Control Panel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<table id="adminList">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Type</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="admin : ${adminList}">
+        <td th:text="${admin.getUser().getUsername()}"></td>
+        <td th:text="${admin.getRole()}"></td>
+        <td><button th:id="${admin.getUser_id()}">Delete</button></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

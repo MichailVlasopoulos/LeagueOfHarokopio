@@ -41,6 +41,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/users").permitAll() //TODO THIS IS TEST
                 .antMatchers("/user/register").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN") // I DID THIS, PLS TEST ME :)

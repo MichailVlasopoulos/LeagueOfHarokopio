@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Internal Login</title>
+</head>
+<body>
+<label>Username</label><input id="usernameInputField">
+<label>Password</label><input id="passwordInputField">
+<button id="loginButton">Login</button>
+<br>
+<div id="resultField"></div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    let usernameField = document.getElementById("usernameInputField");
+    let passwordField = document.getElementById("passwordInputField");
+    let resultField = document.getElementById('resultField');
+
+    document.getElementById("loginButton").addEventListener('click',()=>{
+        let username = usernameField.value.trim();
+        let password = passwordField.value.trim();
+        if(username && password){
+            axios.post('/authenticate',{
+                username:username,
+                password:password
+            })
+                .then(response=>{
+                    resultField.append(response.data.jwt);
+                })
+                .catch(error=>{
+                    resultField.innerHTML = '';
+                    resultField.append('Login Failed.');
+                });
+        }
+    });
+</script>
+</body>
+</html>
