@@ -32,7 +32,25 @@
     <main role="main">
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
-  
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Username</th>
+              <th scope="col">Pay Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let i=0; i < requests.length; i++){ %>
+            <tr>
+                <td><%= requests[i].id %></td>
+                <td><%= requests[i].username %></td>
+                <td><%= requests[i].paycode %></td>
+                <td><button>Accept</button><button>Deny</button></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
       </div>      
     </main>
 

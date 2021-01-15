@@ -25,7 +25,9 @@ router.route('/')
             res.render('adminControlPanel');
         }
         else if(hasRole(res.locals.payload.role,"ROLE_PREMIUM_ADMIN")){
-            res.render('premiumControlPanel');
+            // Axios.get premium requests here
+            let premium_requests = [{id:1,username:"Anig",paycode:"324r23"},{id:2,username:"Anig2",paycode:"324423"}];
+            res.render('premiumControlPanel',{requests:premium_requests});
         }
         else{
             res.redirect('/login');
