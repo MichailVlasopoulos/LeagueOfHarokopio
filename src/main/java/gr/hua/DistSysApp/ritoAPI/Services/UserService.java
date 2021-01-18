@@ -46,7 +46,7 @@ public class UserService {
 
     private Authentication authentication;
     private String username;
-    private final static String API_KEY = "RGAPI-92e160b8-3fb6-4fd1-b809-2383c1013437";
+    private final static String API_KEY = "RGAPI-150dc81e-bdf7-4fb4-b55f-11a729f3caf5";
 
     private final static String MatchHistoryRequestType = "Match History";
     private final static String MyProfileRequestType = "My Profile";
@@ -68,11 +68,11 @@ public class UserService {
         if (Utils.isExistingPendingRequest(user.getId(),MatchHistoryRequestType,requestRepository,requestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed: There is already a pending request");
 
-        return CreateRequest(user.getId(),MatchHistoryRequestType,timestamp);
+        return createRequest(user.getId(),MatchHistoryRequestType,timestamp);
 
     }
 
-    public JSONObject requestChampionStats() throws PremiumUserServiceException, JSONException {
+    public JSONObject requestChampionsMastery() throws PremiumUserServiceException, JSONException {
 
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
@@ -84,7 +84,7 @@ public class UserService {
         if (Utils.isExistingPendingRequest(user.getId(),ChampionStatisticsRequestType,requestRepository,requestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed: There is already a pending request");
 
-        return CreateRequest(user.getId(),ChampionStatisticsRequestType,timestamp);
+        return createRequest(user.getId(),ChampionStatisticsRequestType,timestamp);
 
     }
 
@@ -100,7 +100,7 @@ public class UserService {
         if (Utils.isExistingPendingRequest(user.getId(),LeaderboardsRequestType,requestRepository,requestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed: There is already a pending request");
 
-        return CreateRequest(user.getId(),LeaderboardsRequestType,timestamp);
+        return createRequest(user.getId(),LeaderboardsRequestType,timestamp);
 
     }
 
@@ -116,10 +116,10 @@ public class UserService {
         if (Utils.isExistingPendingRequest(user.getId(),MyProfileRequestType,requestRepository,requestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed: There is already a pending request");
 
-        return CreateRequest(user.getId(),MyProfileRequestType,timestamp);
+        return createRequest(user.getId(),MyProfileRequestType,timestamp);
     }
 
-    public String showRequestResults(String requestType) throws PremiumUserServiceException, JSONException {
+    public JSONObject showRequestResults(String requestType) throws PremiumUserServiceException, JSONException {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
         User user = userRepository.findByUsername(username);
@@ -128,11 +128,9 @@ public class UserService {
         RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
 
         if(requestResults.getRequest_status().equals("PENDING") || requestResults.getRequest_status().equals("DENIED")) {
-            //return  JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status());
-            return requestResults.getRequest_status();
+            return  JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status());
         } else {
-            //return JsonUtils.stringToJsonObject("Results", requestResults.getResults());
-            return requestResults.getResults();
+            return JsonUtils.stringToJsonObject("Results", requestResults.getResults());
         }
     }
 
@@ -146,11 +144,11 @@ public class UserService {
         if(Utils.isExistingSubscriptionPendingRequest(user.getId(),goPremiumRequestType,subscriptionRequestRepository,subscriptionRequestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
-        return CreateSubscriptionRequest(user,goPremiumRequestType,paysafePin);
+        return createSubscriptionRequest(user,goPremiumRequestType,paysafePin);
     }
 
     @Transactional
-    public JSONObject CreateRequest(int userId, String request_type,Timestamp timestamp) throws PremiumUserServiceException, JSONException {
+    public JSONObject createRequest(int userId, String request_type, Timestamp timestamp) throws PremiumUserServiceException, JSONException {
 
         Request request = new Request();
         request.setUserid(userId);
@@ -168,7 +166,7 @@ public class UserService {
     }
 
     @Transactional
-    public JSONObject CreateSubscriptionRequest(User user, String request_type,String paysafePin) throws PremiumUserServiceException,JSONException {
+    public JSONObject createSubscriptionRequest(User user, String request_type, String paysafePin) throws PremiumUserServiceException,JSONException {
 
 
             SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
@@ -180,7 +178,7 @@ public class UserService {
 
             SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
             subscriptionRequestsResults.setSubscriptionRequest(subscriptionRequest);
-            subscriptionRequestsResults.setRequest_status("PENDING");
+            subscriptionRequestsResults.setRequest_status("Pending");
             subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
             subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
 

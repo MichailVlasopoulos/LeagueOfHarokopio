@@ -1,11 +1,8 @@
 package gr.hua.DistSysApp.ritoAPI.Controllers.UserControllers;
 
-import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
 import gr.hua.DistSysApp.ritoAPI.Models.GoPremiumRequest;
 import gr.hua.DistSysApp.ritoAPI.Models.RegisterRequest;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
-import gr.hua.DistSysApp.ritoAPI.Services.AdminService;
-import gr.hua.DistSysApp.ritoAPI.Services.AdminServiceException;
 import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserServiceException;
 import gr.hua.DistSysApp.ritoAPI.Services.UserService;
 import gr.hua.DistSysApp.ritoAPI.exceptionHandling.ResourceNotFoundException;
@@ -15,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -77,9 +72,9 @@ public class UserController {
     @GetMapping(path="/user/showMatchHistory")
     public String getMatchHistory () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            String response = userService.showRequestResults(MatchHistoryRequestType);
+            JSONObject response = userService.showRequestResults(MatchHistoryRequestType);
             if (response==null) throw new ResourceNotFoundException("Match History Data not found");
-            return response;
+            return response.toString();
         }catch (PremiumUserServiceException e){
             throw new PremiumUserServiceException("Internal Server Exception while getting exception");
         }
@@ -99,7 +94,7 @@ public class UserController {
     @GetMapping(path="/user/showLeaderboards")
     public String getLeaderboards () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            String response = userService.showRequestResults(LeaderboardsRequestType);
+            JSONObject response = userService.showRequestResults(LeaderboardsRequestType);
             if (response==null) throw new ResourceNotFoundException("Match History Data not found");
             return response.toString();
         }catch (PremiumUserServiceException e){
@@ -121,7 +116,7 @@ public class UserController {
     @GetMapping(path="/user/showMyProfile")
     public String getMyProfile () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            String response = userService.showRequestResults(MyProfileRequestType);
+            JSONObject response = userService.showRequestResults(MyProfileRequestType);
             if (response==null) throw new ResourceNotFoundException("Match History Data not found");
             return response.toString();
         }catch (PremiumUserServiceException e){
@@ -132,7 +127,7 @@ public class UserController {
     @GetMapping(path="/user/requestChampionStatistics")
     public String requestChampionStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = userService.requestChampionStats();
+            JSONObject response = userService.requestChampionsMastery();
             if (response==null) throw new ResourceNotFoundException("Error while making the request");
             return response.toString();
         }catch (PremiumUserServiceException e){
@@ -143,7 +138,7 @@ public class UserController {
     @GetMapping(path="/user/showChampionStats")
     public String getChampionStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            String response = userService.showRequestResults(ChampionStatisticsRequestType);
+            JSONObject response = userService.showRequestResults(ChampionStatisticsRequestType);
             if (response==null) throw new ResourceNotFoundException("Match History Data not found");
             return response.toString();
         }catch (PremiumUserServiceException e){

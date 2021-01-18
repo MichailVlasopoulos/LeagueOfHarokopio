@@ -25,6 +25,8 @@ public class PremiumUserAdminService {
 
     private final static String goPremiumRequestType = "Go Premium";
 
+    //TODO filterSubscriptionRequest
+
     public JSONObject updateSubscriptionRequest(int requestId) throws JSONException,AdminServiceException {
 
         //get the request

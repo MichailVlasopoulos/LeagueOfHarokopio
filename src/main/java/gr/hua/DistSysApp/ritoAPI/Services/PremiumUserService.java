@@ -69,12 +69,15 @@ public class PremiumUserService {
 
         int user_id = user.getId();
 
+
+        //return topPlayersDBrepository.bringPlayers();
+
         //Check if there is already a request in this category
         //TODO FIX JSON
         if (Utils.isExistingPendingRequest(user_id,topPlayersProfilesRequestType,requestRepository,requestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
-        return CreateRequest(user_id,topPlayersProfilesRequestType);
+        return createRequest(user_id,topPlayersProfilesRequestType);
 
 
     }
@@ -92,7 +95,7 @@ public class PremiumUserService {
         if (Utils.isExistingPendingRequest(user_id,generalChampionStatsType,requestRepository,requestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
-        return CreateRequest(user_id,generalChampionStatsType);
+        return createRequest(user_id,generalChampionStatsType);
     }
 
     public JSONObject showRequestResults (String requestType) throws PremiumUserServiceException,JSONException {
@@ -121,12 +124,12 @@ public class PremiumUserService {
         if(Utils.isExistingSubscriptionPendingRequest(user.getId(),cancelPremiumRequestType,subscriptionRequestRepository,subscriptionRequestResultsRepository))
             return JsonUtils.stringToJsonObject("Status", "Failed ,There is already a pending request");
 
-        return CreateSubscriptionRequest(user,cancelPremiumRequestType);
+        return createSubscriptionRequest(user,cancelPremiumRequestType);
     }
 
 
     @Transactional
-    public JSONObject CreateRequest(int userId, String request_type) throws PremiumUserServiceException,JSONException {
+    public JSONObject createRequest(int userId, String request_type) throws PremiumUserServiceException,JSONException {
 
         Request request = new Request();
         request.setUserid(userId);
@@ -144,7 +147,7 @@ public class PremiumUserService {
     }
 
     @Transactional
-    public JSONObject CreateSubscriptionRequest(User user, String request_type) throws PremiumUserServiceException,JSONException {
+    public JSONObject createSubscriptionRequest(User user, String request_type) throws PremiumUserServiceException,JSONException {
 
             SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
             subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));

@@ -44,6 +44,16 @@ public class AdminService {
         return userRepository.findAll();
     }
 
+    //TODO CREATE filterRequests
+
+    public JSONObject filterRequests(String requestType) throws JSONException, AdminServiceException{
+        List<Request> requests;
+        requests = requestRepository.findRequestsByRequestType(requestType);
+        JSONObject listOfRequests = new JSONObject(requests.toString());
+        if(listOfRequests==null) return JsonUtils.stringToJsonObject("Status", "There are no requests");
+        return listOfRequests;
+    }
+
     public JSONObject acceptRequest(int requestId) throws JSONException,AdminServiceException {
 
 
@@ -51,6 +61,7 @@ public class AdminService {
         Request request = requestRepository.findRequestByRequest_id(requestId);
         RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
 
+        //TODO CHECK FOR REQEUST STATUS = DENIED
         if (requestResults.getRequest_status().equals("ACCEPTED"))
             return JsonUtils.stringToJsonObject("Status", "Failed: This request has been accepted");
 
