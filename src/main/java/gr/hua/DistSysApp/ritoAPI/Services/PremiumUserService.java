@@ -98,7 +98,7 @@ public class PremiumUserService {
         return createRequest(user_id,generalChampionStatsType);
     }
 
-    public JSONObject showRequestResults (String requestType) throws PremiumUserServiceException,JSONException {
+    public String showRequestResults (String requestType) throws PremiumUserServiceException,JSONException {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
         User user = userRepository.findByUsername(username);
@@ -107,9 +107,9 @@ public class PremiumUserService {
         RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
 
         if(requestResults.getRequest_status().equalsIgnoreCase("Pending") || requestResults.getRequest_status().equalsIgnoreCase("Denied") ) {
-            return JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status());
+            return JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status()).toString();
         } else {
-            return JsonUtils.stringToJsonObject("Results", requestResults.getResults());
+            return JsonUtils.stringToJsonObject("Results", requestResults.getResults()).toString();
         }
     }
 

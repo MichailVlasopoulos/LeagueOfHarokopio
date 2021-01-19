@@ -58,7 +58,7 @@ public class PremiumUserController {
     @ResponseBody
     public String showTopPlayersProfiles () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = premiumUserService.showRequestResults(topPlayersProfilesRequestType);
+            String response = premiumUserService.showRequestResults(topPlayersProfilesRequestType);
             if (response==null) throw new ResourceNotFoundException("Top Players Profiles could not be found");
             return response.toString();
         }catch (PremiumUserServiceException e){
@@ -81,7 +81,7 @@ public class PremiumUserController {
     @ResponseBody
     public String showGeneralChampionStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = premiumUserService.showRequestResults(generalChampionStatsType);
+            String response = premiumUserService.showRequestResults(generalChampionStatsType);
             if (response==null) throw new ResourceNotFoundException("Could not load General Champion Stats");
             return response.toString();
         }catch (PremiumUserServiceException e){
