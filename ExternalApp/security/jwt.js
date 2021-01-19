@@ -6,7 +6,6 @@ module.exports = {
         try{
             let token = req.cookies.LOHTOKEN;
             res.locals.payload = jwt.verify(token,TOKEN_SECRET);
-            //res.locals.payload = {role:"ROLE_ADMIN"}; // Fake roles for debugging.
             next();
         }
         catch{

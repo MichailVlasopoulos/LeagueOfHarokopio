@@ -22,7 +22,7 @@ router.use(cookieParser());
 
 router.route('/')
     .get(jwtSecurity.authenticateToken,(req,res)=>{
-        if(hasRole(res.locals.payload.role,"ROLE_ADMIN")){
+        if(hasRole(res.locals.payload.roles,["ROLE_ADMIN"])){
             res.render('admin',{requests:["1","2","3","4"]});
         }
         else{

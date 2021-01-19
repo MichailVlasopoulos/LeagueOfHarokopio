@@ -22,7 +22,7 @@ router.use(cookieParser());
 
 router.route('/handleRequest')
     .get(jwtSecurity.authenticateToken,(req,res)=>{
-        if(hasRole(res.locals.payload.role,"ROLE_ADMIN")){
+        if(hasRole(res.locals.payload.roles,["ROLE_ADMIN"])){
             if(req.body.action == "accept" && req.body.request_id){
                 // Axios accept with id
             }
