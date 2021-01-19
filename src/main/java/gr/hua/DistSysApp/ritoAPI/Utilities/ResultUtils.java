@@ -88,6 +88,7 @@ public class ResultUtils {
         if (response.equals("[]"))
             response = "UNRANKED";
 
+
         JSONArray jsonArray = new JSONArray(response);
         return JsonUtils.toList(jsonArray).get(8).toString();
         //return jsonObj.getString("leagueId");
