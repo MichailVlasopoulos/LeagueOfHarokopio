@@ -87,18 +87,18 @@ public class ResultUtils {
 
         if (response.equals("[]")) {
             response = "UNRANKED";
+        }else {
+            JSONArray jsonArray = new JSONArray(response);
+            String temp = JsonUtils.toList(jsonArray).get(0).toString();
+            temp.replace("{","");
+            temp.replace("}","");
+            String[] attr =  temp.split(",");
+            String leagueIDString = attr[8];
+            String[] leagueIDArray = leagueIDString.split("=");
+            String leagueID = leagueIDArray[1];
+            //return jsonObj.getString("leagueId");
+            response = leagueID;
         }
-
-        JSONArray jsonArray = new JSONArray(response);
-        String temp = JsonUtils.toList(jsonArray).get(0).toString();
-        temp.replace("{","");
-        temp.replace("}","");
-        String[] attr =  temp.split(",");
-        String leagueIDString = attr[8];
-        String[] leagueIDArray = leagueIDString.split("=");
-        String leagueID = leagueIDArray[1];
-        //return jsonObj.getString("leagueId");
-        response = leagueID;
 
         return response;
     }
