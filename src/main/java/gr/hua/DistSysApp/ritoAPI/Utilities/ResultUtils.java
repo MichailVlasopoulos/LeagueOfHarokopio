@@ -1,5 +1,6 @@
 package gr.hua.DistSysApp.ritoAPI.Utilities;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -87,7 +88,8 @@ public class ResultUtils {
         if (response.equals("[]"))
             response = "UNRANKED";
 
-        return response;
+        JSONArray jsonArray = new JSONArray(response);
+        return JsonUtils.toList(jsonArray).get(8).toString();
         //return jsonObj.getString("leagueId");
     }
 }
