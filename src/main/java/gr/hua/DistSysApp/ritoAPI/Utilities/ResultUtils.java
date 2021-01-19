@@ -90,7 +90,14 @@ public class ResultUtils {
 
 
         JSONArray jsonArray = new JSONArray(response);
-        return JsonUtils.toList(jsonArray).get(8).toString();
+        String temp = JsonUtils.toList(jsonArray).get(0).toString();
+        temp.replace("{","");
+        temp.replace("}","");
+        String[] attr =  temp.split(",");
+        String leagueIDString = attr[8];
+        String[] leagueIDArray = leagueIDString.split("=");
+        String leagueID = leagueIDArray[1];
         //return jsonObj.getString("leagueId");
+        return leagueID;
     }
 }
