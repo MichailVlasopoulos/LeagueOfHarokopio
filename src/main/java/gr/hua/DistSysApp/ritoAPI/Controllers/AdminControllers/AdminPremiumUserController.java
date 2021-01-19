@@ -17,7 +17,7 @@ public class AdminPremiumUserController {
     @Autowired
     private PremiumUserAdminService adminPremiumUserService;
 
-    @GetMapping(path="admin/updateSubscriptionRequest")
+    @GetMapping(path="premiumAdmin/updateSubscriptionRequest")
     @ResponseBody
     public String updateSubscriptionRequest (@RequestParam int requestId) throws JSONException, AdminServiceException, ResourceNotFoundException {
         try{
