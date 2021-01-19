@@ -98,7 +98,7 @@ public class ResultUtils {
         String[] leagueIDArray = leagueIDString.split("=");
         String leagueID = leagueIDArray[1];
         //return jsonObj.getString("leagueId");
-        response = UrlUtils.getLeaderBoardsURL(leagueID,"RGAPI-4037b92b-0756-43e6-9e7b-33edaac190aa");
+        response = leagueID;
 
         return response;
     }
