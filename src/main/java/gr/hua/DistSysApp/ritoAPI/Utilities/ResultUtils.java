@@ -85,9 +85,9 @@ public class ResultUtils {
 
         //TODO CHECK FOR SOLOQ OR FLEX WITH ITERATOR
 
-        if (response.equals("[]"))
+        if (response.equals("[]")) {
             response = "UNRANKED";
-
+        }
 
         JSONArray jsonArray = new JSONArray(response);
         String temp = JsonUtils.toList(jsonArray).get(0).toString();
@@ -98,6 +98,8 @@ public class ResultUtils {
         String[] leagueIDArray = leagueIDString.split("=");
         String leagueID = leagueIDArray[1];
         //return jsonObj.getString("leagueId");
-        return leagueID;
+        response = UrlUtils.getLeaderBoardsURL(leagueID,"RGAPI-4037b92b-0756-43e6-9e7b-33edaac190aa");
+
+        return response;
     }
 }
