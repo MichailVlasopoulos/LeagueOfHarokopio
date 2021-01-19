@@ -46,7 +46,7 @@ public class UserService {
 
     private Authentication authentication;
     private String username;
-    private final static String API_KEY = "RGAPI-150dc81e-bdf7-4fb4-b55f-11a729f3caf5";
+    private final static String API_KEY = "RGAPI-4037b92b-0756-43e6-9e7b-33edaac190aa";
 
     private final static String MatchHistoryRequestType = "Match History";
     private final static String MyProfileRequestType = "My Profile";

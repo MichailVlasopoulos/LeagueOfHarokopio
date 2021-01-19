@@ -45,7 +45,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users").permitAll() //TODO THIS IS TEST
                 .antMatchers("/user/register").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN") // I DID THIS, PLS TEST ME :)
-                .antMatchers("/user/**").hasRole("USER") // I DID THIS, PLS TEST ME :)
+                .antMatchers("/user/**").hasAnyRole("USER","PREMIUM_USER") // I DID THIS, PLS TEST ME :)
                 .antMatchers("/premiumUser/**").hasRole("PREMIUM_USER")
                 .antMatchers("/mainAdmin/**").hasRole("MAIN_ADMIN")
                 .antMatchers("/premiumAdmin/**").hasRole("PREMIUM_ADMIN")
