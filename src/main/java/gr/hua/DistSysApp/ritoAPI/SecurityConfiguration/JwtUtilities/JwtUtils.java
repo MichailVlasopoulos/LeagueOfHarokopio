@@ -39,15 +39,14 @@ public class JwtUtils {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) userDetails.getAuthorities();
-        GrantedAuthority role = authorities.stream().findFirst().get();
-        return createToken(claims, userDetails.getUsername(),role.toString());
+        return createToken(claims, userDetails.getUsername(),authorities);
     }
 
-    private String createToken(Map<String, Object> claims, String subject, String userRole) {
+    private String createToken(Map<String, Object> claims, String subject, Collection<GrantedAuthority> userRoles) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .claim("role",userRole)
+                .claim("roles",userRoles)
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 

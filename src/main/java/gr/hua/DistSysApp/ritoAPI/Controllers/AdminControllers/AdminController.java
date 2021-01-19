@@ -29,7 +29,6 @@ public class AdminController {
         return "Hello, you have: " + authentication.getAuthorities() + " authorities";
     }
 
-
     @GetMapping(path="/users")
     public String getAlLUsers () {
         return adminService.getAllUsers().toString();
