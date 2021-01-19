@@ -108,7 +108,8 @@ public class AdminService {
                 }
                 break;
             case topPlayersProfilesRequestType:
-                url2=UrlUtils.getAllChallengerPlayersURL(API_KEY);
+                //url2=UrlUtils.getAllChallengerPlayersURL(API_KEY);
+                response2=calculateTopPlayersSummonerNames();
                 break;
             case generalChampionStatsType:
                 response2 = calculateStats();
@@ -118,7 +119,7 @@ public class AdminService {
         }
 
 
-        if (!request.getRequest_type().equalsIgnoreCase(generalChampionStatsType) && !request.getRequest_type().equalsIgnoreCase(LeaderboardsRequestType))
+        if (!request.getRequest_type().equalsIgnoreCase(generalChampionStatsType) && !request.getRequest_type().equalsIgnoreCase(LeaderboardsRequestType) &&!request.getRequest_type().equalsIgnoreCase(topPlayersProfilesRequestType))
         response2 = Requests.get(url2);
 
 
@@ -168,7 +169,7 @@ public class AdminService {
         }
     }
 
-    public String calculateTopPlayersChampionWLRation() throws JSONException {
+    public String calculateTopPlayersSummonerNames() throws JSONException {
         //Bring top 10 players profiles
         //Bring last 20 games for all 10 players
         //analyze all 200 games
@@ -204,7 +205,7 @@ public class AdminService {
             }
         }
 
-        System.out.println(topPlayersSummonerNameList);
+        //System.out.println(topPlayersSummonerNameList);
 
 
         return topPlayersSummonerNameList.toString();
