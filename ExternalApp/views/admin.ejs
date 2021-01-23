@@ -35,18 +35,19 @@
         <table class="table">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Summoner Name</th>
+                <th scope="col">User ID</th>
+                <th scope="col">Request ID</th>
                 <th scope="col">Request Type</th>
                 <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <% for(let i=0; i < requests.length; i++) { %>
+              <% for(let i=0; i < Requests.length; i++) { %>
                 <tr>
-                  <td><%= requests[i]%></td>
+                  <td><%= Requests[i].userid%></td>
+                  <td><%= Requests[i].request_id%></td>
+                  <td><%= Requests[i].request_type%></td>
+                  <td><button class="action-button" id="accept-<%= Requests[i].request_id%>">Accept</button><button class="action-button" id="deny-<%= Requests[i].request_id%>">Deny</button></td>
                 </tr>
              <% } %>
             </tbody>
@@ -62,5 +63,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/admin/handleRequests.js"></script>
   </body>
 </html>

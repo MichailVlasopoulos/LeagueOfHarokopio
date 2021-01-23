@@ -1,12 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const jwtSecurity = require('../../security/jwt.js');
+const jwtSecurity = require('../../../security/jwt.js');
 const { default: Axios } = require('axios');
-const hasRole = require('../../security/roleChecker.js');
+const hasRole = require('../../../security/roleChecker.js');
 
 const router = express.Router();
-const internalSystemEndpoint = "http://localhost:8080/user"; 
 
 router.use(bodyParser.json());
 router.use((error,_req,res,next)=>{
@@ -20,16 +19,26 @@ router.use((error,_req,res,next)=>{
 
 router.use(cookieParser());
 
-router.route('/handleRequest')
-    .get(jwtSecurity.authenticateToken,(req,res)=>{
+router.route('/')
+    .post(jwtSecurity.authenticateToken,(req,res)=>{
         if(hasRole(res.locals.payload.roles,["ROLE_ADMIN"])){
-            if(req.body.action == "accept" && req.body.request_id){
-                // Axios accept with id
+            if((req.body.action == "accept" || req.body.action == "deny") && !isNaN(req.body.request_id)){
+                let internalSystemEndpoint = `http://localhost:8080/admin/updateRequest/${req.body.action}?requestId=${req.body.request_id}`;
+                let headers = {'Authorization':`Bearer ${req.cookies.LOHTOKEN}`}; 
+                Axios.get(internalSystemEndpoint,{headers:headers}) //TODO DO POST
+                .then(response=>{
+                    status = response.status;
+                })
+                .catch(error=>{
+                    status = 500;
+                })
+                .finally(()=>{
+                    res.sendStatus(status);
+                });
             }
-            else if(req.body.action == "deny" && req.body.request_id){
-                // Axios deny with id
+            else{
+                res.sendStatus(400);
             }
-            res.send(200);
         }
         else{
             res.status(403).json({response:"Unauthorized"});

@@ -16,12 +16,18 @@ app.use('/gopremium',require('./routes/pages/gopremium.js'));
 
 app.use('/register',require('./routes/pages/register.js'));
 
-app.use('/api/getMatchHistory',require('./routes/api/getMatchHistory.js'));
-app.use('/api/getLeaderboards',require('./routes/api/getLeaderboards.js'));
-app.use('/api/getChampions',require('./routes/api/getChampions.js'));
+app.use('/api/getMatchHistory',require('./routes/api/user/getMatchHistory.js'));
+app.use('/api/getLeaderboards',require('./routes/api/user/getLeaderboards.js'));
+app.use('/api/getChampions',require('./routes/api/user/getChampions.js'));
 
-app.use('/api/getPendings',require('./routes/api/getPendings.js'));
-app.use('/api/getResolved',require('./routes/api/getResolved.js'));
+app.use('/api/getPendings',require('./routes/api/user/getPendings.js'));
+app.use('/api/getResolved',require('./routes/api/user/getResolved.js'));
+
+app.use('/api/getTopPlayers',require('./routes/api/premium/getTopPlayers.js'));
+app.use('/api/getGeneralChampionStats',require('./routes/api/premium/getGeneralChampionStats.js'));
+app.use('/api/getgetLiveStats',require('./routes/api/premium/getLiveStats.js'));
+
+app.use('/api/handleRequest',require('./routes/api/admin/handleRequest.js'));
 
 app.get('/',(_req,res)=>{
     res.render('index');
