@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -197,18 +198,30 @@ public class UserService {
         User user = userRepository.findByUsername(username);
 
         List<Request> requests = user.getRequests();
-        List<RequestResults> pendingRequests = null;
+        List<RequestResults> pendingRequests = new ArrayList<>();
+
         RequestResults requestResults;
+        RequestResults tempResults = new RequestResults();
 
         for (Request request:requests) {
-            requestResults = requestResultsRepository.findRequestResultsByRequest_id(request.getRequest_id());
-            if (requestResults.getRequest_status().equals(requestStatus)) {
-                pendingRequests.add(requestResults);
-            } else if (requestStatus.equals("RESOLVED")) {
-                pendingRequests.add(requestResults);
-            } else {
-                return "There are no such requests";
-            }
+             requestResults = requestResultsRepository.findRequestResultsByRequest_id(request.getRequest_id());
+
+             String status = requestResults.getRequest_status();
+             if (status.equals("PENDING")) {
+                 tempResults.setRequest_status(status);
+                 tempResults.setRequest_id(requestResults.getRequest_id());
+                 tempResults.setResults(requestResults.getResults());
+                 pendingRequests.add(tempResults);
+                 System.out.println("lol");
+             }
+
+             if (requestStatus.equals("RESOLVED") && !(status.equals("PENDING"))){
+                 tempResults.setRequest_status(status);
+                 tempResults.setRequest_id(requestResults.getRequest_id());
+                 tempResults.setResults(requestResults.getResults());
+                 pendingRequests.add(tempResults);
+             }
+
         }
 
         ObjectMapper mapper = new ObjectMapper();

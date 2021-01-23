@@ -21,7 +21,7 @@ public class Utils {
         }
         int existentRequestId = testRequest.getRequest_id();
         RequestResults pendingRequestResult = requestResultsRepository.findRequestResultsByRequest_id(existentRequestId);
-        if (pendingRequestResult.getRequest_status().equalsIgnoreCase("Pending")){
+        if (pendingRequestResult.getRequest_status().equalsIgnoreCase("PENDING")){
             return true;
         }else return false;
     }
