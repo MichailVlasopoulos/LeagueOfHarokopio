@@ -1,5 +1,7 @@
 package gr.hua.DistSysApp.ritoAPI.Services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.*;
 import gr.hua.DistSysApp.ritoAPI.Repositories.*;
 import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -185,6 +188,32 @@ public class UserService {
 
         return JsonUtils.stringToJsonObject("Status", "Successful");
 
+    }
+
+    public String getMyRequests(String requestStatus) throws JSONException, AdminServiceException, JsonProcessingException {
+
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        List<Request> requests = user.getRequests();
+        List<RequestResults> pendingRequests = null;
+        RequestResults requestResults;
+
+        for (Request request:requests) {
+            requestResults = requestResultsRepository.findRequestResultsByRequest_id(request.getRequest_id());
+            if (requestResults.getRequest_status().equals(requestStatus)) {
+                pendingRequests.add(requestResults);
+            } else if (requestStatus.equals("RESOLVED")) {
+                pendingRequests.add(requestResults);
+            } else {
+                return "There are no such requests";
+            }
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(pendingRequests);
+        return json;
     }
 
     @Transactional

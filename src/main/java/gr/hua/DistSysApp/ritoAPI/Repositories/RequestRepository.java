@@ -33,8 +33,8 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query(value = "SELECT * FROM Request WHERE user_id=?1 AND request_type=?2 ORDER BY created_at DESC LIMIT 1",nativeQuery = true)
     Request findRequestByUseridAndRequestTypeOrdered(int UserId, String RequestType);
 
-    @Query(value = "SELECT * FROM Request WHERE user_id=?1 AND request_type=?2",nativeQuery = true)
-    List <Request> findRequestByUseridAndRequestType(int UserId, String RequestType);
+    @Query(value = "SELECT * FROM Request WHERE user_id=?",nativeQuery = true)
+    List <Request> findRequestByUserid(int UserId);
 
     @Query(value = "SELECT * FROM Request WHERE request_type=?1",nativeQuery = true)
     List <Request> findRequestsByRequestType(String RequestType);

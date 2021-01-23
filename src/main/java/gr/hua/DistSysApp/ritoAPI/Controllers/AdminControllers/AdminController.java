@@ -73,7 +73,7 @@ public class AdminController {
     }
 
     @GetMapping(path="/admin/filterRequests")
-    public String filterRequestsByRequest(String requestType) throws JSONException,  AdminServiceException, ResourceNotFoundException{
+    public String filterRequestsByRequest(@RequestParam String requestType) throws JSONException,  AdminServiceException, ResourceNotFoundException{
         try{
             String response = adminService.filterRequests(requestType).toString();
             if (response==null) throw new ResourceNotFoundException("Error retrieving all requests");

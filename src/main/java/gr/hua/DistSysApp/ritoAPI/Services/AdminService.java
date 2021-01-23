@@ -50,9 +50,9 @@ public class AdminService {
 
     //TODO CREATE filterRequests
 
-    public JSONObject filterRequests(String requestType) throws JSONException, AdminServiceException{
+    public JSONObject filterRequests(String requestStatus) throws JSONException, AdminServiceException{
         List<Request> requests;
-        requests = requestRepository.findRequestsByRequestType(requestType);
+        requests = requestResultsRepository.findRequestsByRequestStatus(requestStatus);
         JSONObject listOfRequests = new JSONObject(requests.toString());
         if(listOfRequests==null) return JsonUtils.stringToJsonObject("Status", "There are no requests");
         return listOfRequests;

@@ -1,8 +1,10 @@
 package gr.hua.DistSysApp.ritoAPI.Controllers.UserControllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gr.hua.DistSysApp.ritoAPI.Models.GoPremiumRequest;
 import gr.hua.DistSysApp.ritoAPI.Models.RegisterRequest;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
+import gr.hua.DistSysApp.ritoAPI.Services.AdminServiceException;
 import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserServiceException;
 import gr.hua.DistSysApp.ritoAPI.Services.UserService;
 import gr.hua.DistSysApp.ritoAPI.exceptionHandling.ResourceNotFoundException;
@@ -54,6 +56,17 @@ public class UserController {
             if (response==null) throw new ResourceNotFoundException("Error while making the request");
             return response.toString();
         }catch (PremiumUserServiceException e){
+            throw new PremiumUserServiceException("Internal Server Exception while getting exception");
+        }
+    }
+
+    @GetMapping(path="/user/getMyRequests")
+    public String getMyRequests (@RequestParam String requestStatus) throws JSONException, ResourceNotFoundException, PremiumUserServiceException {
+        try{
+            String response = userService.getMyRequests(requestStatus);
+            if (response==null) throw new ResourceNotFoundException("Error while making the request");
+            return response;
+        } catch (JsonProcessingException | AdminServiceException e) {
             throw new PremiumUserServiceException("Internal Server Exception while getting exception");
         }
     }
