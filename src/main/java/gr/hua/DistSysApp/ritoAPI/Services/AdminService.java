@@ -1,5 +1,8 @@
 package gr.hua.DistSysApp.ritoAPI.Services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysql.cj.xdevapi.JsonArray;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.Request;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.RequestResults;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
@@ -10,6 +13,7 @@ import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
 import gr.hua.DistSysApp.ritoAPI.Utilities.Requests;
 import gr.hua.DistSysApp.ritoAPI.Utilities.ResultUtils;
 import gr.hua.DistSysApp.ritoAPI.Utilities.UrlUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,17 +160,12 @@ public class AdminService {
 
     }
 
-    public String getAllRequests() throws JSONException,AdminServiceException{
+    public String getAllRequests() throws JSONException, AdminServiceException, JsonProcessingException {
         List<Request> allRequests = requestRepository.getAllRequests();
-        if(allRequests!=null) {
-            //JSONObject allRequestsJson = new JSONObject(allRequests.toString());
-            //return JsonUtils.jsonToMap(allRequestsJson);
-            return allRequests.toString();
-        }else{
-            //JSONObject response = JsonUtils.stringToJsonObject("Status", "There are 0 requests");
-            //return JsonUtils.jsonToMap(response);
-            return null;
-        }
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(allRequests);
+        return json;
+
     }
 
     public String calculateTopPlayersSummonerNames() throws JSONException {

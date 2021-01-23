@@ -1,5 +1,6 @@
 package gr.hua.DistSysApp.ritoAPI.Controllers.AdminControllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gr.hua.DistSysApp.ritoAPI.Services.AdminService;
 import gr.hua.DistSysApp.ritoAPI.Services.AdminServiceException;
 import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserServiceException;
@@ -34,7 +35,7 @@ public class AdminController {
         return adminService.getAllUsers().toString();
     }
 
-    @GetMapping(path="admin/updateRequest/accept")
+    @GetMapping(path="/admin/updateRequest/accept") // TODO DO POST
     @ResponseBody
     public String updateRequest_Accept (@RequestParam int requestId) throws JSONException, AdminServiceException, ResourceNotFoundException {
         try{
@@ -47,7 +48,7 @@ public class AdminController {
 
     }
 
-    @GetMapping(path="admin/updateRequest/deny")
+    @GetMapping(path="/admin/updateRequest/deny") // TODO DO POST
     @ResponseBody
     public String updateRequest_Deny (@RequestParam int requestId) throws JSONException, AdminServiceException, ResourceNotFoundException {
         try{
@@ -59,19 +60,19 @@ public class AdminController {
         }
     }
 
-    @GetMapping(path="admin/getAllRequests")
+    @GetMapping(path="/admin/getAllRequests")
     public String getAllRequests () throws JSONException, AdminServiceException, ResourceNotFoundException {
         //All requests : requestId, username , timestamp , request_type,  summoner_name gia to aist8etik to 8anou
         try{
-            String response = adminService.getAllRequests();
+            String response = "{\"Requests\":" + adminService.getAllRequests() + "}";
             if (response==null) throw new ResourceNotFoundException("Error retrieving all requests");
             return response;
-        }catch (AdminServiceException e){
+        }catch (AdminServiceException | JsonProcessingException e){
             throw new AdminServiceException("Internal Server Exception");
         }
     }
 
-    @GetMapping(path="admin/filterRequests")
+    @GetMapping(path="/admin/filterRequests")
     public String filterRequestsByRequest(String requestType) throws JSONException,  AdminServiceException, ResourceNotFoundException{
         try{
             String response = adminService.filterRequests(requestType).toString();
