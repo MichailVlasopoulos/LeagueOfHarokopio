@@ -2,7 +2,6 @@ package gr.hua.DistSysApp.ritoAPI.Services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.cj.xdevapi.JsonArray;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.Request;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.RequestResults;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.User;
@@ -13,14 +12,12 @@ import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
 import gr.hua.DistSysApp.ritoAPI.Utilities.Requests;
 import gr.hua.DistSysApp.ritoAPI.Utilities.ResultUtils;
 import gr.hua.DistSysApp.ritoAPI.Utilities.UrlUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class AdminService {
@@ -50,16 +47,14 @@ public class AdminService {
 
     //TODO CREATE filterRequests
 
-    public JSONObject filterRequests(String requestStatus) throws JSONException, AdminServiceException{
-        List<Request> requests;
-        requests = requestResultsRepository.findRequestsByRequestStatus(requestStatus);
-        JSONObject listOfRequests = new JSONObject(requests.toString());
-        if(listOfRequests==null) return JsonUtils.stringToJsonObject("Status", "There are no requests");
-        return listOfRequests;
+    public String filterRequests(String requestStatus) throws JSONException, AdminServiceException, JsonProcessingException {
+        List<RequestResults> requests = requestResultsRepository.findRequestsByRequestStatus(requestStatus);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(requests);
+        return json;
     }
 
     public JSONObject acceptRequest(int requestId) throws JSONException,AdminServiceException {
-
 
         //get the request
         Request request = requestRepository.findRequestByRequest_id(requestId);

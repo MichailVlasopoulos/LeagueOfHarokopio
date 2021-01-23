@@ -17,8 +17,8 @@ public interface RequestResultsRepository extends JpaRepository<RequestResults,I
     @Query(value = "SELECT * FROM Requests_Results WHERE request.user_id=?",nativeQuery = true)
     List<RequestResults> findRequestResultsByUserId(int user_id);
 
-    @Query(value = "SELECT * FROM Request_Results WHERE request_status=?",nativeQuery = true)
-    List<Request> findRequestsByRequestStatus(String RequestStatus);
+    @Query(value = "SELECT * FROM Requests_Results WHERE request_status=?",nativeQuery = true)
+    List<RequestResults> findRequestsByRequestStatus(String RequestStatus);
 
     @Modifying(clearAutomatically = true)
     @Transactional

@@ -78,7 +78,7 @@ public class AdminController {
             String response = adminService.filterRequests(requestType).toString();
             if (response==null) throw new ResourceNotFoundException("Error retrieving all requests");
             return response;
-        }catch (AdminServiceException e){
+        }catch (AdminServiceException | JsonProcessingException e){
             throw new AdminServiceException("Internal Server Exception");
         }
     }
