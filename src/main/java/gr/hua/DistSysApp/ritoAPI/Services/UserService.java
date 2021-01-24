@@ -123,7 +123,7 @@ public class UserService {
         return createRequest(user.getId(),MyProfileRequestType,timestamp);
     }
 
-    public JSONObject showRequestResults(String requestType) throws PremiumUserServiceException, JSONException {
+    public String showRequestResults(String requestType) throws PremiumUserServiceException, JSONException, JsonProcessingException {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
         User user = userRepository.findByUsername(username);
@@ -131,10 +131,11 @@ public class UserService {
         int requestId = request.getRequest_id();
         RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
 
+
         if(requestResults.getRequest_status().equals("PENDING") || requestResults.getRequest_status().equals("DENIED")) {
-            return  JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status());
+            return "Status"+requestResults.getRequest_status();
         } else {
-            return JsonUtils.stringToJsonObject("Results", requestResults.getResults());
+            return requestResults.getResults();
         }
     }
 

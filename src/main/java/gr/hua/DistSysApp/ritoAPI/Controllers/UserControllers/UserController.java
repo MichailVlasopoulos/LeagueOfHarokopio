@@ -85,10 +85,10 @@ public class UserController {
     @GetMapping(path="/user/showMatchHistory")
     public String getMatchHistory () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = userService.showRequestResults(MatchHistoryRequestType);
+            String response = userService.showRequestResults(MatchHistoryRequestType);
             if (response==null) throw new ResourceNotFoundException("Match History Data not found");
             return response.toString();
-        }catch (PremiumUserServiceException e){
+        }catch (PremiumUserServiceException | JsonProcessingException e){
             throw new PremiumUserServiceException("Internal Server Exception while getting exception");
         }
     }
@@ -107,10 +107,10 @@ public class UserController {
     @GetMapping(path="/user/showLeaderboards")
     public String getLeaderboards () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = userService.showRequestResults(LeaderboardsRequestType);
+            String response = userService.showRequestResults(LeaderboardsRequestType);
             if (response==null) throw new ResourceNotFoundException("Match History Data not found");
             return response.toString();
-        }catch (PremiumUserServiceException e){
+        }catch (PremiumUserServiceException | JsonProcessingException e){
             throw new PremiumUserServiceException("Internal Server Exception while getting exception");
         }
     }
@@ -129,10 +129,10 @@ public class UserController {
     @GetMapping(path="/user/showMyProfile")
     public String getMyProfile () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = userService.showRequestResults(MyProfileRequestType);
+            String response = userService.showRequestResults(MyProfileRequestType);
             if (response==null) throw new ResourceNotFoundException("Match History Data not found");
             return response.toString();
-        }catch (PremiumUserServiceException e){
+        }catch (PremiumUserServiceException | JsonProcessingException e){
             throw new PremiumUserServiceException("Internal Server Exception while getting exception");
         }
     }
@@ -151,10 +151,10 @@ public class UserController {
     @GetMapping(path="/user/showChampionStats")
     public String getChampionStats () throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = userService.showRequestResults(ChampionStatisticsRequestType);
+            String response = userService.showRequestResults(ChampionStatisticsRequestType);
             if (response==null) throw new ResourceNotFoundException("Match History Data not found");
             return response.toString();
-        }catch (PremiumUserServiceException e){
+        }catch (PremiumUserServiceException | JsonProcessingException e){
             throw new PremiumUserServiceException("Internal Server Exception while getting exception");
         }
     }
