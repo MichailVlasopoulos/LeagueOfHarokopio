@@ -50,7 +50,7 @@ public class UserService {
 
     private Authentication authentication;
     private String username;
-    private final static String API_KEY = "RGAPI-4037b92b-0756-43e6-9e7b-33edaac190aa";
+    private final static String API_KEY = "RGAPI-004f6b79-5217-4f61-a61d-d294dba386ba";
 
     private final static String MatchHistoryRequestType = "Match History";
     private final static String MyProfileRequestType = "My Profile";
@@ -204,7 +204,10 @@ public class UserService {
         RequestResults requestResults;
         RequestResults tempResults = new RequestResults();
 
+        //for each request
         for (Request request:requests) {
+
+             //get request results
              requestResults = requestResultsRepository.findRequestResultsByRequest_id(request.getRequest_id());
 
              String status = requestResults.getRequest_status();

@@ -27,4 +27,9 @@ public interface RequestResultsRepository extends JpaRepository<RequestResults,I
     @Transactional
     @Query(value = "UPDATE Requests_Results SET request_status=?1,results=?2 WHERE request_id=?3",nativeQuery = true)
     Integer updateRequest_Accept(String request_status, String results,int requestId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value = "UPDATE Request_Results SET request_status=?1 WHERE request_id=?2",nativeQuery = true)
+    Integer updateRequest_Deny(String request_status,int request_id);
 }

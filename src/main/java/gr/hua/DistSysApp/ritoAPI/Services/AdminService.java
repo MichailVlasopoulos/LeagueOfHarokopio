@@ -39,7 +39,7 @@ public class AdminService {
     private final static String cancelPremiumRequestType = "Cancel Premium";
     private final static String generalChampionStatsType = "General Champion Stats";
 
-    private final static String API_KEY = "RGAPI-4037b92b-0756-43e6-9e7b-33edaac190aa";
+    private final static String API_KEY = "RGAPI-004f6b79-5217-4f61-a61d-d294dba386ba";
 
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
@@ -59,10 +59,10 @@ public class AdminService {
         //get the request
         Request request = requestRepository.findRequestByRequest_id(requestId);
         RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
+        String status = requestResults.getRequest_status();
 
-        //TODO CHECK FOR REQEUST STATUS = DENIED
-        if (requestResults.getRequest_status().equals("ACCEPTED"))
-            return JsonUtils.stringToJsonObject("Status", "Failed: This request has been accepted");
+        if (status.equals("ACCEPTED") || status.equals("DENIED"))
+            return JsonUtils.stringToJsonObject("Status", "Failed: This request has been: "+status);
 
         //get the user
         User user = userRepository.findById(request.getUserid());
@@ -70,6 +70,8 @@ public class AdminService {
 
         //call RITO api - find summoner's encrypted ID'S
         String url = UrlUtils.getSummonersURL(summonerName,API_KEY);
+        if (url==null)
+            return JsonUtils.stringToJsonObject("Status", "Failed");
 
         JSONObject response = ResultUtils.getSummonerUrlResponse(url);
         if (response==null)
@@ -139,7 +141,7 @@ public class AdminService {
         if (requestResults.getRequest_status().equals("DENIED"))
             return JsonUtils.stringToJsonObject("Status", "Failed: This request has been denied");
 
-        requestRepository.updateRequest_Deny("DENIED",requestId);
+        requestResultsRepository.updateRequest_Deny("DENIED",requestId);
         return JsonUtils.stringToJsonObject("Status", "Successful");
     }
 
