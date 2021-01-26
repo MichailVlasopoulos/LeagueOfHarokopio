@@ -42,13 +42,15 @@
               </tr>
             </thead>
             <tbody>
+              <% if(Requests){ %>
               <% for(let i=0; i < Requests.length; i++) { %>
                 <tr>
                   <td><%= Requests[i].userid%></td>
                   <td><%= Requests[i].request_id%></td>
                   <td><%= Requests[i].request_type%></td>
-                  <td><button class="action-button" id="accept-<%= Requests[i].request_id%>">Accept</button><button class="action-button" id="deny-<%= Requests[i].request_id%>">Deny</button></td>
+                  <td><button class="action-button btn btn-secondary" id="accept-<%= Requests[i].request_id%>">Accept</button><button style="margin-left: 2%;" class="action-button btn btn-secondary" id="deny-<%= Requests[i].request_id%>">Deny</button></td>
                 </tr>
+             <% } %>
              <% } %>
             </tbody>
           </table>

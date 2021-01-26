@@ -23,11 +23,11 @@ router.use(cookieParser());
 router.route('/')
     .get(jwtSecurity.authenticateToken,(req,res)=>{
         if(hasRole(res.locals.payload.roles,["ROLE_ADMIN"])){
-            requestsJson = {}; 
+            let requestsJson; 
             let headers = {'Authorization':`Bearer ${req.cookies.LOHTOKEN}`};
             Axios.get(internalSystemEndpoint,{headers:headers})
-            .then(response =>{
-                requestsJson = response.data;
+            .then(response=>{
+                requestsJson = {Requests:response.data.Requests};
             })
             .finally(()=>{
                 res.render('admin',requestsJson);
