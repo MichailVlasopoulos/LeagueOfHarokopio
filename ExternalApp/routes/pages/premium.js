@@ -22,7 +22,7 @@ router.use(cookieParser());
 
 router.route('/')
     .get(jwtSecurity.authenticateToken,(req,res)=>{
-        if(hasRole(res.locals.payload.roles,["ROLE_PREMIUM"])){
+        if(hasRole(res.locals.payload.roles,["ROLE_PREMIUM_USER"])){
             res.render('premium',{});
         }
         else{

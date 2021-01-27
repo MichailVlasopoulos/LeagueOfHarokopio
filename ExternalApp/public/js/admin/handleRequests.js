@@ -9,7 +9,7 @@ Array.prototype.slice.call(buttons).forEach(button=>{
         let body = {action:action,request_id:request_id};        
         axios.post('/api/handleRequest',body)
         .then(response=>{
-            document.location = '/';
+            document.location = '/admin';
         })
         .catch(()=>{
             

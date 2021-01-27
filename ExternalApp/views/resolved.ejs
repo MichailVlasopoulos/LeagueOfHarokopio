@@ -25,9 +25,9 @@
           <li class="nav-item">
             <a class="nav-link" href="/">Home</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="/profile">My Profile</a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" href="/services">Services</a>
           </li>
@@ -60,10 +60,23 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
         <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Request ID</th>
+              <th scope="col">Request Status</th>
+              <th scope="col">Request Type</th>
+            </tr>
+          </thead>
           <tbody>
-            <br>
-            <br>
-         
+            <% if(Requests){ %>
+            <% for(let i=0; i < Requests.length; i++) { %>
+              <tr>
+                <td><%= Requests[i].request_id%></td>
+                <td><%= Requests[i].request_status%></td>
+                <td><%= Requests[i].request.request_type%></td>
+              </tr>
+           <% } %>
+           <% } %>
           </tbody>
         </table>
       </div>
@@ -79,5 +92,9 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>
+
+    </script>
+  
   </body>
 </html>
