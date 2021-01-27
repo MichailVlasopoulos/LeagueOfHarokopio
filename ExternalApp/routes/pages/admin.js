@@ -6,7 +6,7 @@ const { default: Axios } = require('axios');
 const hasRole = require('../../security/roleChecker.js');
 
 const router = express.Router();
-const internalSystemEndpoint = "http://localhost:8080/admin/getAllRequests"; 
+const internalSystemEndpoint = "http://localhost:8080/admin/getRequestsByType?requestType=PENDING"; 
 
 router.use(bodyParser.json());
 router.use((error,_req,res,next)=>{
@@ -27,7 +27,7 @@ router.route('/')
             let headers = {'Authorization':`Bearer ${req.cookies.LOHTOKEN}`};
             Axios.get(internalSystemEndpoint,{headers:headers})
             .then(response=>{
-                requestsJson = {Requests:response.data.Requests};
+                requestsJson = {Requests:response.data};
             })
             .finally(()=>{
                 res.render('admin',requestsJson);

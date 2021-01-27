@@ -6,7 +6,7 @@ const { default: Axios } = require('axios');
 const hasRole = require('../../security/roleChecker.js');
 
 const router = express.Router();
-const internalSystemEndpoint = "http://localhost:8080/user"; 
+const internalSystemEndpoint = "http://localhost:8080/user/getMyRequests?requestStatus=PENDING"; 
 
 router.use(bodyParser.json());
 router.use((error,_req,res,next)=>{
@@ -22,8 +22,16 @@ router.use(cookieParser());
 
 router.route('/')
     .get(jwtSecurity.authenticateToken,(req,res)=>{
-        if(hasRole(res.locals.payload.roles,["ROLE_USER"])){
-            res.render('pending',{});
+        if(hasRole(res.locals.payload.roles,["ROLE_USER","ROLE_PREMIUM_USER"])){
+            let requestsJson; 
+            let headers = {'Authorization':`Bearer ${req.cookies.LOHTOKEN}`};
+            Axios.get(internalSystemEndpoint,{headers:headers})
+            .then(response=>{
+                requestsJson = {Requests:response.data};
+            })
+            .finally(()=>{
+                res.render('pending',requestsJson);
+            });
         }
         else{
             res.redirect('/login');
