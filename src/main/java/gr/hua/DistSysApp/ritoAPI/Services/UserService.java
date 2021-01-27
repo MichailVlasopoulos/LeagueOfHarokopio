@@ -211,19 +211,21 @@ public class UserService {
              RequestResults tempResults=new RequestResults();
 
              String status = requestResults.getRequest_status();
-             if (status.equals("PENDING")) {
+             if (status.equals("PENDING") && !requestStatus.equals("RESOLVED")) {
                  tempResults.setRequest_status(status);
                  tempResults.setRequest_id(requestResults.getRequest_id());
                  tempResults.setResults(requestResults.getResults());
+                 tempResults.setRequest(requestResults.getRequest());
+                 pendingRequests.add(tempResults);
              }
 
              if (requestStatus.equals("RESOLVED") && !(status.equals("PENDING"))){
-                 tempResults.setRequest(null);
                  tempResults.setRequest_status(status);
                  tempResults.setRequest_id(requestResults.getRequest_id());
                  tempResults.setResults(requestResults.getResults());
+                 tempResults.setRequest(requestResults.getRequest());
+                 pendingRequests.add(tempResults);
              }
-             pendingRequests.add(tempResults);
 
         }
 

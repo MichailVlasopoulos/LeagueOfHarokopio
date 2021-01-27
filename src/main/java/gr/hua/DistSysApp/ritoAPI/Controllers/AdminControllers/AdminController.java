@@ -72,13 +72,14 @@ public class AdminController {
         }
     }
 
-    @GetMapping(path="/admin/filterRequests")
-    public String filterRequestsByRequest(@RequestParam String requestType) throws JSONException,  AdminServiceException, ResourceNotFoundException{
+    @GetMapping(path="/admin/getRequestsByType")
+    @ResponseBody
+    public String getRequestsByType(@RequestParam String requestType) throws JSONException,  AdminServiceException, ResourceNotFoundException{
         try{
-            String response = adminService.filterRequests(requestType).toString();
+            String response = adminService.filterRequests(requestType);
             if (response==null) throw new ResourceNotFoundException("Error retrieving all requests");
             return response;
-        }catch (AdminServiceException | JsonProcessingException e){
+        }catch (JsonProcessingException e){
             throw new AdminServiceException("Internal Server Exception");
         }
     }
