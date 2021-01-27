@@ -202,29 +202,28 @@ public class UserService {
         List<RequestResults> pendingRequests = new ArrayList<>();
 
         RequestResults requestResults;
-        RequestResults tempResults = new RequestResults();
 
         //for each request
         for (Request request:requests) {
 
              //get request results
              requestResults = requestResultsRepository.findRequestResultsByRequest_id(request.getRequest_id());
+             RequestResults tempResults=new RequestResults();
 
              String status = requestResults.getRequest_status();
              if (status.equals("PENDING")) {
                  tempResults.setRequest_status(status);
                  tempResults.setRequest_id(requestResults.getRequest_id());
                  tempResults.setResults(requestResults.getResults());
-                 pendingRequests.add(tempResults);
-                 System.out.println("lol");
              }
 
              if (requestStatus.equals("RESOLVED") && !(status.equals("PENDING"))){
+                 tempResults.setRequest(null);
                  tempResults.setRequest_status(status);
                  tempResults.setRequest_id(requestResults.getRequest_id());
                  tempResults.setResults(requestResults.getResults());
-                 pendingRequests.add(tempResults);
              }
+             pendingRequests.add(tempResults);
 
         }
 
