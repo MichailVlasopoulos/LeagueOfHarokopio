@@ -106,7 +106,7 @@ public class PremiumUserService {
         int requestId = request.getRequest_id();
         RequestResults requestResults = requestResultsRepository.findRequestResultsByRequest_id(requestId);
 
-        if(requestResults.getRequest_status().equalsIgnoreCase("Pending") || requestResults.getRequest_status().equalsIgnoreCase("Denied") ) {
+        if(requestResults.getRequest_status().equalsIgnoreCase("PENDING") || requestResults.getRequest_status().equalsIgnoreCase("DENIED") ) {
             return JsonUtils.stringToJsonObject("Status", requestResults.getRequest_status()).toString();
         } else {
             return JsonUtils.stringToJsonObject("Results", requestResults.getResults()).toString();

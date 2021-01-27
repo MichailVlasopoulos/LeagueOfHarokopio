@@ -50,7 +50,7 @@ public class UserService {
 
     private Authentication authentication;
     private String username;
-    private final static String API_KEY = "RGAPI-004f6b79-5217-4f61-a61d-d294dba386ba";
+    private final static String API_KEY = "RGAPI-87783ea1-00da-4c40-ab6f-991e812d7163";
 
     private final static String MatchHistoryRequestType = "Match History";
     private final static String MyProfileRequestType = "My Profile";
@@ -183,7 +183,7 @@ public class UserService {
 
             SubscriptionRequestsResults subscriptionRequestsResults = new SubscriptionRequestsResults();
             subscriptionRequestsResults.setSubscriptionRequest(subscriptionRequest);
-            subscriptionRequestsResults.setRequest_status("Pending");
+            subscriptionRequestsResults.setRequest_status("PENDING");
             subscriptionRequestsResults.setSubscription_request_id(subscriptionRequest.getSubscription_request_id());
             subscriptionRequestResultsRepository.saveAndFlush(subscriptionRequestsResults);
 
