@@ -55,7 +55,7 @@ public class PremiumUserAdminService {
     }
 
     public String filterRequests(String requestStatus) throws JSONException, AdminServiceException, JsonProcessingException {
-        List<RequestResults> requests = subscriptionRequestResultsRepository.findRequestsResultsByRequestStatus(requestStatus);
+        List<SubscriptionRequestsResults> requests = subscriptionRequestResultsRepository.findRequestsResultsByRequestStatus(requestStatus);
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(requests);
         return json;

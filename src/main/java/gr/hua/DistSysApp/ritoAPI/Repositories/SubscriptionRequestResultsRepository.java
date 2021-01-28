@@ -20,5 +20,5 @@ public interface SubscriptionRequestResultsRepository extends JpaRepository<Subs
     void acceptSubscriptionRequest(String request_status, int requestId);
 
     @Query(value = "SELECT * FROM subscription_requests_results WHERE request_status=?",nativeQuery = true)
-    List<RequestResults> findRequestsResultsByRequestStatus(String RequestStatus);
+    List<SubscriptionRequestsResults> findRequestsResultsByRequestStatus(String RequestStatus);
 }
