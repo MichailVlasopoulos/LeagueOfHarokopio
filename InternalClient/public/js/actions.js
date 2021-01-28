@@ -7,9 +7,9 @@ Array.prototype.slice.call(buttons).forEach(button=>{
         let request_id = button_id.split("-")[1];
         // let headers = {'Content-Type':'application/json'}
         let body = {action:action,request_id:request_id};        
-        axios.post('/api/handleRequest',body)
+        axios.post('/api/handlePremiumRequest',body)
         .then(response=>{
-            document.location = '/admin';
+            location.reload();
         })
         .catch(()=>{
             

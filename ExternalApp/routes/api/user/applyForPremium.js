@@ -6,6 +6,7 @@ const { default: Axios } = require('axios');
 const hasRole = require('../../../security/roleChecker.js');
 
 const router = express.Router();
+const internalSystemEndpoint = "http://localhost:8080/user/goPremium"; 
 
 router.use(bodyParser.json());
 router.use((error,_req,res,next)=>{
@@ -21,16 +22,18 @@ router.use(cookieParser());
 
 router.route('/')
     .post(jwtSecurity.authenticateToken,(req,res)=>{
-        if(hasRole(res.locals.payload.roles,["ROLE_ADMIN"])){
-            if((req.body.action == "accept" || req.body.action == "deny") && !isNaN(req.body.request_id)){
-                let internalSystemEndpoint = `http://localhost:8080/admin/updateRequest/${req.body.action}?requestId=${req.body.request_id}`;
-                let headers = {'Authorization':`Bearer ${req.cookies.LOHTOKEN}`}; 
-                Axios.get(internalSystemEndpoint,{headers:headers})
-                .then(response=>{
-                    status = response.status;
+        if(hasRole(res.locals.payload.roles,["ROLE_USER"])){
+            let pin = req.body.paysafe_pin.trim();
+            if(pin){
+                let headers = {'Authorization':`Bearer ${req.cookies.LOHTOKEN}`};
+                let body = {paysafe_pin:pin};
+                let status = 500;
+                Axios.post(internalSystemEndpoint,body,{headers:headers})
+                .then(response =>{
+                    status = 200;
                 })
                 .catch(error=>{
-                    status = 500;
+                    console.error(error);
                 })
                 .finally(()=>{
                     res.sendStatus(status);
@@ -41,7 +44,7 @@ router.route('/')
             }
         }
         else{
-            res.status(403).json({response:"Unauthorized"});
+            res.status(403).json({Status:"Unauthorized"});
         }
 });
 

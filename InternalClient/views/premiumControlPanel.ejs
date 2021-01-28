@@ -46,7 +46,7 @@
                 <td><%= requests[i].id %></td>
                 <td><%= requests[i].username %></td>
                 <td><%= requests[i].paycode %></td>
-                <td><button>Accept</button><button>Deny</button></td>
+                <td><button class="action-button btn btn-secondary" id="accept-<%= requests[i].id%>">Accept</button><button class="action-button btn btn-secondary" id="deny-<%= requests[i].id%>">Deny</button></td>
             </tr>
             <% } %>
           </tbody>
@@ -62,5 +62,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/actions.js"></script>
   </body>
 </html>

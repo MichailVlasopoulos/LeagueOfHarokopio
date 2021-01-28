@@ -4,9 +4,11 @@ const app = express();
 app.set('view engine','ejs');
 app.use(express.static('public'));
 
-app.use('/login',require('./routes/login.js'));
-app.use('/logout',require('./routes/logout.js'));
-app.use('/controlPanel',require('./routes/controlPanel.js'));
+app.use('/login',require('./routes/pages/login.js'));
+app.use('/logout',require('./routes/pages/logout.js'));
+app.use('/controlPanel',require('./routes/pages/controlPanel.js'));
+
+app.use('/api/handlePremiumRequest',require('./routes/api/handlePremiumRequest.js'));
 
 app.get('/',(req,res)=>{
     res.redirect('/controlPanel');

@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const jwt = require('../security/jwt.js');
-const hasRole = require('../security/roleChecker.js');
-
-const internalEndpoint = "http://localhost:8080/authenticate";
+const jwt = require('../../security/jwt.js');
+const hasRole = require('../../security/roleChecker.js');
+const { default: Axios } = require('axios');
 
 router.use(bodyParser.json());
 router.use((error,_req,res,next)=>{
@@ -25,9 +24,17 @@ router.route('/')
             res.render('adminControlPanel');
         }
         else if(hasRole(res.locals.payload.role,"ROLE_PREMIUM_ADMIN")){
-            // Axios.get premium requests here
-            let premium_requests = [{id:1,username:"Anig",paycode:"324r23"},{id:2,username:"Anig2",paycode:"324423"}];
-            res.render('premiumControlPanel',{requests:premium_requests});
+            let requests;
+            Axios.get('http://localhost:8080/premiumAdmin/getRequestsByType?requestType=PENDING')
+                .then(response=>{
+                    
+                })
+                .catch(()=>{
+                    requests = {};
+                })
+                .finally(()=>{
+                    res.render('premiumControlPanel',{requests:premium_requests});
+                });
         }
         else{
             res.redirect('/login');

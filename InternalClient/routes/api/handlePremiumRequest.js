@@ -21,11 +21,11 @@ router.use(cookieParser());
 
 router.route('/')
     .post(jwtSecurity.authenticateToken,(req,res)=>{
-        if(hasRole(res.locals.payload.roles,["ROLE_ADMIN"])){
+        if(hasRole(res.locals.payload.roles,["ROLE_PREMIUM_ADMIN"])){
             if((req.body.action == "accept" || req.body.action == "deny") && !isNaN(req.body.request_id)){
                 let internalSystemEndpoint = `http://localhost:8080/admin/updateRequest/${req.body.action}?requestId=${req.body.request_id}`;
                 let headers = {'Authorization':`Bearer ${req.cookies.LOHTOKEN}`}; 
-                Axios.get(internalSystemEndpoint,{headers:headers})
+                Axios.get(internalSystemEndpoint,{headers:headers}) //TODO DO POST
                 .then(response=>{
                     status = response.status;
                 })

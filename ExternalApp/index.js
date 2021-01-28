@@ -19,6 +19,7 @@ app.use('/register',require('./routes/pages/register.js'));
 app.use('/api/getMatchHistory',require('./routes/api/user/getMatchHistory.js'));
 app.use('/api/getLeaderboards',require('./routes/api/user/getLeaderboards.js'));
 app.use('/api/getChampions',require('./routes/api/user/getChampions.js'));
+app.use('/api/applyForPremium',require('./routes/api/user/applyForPremium.js'));
 
 app.use('/api/getPendings',require('./routes/api/user/getPendings.js'));
 app.use('/api/getResolved',require('./routes/api/user/getResolved.js'));
