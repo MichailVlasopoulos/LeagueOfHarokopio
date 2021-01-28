@@ -56,8 +56,22 @@ public class PremiumUserAdminService {
 
     public String filterRequests(String requestStatus) throws JSONException, AdminServiceException, JsonProcessingException {
         List<SubscriptionRequestsResults> requests = subscriptionRequestResultsRepository.findRequestsResultsByRequestStatus(requestStatus);
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(requests);
+        String json = "\"Requests\": {\n";
+        for (int i=0; i<requests.size(); i++){
+            if(i==requests.size()-1){
+                json.concat("\"Request\": { \n");
+                json.concat("\"subscription_request_id\":"+requests.get(i).getSubscription_request_id()+",\n");
+                json.concat("\"subscription_request_status\":"+"\""+requests.get(i).getRequest_status()+"\",\n");
+                json.concat("\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\",\n }");
+
+                }
+            json.concat("\"Request\": { \n");
+            json.concat("\"subscription_request_id\":"+requests.get(i).getSubscription_request_id()+",\n");
+            json.concat("\"subscription_request_status\":"+"\""+requests.get(i).getRequest_status()+"\",\n");
+            json.concat("\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\",\n },");
+
+
+        }
         return json;
     }
 
