@@ -35,6 +35,7 @@ public class SubscriptionRequest {
     @JoinColumn(name = "user_id",nullable = false,referencedColumnName = "user_id")
     private User user;
 
+
     //PK to SubscriptionRequestsResults
     @OneToOne(mappedBy = "subscriptionRequest",cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn

@@ -23,6 +23,7 @@ public class RequestResults {
     @JoinColumn(name = "request_id",columnDefinition = "INT(10) UNSIGNED")
     private Request request;
 
+
     public RequestResults(int request_id, String results, String request_status) {
         this.request_id = request_id;
         this.results = results;

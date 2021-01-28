@@ -16,6 +16,7 @@ public class UserPassword {
     @Column(name = "password_hash",nullable = false,length = 128)
     private String password_hash;
 
+
     //FK from user
     @OneToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @MapsId

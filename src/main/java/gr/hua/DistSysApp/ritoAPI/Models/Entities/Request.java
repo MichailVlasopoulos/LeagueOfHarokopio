@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 @Table(name = "request")
 public class Request {
 
+
     @Column(name = "user_id",nullable = false,columnDefinition = "INT(10) UNSIGNED")
     private int userid;
 

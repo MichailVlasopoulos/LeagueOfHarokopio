@@ -24,6 +24,7 @@ public class Authorities implements Serializable {
 
     //FK from user
 
+
     @OneToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @MapsId
     @JoinColumn(name = "user_id",columnDefinition = "INT(10) UNSIGNED")
