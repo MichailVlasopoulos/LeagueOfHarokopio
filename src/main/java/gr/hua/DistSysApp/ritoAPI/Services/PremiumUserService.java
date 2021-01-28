@@ -33,7 +33,7 @@ public class PremiumUserService {
 
     private Authentication authentication;
     private String username;
-    private final String API_KEY = "RGAPI-4037b92b-0756-43e6-9e7b-33edaac190aa";
+    private final String API_KEY = "RGAPI-fb451796-c82a-4ebf-a2dc-b93e891ff1b5";
 
     private final static String topPlayersProfilesRequestType = "Top Players Profiles";
     private final static String cancelPremiumRequestType = "Cancel Premium";

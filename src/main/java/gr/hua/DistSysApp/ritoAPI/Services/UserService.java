@@ -50,7 +50,7 @@ public class UserService {
 
     private Authentication authentication;
     private String username;
-    private final static String API_KEY = "RGAPI-87783ea1-00da-4c40-ab6f-991e812d7163";
+    private final static String API_KEY = "RGAPI-fb451796-c82a-4ebf-a2dc-b93e891ff1b5";
 
     private final static String MatchHistoryRequestType = "Match History";
     private final static String MyProfileRequestType = "My Profile";

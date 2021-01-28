@@ -1,6 +1,7 @@
 package gr.hua.DistSysApp.ritoAPI.Controllers.UserControllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import gr.hua.DistSysApp.ritoAPI.Models.Entities.SubscriptionRequest;
 import gr.hua.DistSysApp.ritoAPI.Models.GoPremiumRequest;
 import gr.hua.DistSysApp.ritoAPI.Models.RegisterRequest;
 import gr.hua.DistSysApp.ritoAPI.Repositories.UserRepository;
@@ -50,9 +51,9 @@ public class UserController {
     }
 
     @PostMapping(path="user/goPremium")
-    public String goPremium (@RequestBody String paysafe_pin) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+    public String goPremium (@RequestBody SubscriptionRequest request) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = userService.requestGoPremium(paysafe_pin);
+            JSONObject response = userService.requestGoPremium(request.getPaysafe_pin());
             if (response==null) throw new ResourceNotFoundException("Error while making the request");
             return response.toString();
         }catch (PremiumUserServiceException e){

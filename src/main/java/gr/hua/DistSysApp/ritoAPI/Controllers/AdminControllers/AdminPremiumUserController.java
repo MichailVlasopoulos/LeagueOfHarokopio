@@ -39,6 +39,7 @@ public class AdminPremiumUserController {
             if (response==null) throw new ResourceNotFoundException("Error retrieving all requests");
             return response;
         }catch (JsonProcessingException e){
+            System.err.println(e);
             throw new AdminServiceException("Internal Server Exception");
         }
     }
