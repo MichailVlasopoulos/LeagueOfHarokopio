@@ -1,5 +1,7 @@
 package gr.hua.DistSysApp.ritoAPI.Services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gr.hua.DistSysApp.ritoAPI.Models.Entities.*;
 import gr.hua.DistSysApp.ritoAPI.Repositories.*;
 import gr.hua.DistSysApp.ritoAPI.Utilities.JsonUtils;
@@ -10,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PremiumUserAdminService {
@@ -48,6 +52,13 @@ public class PremiumUserAdminService {
         }
 
         return JsonUtils.stringToJsonObject("Status","Successful");
+    }
+
+    public String filterRequests(String requestStatus) throws JSONException, AdminServiceException, JsonProcessingException {
+        List<RequestResults> requests = subscriptionRequestResultsRepository.findRequestsResultsByRequestStatus(requestStatus);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(requests);
+        return json;
     }
 
 }

@@ -1,5 +1,6 @@
 package gr.hua.DistSysApp.ritoAPI.Controllers.AdminControllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserAdminService;
 import gr.hua.DistSysApp.ritoAPI.Services.AdminServiceException;
 import gr.hua.DistSysApp.ritoAPI.exceptionHandling.ResourceNotFoundException;
@@ -30,5 +31,16 @@ public class AdminPremiumUserController {
 
     }
 
+    @GetMapping(path="/premiumAdmin/getRequestsByType")
+    @ResponseBody
+    public String getRequestsByType(@RequestParam String requestType) throws JSONException,  AdminServiceException, ResourceNotFoundException{
+        try{
+            String response = adminPremiumUserService.filterRequests(requestType);
+            if (response==null) throw new ResourceNotFoundException("Error retrieving all requests");
+            return response;
+        }catch (JsonProcessingException e){
+            throw new AdminServiceException("Internal Server Exception");
+        }
+    }
     //TODO filterSubscriptionRequest()
 }
