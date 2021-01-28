@@ -50,9 +50,9 @@ public class UserController {
     }
 
     @PostMapping(path="user/goPremium")
-    public String goPremium (@RequestBody GoPremiumRequest goPremiumRequest) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
+    public String goPremium (@RequestBody String paysafe_pin) throws JSONException, PremiumUserServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = userService.requestGoPremium(goPremiumRequest.getPaysafe());
+            JSONObject response = userService.requestGoPremium(paysafe_pin);
             if (response==null) throw new ResourceNotFoundException("Error while making the request");
             return response.toString();
         }catch (PremiumUserServiceException e){
