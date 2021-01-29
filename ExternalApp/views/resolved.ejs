@@ -10,10 +10,14 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/tableStyling.css" rel="stylesheet">
   </head>
 
   <body>
 
+   
+  
+    
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="/">League Of Harokopio</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,6 +69,7 @@
               <th scope="col">Request ID</th>
               <th scope="col">Request Status</th>
               <th scope="col">Request Type</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -74,15 +79,50 @@
                 <td><%= Requests[i].request_id%></td>
                 <td><%= Requests[i].request_status%></td>
                 <td><%= Requests[i].request.request_type%></td>
+                <% if(Requests[i].request_status=='ACCEPTED'){ %>
+                  <td><button class="view-button btn btn-secondary" data-toggle="modal" data-target="#myModal" id="<%= Requests[i].request_id%>">View</button></td>
+              <% }else{%>
+                  <td></td>
+              <% } %>
               </tr>
            <% } %>
            <% } %>
           </tbody>
         </table>
       </div>
-
+  
+      <!-- The Modal -->
+      <div class="modal" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+          
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Results:</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body" id="modal-div">
+              
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
       
-    </main>
+    </div>
+
+
+
+
+
+  </main>
 
     <footer class="container">
       <p>&copy; League Of Harokopio 2020-2021</p>
@@ -92,9 +132,11 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>
-
+   <script>
+      var all_requests = <%- JSON.stringify(Requests) %>
     </script>
-  
+    <script defer src="js/services/viewResults.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
