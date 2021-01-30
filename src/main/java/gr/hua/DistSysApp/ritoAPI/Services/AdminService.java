@@ -45,9 +45,7 @@ public class AdminService {
         return userRepository.findAll();
     }
 
-    //TODO CREATE filterRequests
-
-    public String filterRequests(String requestStatus) throws JSONException, AdminServiceException, JsonProcessingException {
+    public String filterRequests(String requestStatus) throws JsonProcessingException {
         List<RequestResults> requests = requestResultsRepository.findRequestsByRequestStatus(requestStatus);
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(requests);
@@ -157,7 +155,7 @@ public class AdminService {
 
     }
 
-    public String getAllRequests() throws JSONException, AdminServiceException, JsonProcessingException {
+    public String getAllRequests() throws AdminServiceException, JsonProcessingException {
         List<Request> allRequests = requestRepository.getAllRequests();
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(allRequests);
@@ -165,7 +163,7 @@ public class AdminService {
 
     }
 
-    public String calculateTopPlayersSummonerNames() throws JSONException {
+    public String calculateTopPlayersSummonerNames() {
         //Bring top 10 players profiles
         //Bring last 20 games for all 10 players
         //analyze all 200 games

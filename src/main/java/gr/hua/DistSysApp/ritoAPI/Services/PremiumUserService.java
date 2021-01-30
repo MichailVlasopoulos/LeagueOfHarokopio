@@ -129,7 +129,7 @@ public class PremiumUserService {
 
 
     @Transactional
-    public JSONObject createRequest(int userId, String request_type) throws PremiumUserServiceException,JSONException {
+    public JSONObject createRequest(int userId, String request_type) throws JSONException {
 
         Request request = new Request();
         request.setUserid(userId);
@@ -147,7 +147,7 @@ public class PremiumUserService {
     }
 
     @Transactional
-    public JSONObject createSubscriptionRequest(User user, String request_type) throws PremiumUserServiceException,JSONException {
+    public JSONObject createSubscriptionRequest(User user, String request_type) throws JSONException {
 
             SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
             subscriptionRequest.setCreated_at(new Timestamp(System.currentTimeMillis()));

@@ -43,5 +43,4 @@ public class AdminPremiumUserController {
             throw new AdminServiceException("Internal Server Exception");
         }
     }
-    //TODO filterSubscriptionRequest()
 }

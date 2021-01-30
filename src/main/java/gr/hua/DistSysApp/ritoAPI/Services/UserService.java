@@ -123,7 +123,7 @@ public class UserService {
         return createRequest(user.getId(),MyProfileRequestType,timestamp);
     }
 
-    public String showRequestResults(String requestType) throws PremiumUserServiceException, JSONException, JsonProcessingException {
+    public String showRequestResults(String requestType) throws PremiumUserServiceException, JsonProcessingException {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();
         User user = userRepository.findByUsername(username);
@@ -153,7 +153,7 @@ public class UserService {
     }
 
     @Transactional
-    public JSONObject createRequest(int userId, String request_type, Timestamp timestamp) throws PremiumUserServiceException, JSONException {
+    public JSONObject createRequest(int userId, String request_type, Timestamp timestamp) throws JSONException {
 
         Request request = new Request();
         request.setUserid(userId);
@@ -171,7 +171,7 @@ public class UserService {
     }
 
     @Transactional
-    public JSONObject createSubscriptionRequest(User user, String request_type, String paysafePin) throws PremiumUserServiceException,JSONException {
+    public JSONObject createSubscriptionRequest(User user, String request_type, String paysafePin) throws JSONException {
 
 
             SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
@@ -192,7 +192,7 @@ public class UserService {
 
     }
 
-    public String getMyRequests(String requestStatus) throws JSONException, AdminServiceException, JsonProcessingException {
+    public String getMyRequests(String requestStatus) throws AdminServiceException, JsonProcessingException {
 
         authentication = SecurityContextHolder.getContext().getAuthentication();
         username = authentication.getName();

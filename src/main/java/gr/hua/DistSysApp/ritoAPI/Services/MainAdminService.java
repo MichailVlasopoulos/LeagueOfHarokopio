@@ -39,15 +39,11 @@ public class MainAdminService {
 
     public String getAllUsers(){
         List<Authorities> allUsers = authoritiesRepository.getAllUsers();
-
-        //TODO CONVERT TO JSON IF NEEDED
         return allUsers.toString();
     }
 
     public String getAllAdmins(){
         List<Authorities> allAdmins = authoritiesRepository.getAllAdmins();
-
-        //TODO CONVERT TO JSON IF NEEDED
         return allAdmins.toString();
     }
 
@@ -112,18 +108,18 @@ public class MainAdminService {
     }
 
     @Transactional
-    public JSONObject deleteAdmin(int user_id) throws PremiumUserServiceException, JSONException {
+    public JSONObject deleteAdmin(int user_id) throws JSONException {
 
         try {
-            //TODO check null exception
-            //TODO check if cascade works on UserPassword and Authorities
             User user = userRepository.findById(user_id);
-            //userPasswordRepository.delete();
+            if (user == null ) {
+                return JsonUtils.stringToJsonObject("Status", "Failed: User does not exist!");
+            }
             userRepository.delete(user);
             return JsonUtils.stringToJsonObject("Status", "Successful");
         } catch (Exception e) {
             e.printStackTrace();
-            return JsonUtils.stringToJsonObject("Status", "exception");
+            return JsonUtils.stringToJsonObject("Status", "Delete Admin Exception");
 
         }
     }
