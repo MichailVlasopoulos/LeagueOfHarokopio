@@ -2,18 +2,18 @@ const liveMatchStatusBox = document.getElementById("liveMatchStatusBox");
 const topPlayersStatusBox = document.getElementById("topPlayersStatusBox");
 const generalChampionStatsStatusBox = document.getElementById("generalChampionStatsStatusBox");
 
-document.getElementById("liveMatchButton").addEventListener('click',()=>{
-    axios.get('/api/getMatchHistory')
-        .then(response=>{
-            liveMatchStatusBox.innerText = response.data.Status;
-        })
-        .catch(()=>{
-            liveMatchStatusBox.innerText = "Request Failed";
-        });
-});
+// document.getElementById("liveMatchButton").addEventListener('click',()=>{
+//     axios.get('/api/getMatchHistory')
+//         .then(response=>{
+//             liveMatchStatusBox.innerText = response.data.Status;
+//         })
+//         .catch(()=>{
+//             liveMatchStatusBox.innerText = "Request Failed";
+//         });
+// });
 
 document.getElementById("topPlayersButton").addEventListener('click',()=>{
-    axios.get('/api/getLeaderboards')
+    axios.get('/api/getTopPlayers')
     .then(response=>{
         topPlayersStatusBox.innerText = response.data.Status;
     })
@@ -23,7 +23,7 @@ document.getElementById("topPlayersButton").addEventListener('click',()=>{
 });
 
 document.getElementById("generalChampionStatsButton").addEventListener('click',()=>{
-    axios.get('/api/getChampions')
+    axios.get('/api/getGeneralChampionStats')
     .then(response=>{
         generalChampionStatsStatusBox.innerText = response.data.Status;
     })

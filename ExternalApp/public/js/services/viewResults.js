@@ -16,6 +16,12 @@ Array.prototype.slice.call(buttons).forEach(button=>{
             else if(request.type == "Leaderboards"){
                 formatLeaderboards(request);
             }
+            else if(request.type == "General Champion Stats"){
+                formatGeneralChampStats(request);
+            }
+            else if(request.type == "Top Players Profiles"){
+                formatTopPlayers(request);
+            }
         }
     });
 });
@@ -29,9 +35,55 @@ function getRequestByID(id){
    return null;
 }
 
+function formatGeneralChampStats(request){
+    
+    let tmp = request.results.substring(1, request.results.length-1);
+    let array = tmp.split(", ");
+    let table = document.createElement('table');
+
+    let th = document.createElement('th');
+    th.appendChild(document.createTextNode("General Champion Stats"));
+    table.appendChild(th);
+   
+    for(let item of array){
+        let tr = document.createElement('tr');
+        let td = document.createElement('td');
+        
+        td.appendChild(document.createTextNode(item));
+        tr.appendChild(td);
+
+        table.appendChild(tr);
+    }
+
+    modalBody.appendChild(table);
+
+}
+
+function formatTopPlayers(request){
+    var tmp = request.results.substring(1, request.results.length-1);
+    let array = tmp.split(", ");
+    let table = document.createElement('table');
+    let th = document.createElement('th');
+    th.appendChild(document.createTextNode("Summoner Name"));
+    table.appendChild(th);
+   
+    for(let item of array){
+        let tr = document.createElement('tr');
+        let td = document.createElement('td');
+        
+        td.appendChild(document.createTextNode(item));
+        tr.appendChild(td);
+
+        table.appendChild(tr);
+    }
+
+    modalBody.appendChild(table);
+
+}
+
+
 function formatChampStats(request){
     let json = JSON.parse(request.results);
-    console.log(json);
     let table = document.createElement('table');
 
     let th = document.createElement('th');
