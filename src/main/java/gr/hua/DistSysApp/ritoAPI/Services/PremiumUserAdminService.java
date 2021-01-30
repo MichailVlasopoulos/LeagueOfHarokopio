@@ -61,14 +61,14 @@ public class PremiumUserAdminService {
                 json=json.concat("\t{ \n");
                 json=json.concat("\t\t\"subscription_request_id\":"+requests.get(i).getSubscription_request_id()+",\n");
                 json=json.concat("\t\t\"subscription_request_status\":"+"\""+requests.get(i).getRequest_status()+"\",\n");
-                json=json.concat("\t\t\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\"\n}");
+                json=json.concat("\t\t\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\"\n\t}");
                 continue;
             }
             //json=json.concat("\t\"Request\": { \n");
             json=json.concat("\t{ \n");
             json=json.concat("\t\t\"subscription_request_id\":"+requests.get(i).getSubscription_request_id()+",\n");
             json=json.concat("\t\t\"subscription_request_status\":"+"\""+requests.get(i).getRequest_status()+"\",\n");
-            json=json.concat("\t\t\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\"\n}\t\n");
+            json=json.concat("\t\t\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\"\n\t},\t\n");
 
 
         }
