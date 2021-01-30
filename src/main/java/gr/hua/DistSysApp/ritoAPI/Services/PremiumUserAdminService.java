@@ -54,21 +54,21 @@ public class PremiumUserAdminService {
 
     public String filterRequests(String requestStatus) throws JsonProcessingException {
         List<SubscriptionRequestsResults> requests = subscriptionRequestResultsRepository.findRequestsResultsByRequestStatus(requestStatus);
-        String json = "\"Requests\":[\n";
+        String json = "{\"Requests\":[\n";
         for (int i=0; i<requests.size(); i++){
             if(i==(requests.size()-1)){
                 //json=json.concat("\t\"Request\": { \n");
                 json=json.concat("\t{ \n");
                 json=json.concat("\t\t\"subscription_request_id\":"+requests.get(i).getSubscription_request_id()+",\n");
                 json=json.concat("\t\t\"subscription_request_status\":"+"\""+requests.get(i).getRequest_status()+"\",\n");
-                json=json.concat("\t\t\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\"}]");
+                json=json.concat("\t\t\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\"\n}");
                 continue;
             }
             //json=json.concat("\t\"Request\": { \n");
             json=json.concat("\t{ \n");
             json=json.concat("\t\t\"subscription_request_id\":"+requests.get(i).getSubscription_request_id()+",\n");
             json=json.concat("\t\t\"subscription_request_status\":"+"\""+requests.get(i).getRequest_status()+"\",\n");
-            json=json.concat("\t\t\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\",\n");
+            json=json.concat("\t\t\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\"\n}\t\n");
 
 
         }
