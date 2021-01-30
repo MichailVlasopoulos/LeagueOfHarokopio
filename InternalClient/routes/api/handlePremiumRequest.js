@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const jwtSecurity = require('../../../security/jwt.js');
+const jwtSecurity = require('../../security/jwt.js');
 const { default: Axios } = require('axios');
-const hasRole = require('../../../security/roleChecker.js');
+const hasRole = require('../../security/roleChecker.js');
 
 const router = express.Router();
 

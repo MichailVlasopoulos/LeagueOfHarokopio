@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Register Admin - League Of Harokopio</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">League Of Harokopio - Register Admin</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+    </nav>
+
+    <main role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <table class="table">
+          <tbody>
+            <br>
+            <br>
+            <tr>
+              <td style="width: 16.66%" id="username">Username:</td>
+              <td><input id="usernameInput"></td>
+            </tr>
+            <tr>
+                <td id="email">Email:</td>
+                <td><input id="emailInput"></td>
+            </tr>
+            <tr>
+              <td id="firstname">First Name:</td>
+              <td><input id="firstnameInput"></td>
+            </tr>
+            <tr>
+              <td id="lastname">Last Name:</td>
+              <td><input id="lastnameInput"></td>
+            </tr>
+            <tr>
+              <td id="passwordA">Password:</td>
+              <td><input type="password" id="passwordAInput"></td>
+            </tr>
+            <tr>
+              <td id="passwordB">Repeat Password:</td>
+              <td><input type="password" id="passwordBInput"></td>
+            </tr>
+            <tr>
+              <td id="adminType">Admin Type</td>
+              <td>
+                <select name="types" id="adminTypes">
+                  <optgroup label="Admin Types">
+                    <option value="ROLE_ADMIN">Admin</option>
+                    <option value="ROLE_PREMIUM_ADMIN">Premium Admin</option>
+                    <option value="ROLE_MAIN_ADMIN">Main admin</option>
+                  </optgroup>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><button class="btn btn-secondary" id="registerButton">Register Admin</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="statusArea"></div>
+      </div>
+
+      
+    </main>
+
+    <footer class="container">
+      <p>&copy; League Of Harokopio 2020-2021</p>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../js/admin/createAdmin.js"></script>
+  </body>
+</html>

@@ -6,16 +6,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Main Admin Panel - League Of Harokopio</title>
+    <title>Admin Deletion Panel - League Of Harokopio</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
   </head>
 
   <body>
 
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Main Admin Panel - League Of Harokopio</a>
+        <a class="navbar-brand" href="#">League Of Harokopio - Admin Deletion Panel</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -33,18 +33,24 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
         <table class="table">
-          <tbody>
-            <tr>
-                <td style="width: 10%;">Create Admins</td>
-                <td><button class="btn btn-secondary" onclick="location.href='/admin/createAdmin'">Create Panel</button></td>
-            </tr>
-            <tr>
-              <td>Delete Admins</td>
-              <td><button class="btn btn-secondary" onclick="location.href='/admin/deleteAdmin'">Delete Panel</button></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>         
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Admin ID</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if(Admins){ %>
+              <% for(let i=0; i < Admins.length; i++) { %>
+                <tr>
+                  <td><%= Admins[i].id%></td>
+                  <td><button style="margin-left: 2%;" class="delete-button btn btn-secondary" id="<%= Admins[i].id%>">Deny</button></td>
+                </tr>
+             <% } %>
+             <% } %>
+            </tbody>
+          </table>
+      </div>      
     </main>
 
     <footer class="container">
@@ -55,5 +61,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../js/admin/deleteAdmin.js"></script>
   </body>
 </html>

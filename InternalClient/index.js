@@ -10,6 +10,9 @@ app.use('/controlPanel',require('./routes/pages/controlPanel.js'));
 
 app.use('/api/handlePremiumRequest',require('./routes/api/handlePremiumRequest.js'));
 
+app.use('/admin/createAdmin',require('./routes/pages/createAdmin.js'));
+app.use('/admin/deleteAdmin',require('./routes/pages/deleteAdmin.js'));
+
 app.get('/',(req,res)=>{
     res.redirect('/controlPanel');
 });

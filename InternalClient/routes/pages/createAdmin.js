@@ -16,28 +16,29 @@ router.use((error,_req,res,next)=>{
     }
 });
 
+let internalSystemEndpoint = "http://localhost:8080/mainAdmin/registerAdmin";
+
 router.use(cookieParser());
 
 router.route('/')
     .get(jwt.authenticateToken,(req,res)=>{
         if(hasRole(res.locals.payload.roles,["ROLE_MAIN_ADMIN"])){
-            res.render('adminControlPanel');
-        }
-        else if(hasRole(res.locals.payload.roles,["ROLE_PREMIUM_ADMIN"])){
-            let requests;
-            Axios.get('http://localhost:8080/premiumAdmin/getRequestsByType?requestType=PENDING')
-                .then(response=>{
-                    requests = {};
-                })
-                .catch(()=>{
-                    requests = {};
-                })
-                .finally(()=>{
-                    res.render('premiumControlPanel',{requests:premium_requests});
-                });
+            res.render('createAdmin');
         }
         else{
             res.redirect('/login');
+        }
+    })
+    .post((req,res)=>{
+        if(req.body){
+            let headers = {'Authorization':`Bearer ${req.cookies.LOHTOKEN}`};
+            Axios.post(internalSystemEndpoint,req.body,{headers:headers})
+                .then(response=>{
+                    res.sendStatus(200);
+                })
+                .catch(error=>{
+                    res.sendStatus(500);
+                });
         }
 });
 
