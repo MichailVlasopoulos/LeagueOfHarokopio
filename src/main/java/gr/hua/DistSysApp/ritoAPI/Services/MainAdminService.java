@@ -102,7 +102,7 @@ public class MainAdminService {
             return JsonUtils.stringToJsonObject("Status", "Successful");
         } catch (Exception e) {
             e.printStackTrace();
-            return JsonUtils.stringToJsonObject("Status", "exception");
+            return JsonUtils.stringToJsonObject("Status", "Register Admin Exception");
 
         }
     }
