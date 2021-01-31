@@ -33,7 +33,7 @@ public class MainAdminService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private final static String API_KEY = "RGAPI-a2c173c1-16e9-46a5-ba1b-d27da9054550";
+    private final static String API_KEY = "RGAPI-bb2b3a55-834d-4472-aa7a-b3564ffed2be";
     private final static String ROLE_ADMIN = "ROLE_ADMIN";
     private final static String ROLE_PREMIUM_ADMIN = "ROLE_PREMIUM_ADMIN";
 
