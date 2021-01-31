@@ -9,7 +9,7 @@
     <title>Premium Admin Panel - League Of Harokopio</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
   </head>
 
   <body>
@@ -36,17 +36,22 @@
           <thead>
             <tr>
               <th scope="col">Id</th>
+              <th scope="col">Status</th>
+              <th scope="col">Type</th>
               <th scope="col">Username</th>
-              <th scope="col">Pay Code</th>
+              <th scope="col">Paysafe</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
-            <% for(let i=0; i < requests.length; i++){ %>
+            <% for(let i=0; i < Requests.length; i++){ %>
             <tr>
-                <td><%= requests[i].id %></td>
-                <td><%= requests[i].username %></td>
-                <td><%= requests[i].paycode %></td>
-                <td><button class="action-button btn btn-secondary" id="accept-<%= requests[i].id%>">Accept</button><button class="action-button btn btn-secondary" id="deny-<%= requests[i].id%>">Deny</button></td>
+                <td><%= Requests[i].subscription_request_id %></td>
+                <td><%= Requests[i].subscription_request_status %></td>
+                <td><%= Requests[i].subscription_request_type %></td>
+                <td><%= Requests[i].username %></td>
+                <td><%= Requests[i].paysafe %></td>
+                <td><button class="action-button btn btn-secondary" id="accept-<%= Requests[i].subscription_request_id%>">Accept</button><button style="margin-left: 1%;" class="action-button btn btn-secondary" id="deny-<%= Requests[i].subscription_request_id%>">Deny</button></td>
             </tr>
             <% } %>
           </tbody>
@@ -63,6 +68,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="js/actions.js"></script>
+    <script src="../js/actions.js"></script>
   </body>
 </html>

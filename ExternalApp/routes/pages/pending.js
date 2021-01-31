@@ -29,6 +29,9 @@ router.route('/')
             .then(response=>{
                 requestsJson = {Requests:response.data};
             })
+            .catch(()=>{
+
+            })
             .finally(()=>{
                 res.render('pending',requestsJson);
             });

@@ -25,15 +25,15 @@ router.route('/')
         }
         else if(hasRole(res.locals.payload.roles,["ROLE_PREMIUM_ADMIN"])){
             let requests;
-            Axios.get('http://localhost:8080/premiumAdmin/getRequestsByType?requestType=PENDING')
+            let headers = {'Authorization':`Bearer ${req.cookies.LOHTOKEN}`};
+            Axios.get('http://localhost:8080/premiumAdmin/getRequestsByType?requestType=PENDING',{headers:headers})
                 .then(response=>{
-                    requests = {};
+                    requests = response.data;
+                    res.render('premiumControlPanel',requests);
                 })
-                .catch(()=>{
-                    requests = {};
-                })
-                .finally(()=>{
-                    res.render('premiumControlPanel',{requests:premium_requests});
+                .catch((error)=>{
+                    requests = {Requests:[]};
+                    res.render('premiumControlPanel',requests);
                 });
         }
         else{

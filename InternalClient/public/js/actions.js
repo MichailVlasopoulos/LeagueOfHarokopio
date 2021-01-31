@@ -9,7 +9,7 @@ Array.prototype.slice.call(buttons).forEach(button=>{
         let body = {action:action,request_id:request_id};        
         axios.post('/api/handlePremiumRequest',body)
         .then(response=>{
-            location.reload();
+            document.location ='/controlPanel';
         })
         .catch(()=>{
             
