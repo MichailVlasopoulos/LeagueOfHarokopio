@@ -1,5 +1,6 @@
 package gr.hua.DistSysApp.ritoAPI.Controllers.AdminControllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gr.hua.DistSysApp.ritoAPI.Models.RegisterRequest;
 import gr.hua.DistSysApp.ritoAPI.Services.MainAdminService;
 import gr.hua.DistSysApp.ritoAPI.Services.PremiumUserServiceException;
@@ -23,7 +24,7 @@ public class MainAdminController {
     }
 
     @GetMapping("mainAdmin/getAllAdmins")
-    public String getAllAdmins() throws ResourceNotFoundException {
+    public String getAllAdmins() throws ResourceNotFoundException, JsonProcessingException {
         String allAdmins = mainAdminService.getAllAdmins();
         if(allAdmins==null) throw new ResourceNotFoundException("There are no admins registered at this moment");
         return allAdmins;
