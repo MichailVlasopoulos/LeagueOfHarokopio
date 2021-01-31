@@ -32,7 +32,7 @@ public class PremiumUserAdminService {
 
     private final static String goPremiumRequestType = "Go Premium";
 
-    public JSONObject updateSubscriptionRequest(int requestId) throws JSONException,AdminServiceException {
+    public JSONObject acceptSubscriptionRequest(int requestId) throws JSONException,AdminServiceException {
 
         //get the request
         SubscriptionRequest subscriptionRequest = subscriptionRequestRepository.findSubscriptionRequestByRequest_id(requestId);
@@ -44,7 +44,7 @@ public class PremiumUserAdminService {
         //get the user
         User user = subscriptionRequest.getUser();
 
-        subscriptionRequestResultsRepository.acceptSubscriptionRequest("ACCEPTED",subscriptionRequest.getSubscription_request_id());
+        subscriptionRequestResultsRepository.updateSubscriptionRequest("ACCEPTED",subscriptionRequest.getSubscription_request_id());
 
         if(subscriptionRequest.getRequest_type().equals(goPremiumRequestType)) {
             authoritiesRepository.goPremium(user.getId());
@@ -52,6 +52,19 @@ public class PremiumUserAdminService {
             authoritiesRepository.cancelPremium(user.getId());
         }
 
+        return JsonUtils.stringToJsonObject("Status","Successful");
+    }
+
+    public JSONObject denySubscriptionRequest(int requestId) throws JSONException,AdminServiceException {
+
+        //get the request
+        SubscriptionRequest subscriptionRequest = subscriptionRequestRepository.findSubscriptionRequestByRequest_id(requestId);
+        SubscriptionRequestsResults subscriptionRequestsResults = subscriptionRequestResultsRepository.findSubscriptionRequestResultsByRequest_id(requestId);
+
+        if (subscriptionRequestsResults.getRequest_status().equals("DENIED"))
+            return JsonUtils.stringToJsonObject("Status","Failed: This request has been denied");
+
+        subscriptionRequestResultsRepository.updateSubscriptionRequest("DENIED",subscriptionRequest.getSubscription_request_id());
         return JsonUtils.stringToJsonObject("Status","Successful");
     }
 
@@ -63,17 +76,17 @@ public class PremiumUserAdminService {
             if(i==(requests.size()-1)){
                 //json=json.concat("\t\"Request\": { \n");
                 json=json.concat("\t{ \n");
-                json=json.concat("\t\t\"username\":"+user.getUsername()+",\n");
-                json=json.concat("\t\t\"paysafe\":"+requests.get(i).getSubscriptionRequest().getPaysafe_pin()+",\n");
-                json=json.concat("\t\t\"subscription_request_id\":"+requests.get(i).getSubscription_request_id()+",\n");
+                json=json.concat("\t\t\"username\":"+"\""+user.getUsername()+",\n");
+                json=json.concat("\t\t\"paysafe\":"+"\""+requests.get(i).getSubscriptionRequest().getPaysafe_pin()+"\",\n");
+                json=json.concat("\t\t\"subscription_request_id\":"+requests.get(i).getSubscription_request_id()+"\",\n");
                 json=json.concat("\t\t\"subscription_request_status\":"+"\""+requests.get(i).getRequest_status()+"\",\n");
                 json=json.concat("\t\t\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\"\n\t}");
                 continue;
             }
             //json=json.concat("\t\"Request\": { \n");
             json=json.concat("\t{ \n");
-            json=json.concat("\t\t\"username\":"+user.getUsername()+",\n");
-            json=json.concat("\t\t\"paysafe\":"+requests.get(i).getSubscriptionRequest().getPaysafe_pin()+",\n");
+            json=json.concat("\t\t\"username\":"+"\""+user.getUsername()+"\",\n");
+            json=json.concat("\t\t\"paysafe\":"+"\""+requests.get(i).getSubscriptionRequest().getPaysafe_pin()+"\",\n");
             json=json.concat("\t\t\"subscription_request_id\":"+requests.get(i).getSubscription_request_id()+",\n");
             json=json.concat("\t\t\"subscription_request_status\":"+"\""+requests.get(i).getRequest_status()+"\",\n");
             json=json.concat("\t\t\"subscription_request_type\":"+"\""+requests.get(i).getSubscriptionRequest().getRequest_type()+"\"\n\t},\t\n");

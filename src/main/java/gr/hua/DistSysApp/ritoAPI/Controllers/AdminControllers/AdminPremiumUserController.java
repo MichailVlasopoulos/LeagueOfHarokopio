@@ -18,17 +18,28 @@ public class AdminPremiumUserController {
     @Autowired
     private PremiumUserAdminService adminPremiumUserService;
 
-    @GetMapping(path="premiumAdmin/updateSubscriptionRequest")
+    @GetMapping(path="premiumAdmin/acceptSubscriptionRequest")
     @ResponseBody
-    public String updateSubscriptionRequest (@RequestParam int requestId) throws JSONException, AdminServiceException, ResourceNotFoundException {
+    public String acceptSubscriptionRequest(@RequestParam int requestId) throws JSONException, AdminServiceException, ResourceNotFoundException {
         try{
-            JSONObject response = adminPremiumUserService.updateSubscriptionRequest(requestId);
+            JSONObject response = adminPremiumUserService.acceptSubscriptionRequest(requestId);
             if (response==null) throw new ResourceNotFoundException("Error while Accepting the request");
             return response.toString();
         }catch (AdminServiceException e){
             throw new AdminServiceException("Internal Server Exception while getting exception");
         }
+    }
 
+    @GetMapping(path="premiumAdmin/denySubscriptionRequest")
+    @ResponseBody
+    public String denySubscriptionRequest(@RequestParam int requestId) throws JSONException, AdminServiceException, ResourceNotFoundException {
+        try{
+            JSONObject response = adminPremiumUserService.denySubscriptionRequest(requestId);
+            if (response==null) throw new ResourceNotFoundException("Error while Accepting the request");
+            return response.toString();
+        }catch (AdminServiceException e){
+            throw new AdminServiceException("Internal Server Exception while getting exception");
+        }
     }
 
     @GetMapping(path="/premiumAdmin/getRequestsByType")

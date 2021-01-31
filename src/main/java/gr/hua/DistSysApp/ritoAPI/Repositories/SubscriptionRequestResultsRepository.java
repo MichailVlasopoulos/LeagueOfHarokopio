@@ -17,7 +17,7 @@ public interface SubscriptionRequestResultsRepository extends JpaRepository<Subs
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = "UPDATE subscription_requests_results SET request_status=?1 WHERE subscription_request_id=?2",nativeQuery = true)
-    void acceptSubscriptionRequest(String request_status, int requestId);
+    void updateSubscriptionRequest(String request_status, int requestId);
 
     @Query(value = "SELECT * FROM subscription_requests_results WHERE request_status=?",nativeQuery = true)
     List<SubscriptionRequestsResults> findRequestsResultsByRequestStatus(String RequestStatus);
